@@ -10,6 +10,6 @@ class GetRound{
 
   execute(int id){
     Round round = repository.getRoundApi(id);
-    return (round.golsHome + round.golsAway);
+    return;
   }
 }

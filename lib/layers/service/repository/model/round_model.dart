@@ -1,12 +1,24 @@
-class SoccerMatch{
+class RoundModel{
+  Fixture? fixture;
   Teams? teams;
-  Goals? goals;
 
-  SoccerMatch({this.teams});
+  RoundModel({this.teams});
 
-  SoccerMatch.fromJson(Map<String, dynamic> json) {
-    goals = json['goals'] != null ? Goals.fromJson(json['goals']) : null;
+  RoundModel.fromJson(Map<String, dynamic> json) {
+    fixture = json['fixture'] != null ? Fixture.fromJson(json['fixture']) : null;
     teams = json['teams'] != null ? Teams.fromJson(json['teams']) : null;
+  }
+}
+
+class Fixture{
+  int? id;
+  String? date;
+
+  Fixture(this.id, this.date);
+
+  Fixture.fromJson(Map<String, dynamic> json){
+    id = json['id'];
+    date = json['date'];
   }
 }
 
@@ -22,35 +34,26 @@ class Teams{
   }
 }
 
-class Goals{
-  int? home;
-  int? away;
-
-  Goals(this.home, this.away);
-
-  Goals.fromJson(Map<String, dynamic> json) {
-    home = json['home'];
-    away = json['away'];
-  }
-}
-
 class TeamHome{
+  int? id;
   String? nome;
 
-  TeamHome(this.nome);
+  TeamHome(this.nome, this.id);
 
   TeamHome.fromJson(Map<String, dynamic> json){
     nome = json['name'];
+    id = json['id'];
   }
 }
 
 class TeamAway{
   String? nome;
+  int? id;
 
-  TeamAway(this.nome);
+  TeamAway(this.nome, this.id);
 
   TeamAway.fromJson(Map<String, dynamic> json){
     nome = json['name'];
+    id = json['id'];
   }
 }
-

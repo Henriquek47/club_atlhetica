@@ -1,7 +1,8 @@
 class Round{
-  int golsHome;
-  int golsAway;
-  int escanteios;
+  int? id;
+  int? golsHome;
+  int? golsAway;
+  int? escanteios;
 
-  Round(this.golsHome, this.golsAway, this.escanteios);
+  Round(this.id, this.golsHome, this.golsAway, this.escanteios);
 }
