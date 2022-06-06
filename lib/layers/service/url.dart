@@ -1,4 +1,5 @@
   DateTime dateTime = DateTime.now();
+  final acataual = dateTime.hour;
   final actualYear = dateTime.year;
   final actualMonth = dateTime.month <= 9 ? '0'+dateTime.month.toString() : dateTime.month;
   final actualDay = dateTime.day <= 9 ? '0'+dateTime.day.toString() : dateTime.day;

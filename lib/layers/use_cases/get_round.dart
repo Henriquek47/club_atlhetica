@@ -8,8 +8,9 @@ class GetRound{
 
   GetRound(this.repository);
 
-  execute(int id){
-    Round round = repository.getRoundApi(id);
-    return;
+  execute(int id)async{
+    Round round = await repository.getRoundApi(id);
+    round.finishedOrInProgress(round.date);
+    return round;
   }
 }

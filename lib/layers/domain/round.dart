@@ -1,8 +1,18 @@
 class Round{
   int? id;
-  int? golsHome;
-  int? golsAway;
-  int? escanteios;
+  DateTime date;
+  String? home;
+  String? away;
+  String? hour;
 
-  Round(this.id, this.golsHome, this.golsAway, this.escanteios);
+  Round(this.id, this.date, this.home, this.away, this.hour);
+
+  finishedOrInProgress(DateTime hour){
+    DateTime now = DateTime.now();
+    if(now == hour){
+      return true;
+    }else{
+      return false;
+    }
+  }  
 }
