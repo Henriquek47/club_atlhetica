@@ -24,7 +24,7 @@ class GetRoundApi implements Repository {
     List<RoundModel> round = allRound.map((e) => RoundModel.fromJson(e)).toList();
     final date = round[id].fixture?.date;
     DateTime now = DateTime.parse(date.toString());
-    return Round(round[id].fixture?.id, now, round[id].teams?.home?.nome, round[id].teams?.away?.nome, '${now.hour.toString()}:${now.minute.toString()}');
+    return Round(round[id].fixture?.id, now, round[id].teams?.home?.id, round[id].teams?.away?.id, '${now.hour <= 9 ? now.hour.toString().padLeft(2,'0') : now.hour.toString()}:${now.minute.toString()}');
     }else{
       return Exception('Falha ao tentar conexão');
     }
