@@ -1,7 +1,7 @@
 import '../../domain/round.dart';
 
 abstract class Repository{
-  getRoundApi(int id){
+  getApi(int? id){
     return Future<Round>;
   }
 }

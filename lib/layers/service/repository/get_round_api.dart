@@ -15,14 +15,13 @@ class GetRoundApi implements Repository {
   GetRoundApi(this.client);
 
   @override
-  getRoundApi(int id) async {
+  getApi(int? id) async {
     http.Response response = await client.get(Uri.parse(urlAllNextRound), headers: headers);
     if(response.statusCode == 200){
     var body = jsonDecode(response.body);
     List allRound = body['response'];
-    print(body);
     List<RoundModel> round = allRound.map((e) => RoundModel.fromJson(e)).toList();
-    final date = round[id].fixture?.date;
+    final date = round[id!].fixture?.date;
     DateTime now = DateTime.parse(date.toString());
     return Round(round[id].fixture?.id, now, round[id].teams?.home?.id, round[id].teams?.away?.id, '${now.hour <= 9 ? now.hour.toString().padLeft(2,'0') : now.hour.toString()}:${now.minute.toString()}');
     }else{

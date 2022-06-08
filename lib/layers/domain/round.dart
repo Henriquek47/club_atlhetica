@@ -1,14 +1,13 @@
 class Round{
   int? id;
-  DateTime date;
+  DateTime? date;
   int? home;
   int? away;
   String? hour;
 
   Round(this.id, this.date, this.home, this.away, this.hour);
 
-  finishedOrInProgress(DateTime roundDate){
-    DateTime now = DateTime.now();
+  finishedOrInProgress(DateTime roundDate, DateTime now){
     if(now.hour >= roundDate.hour){
       if(now.hour == roundDate.hour){
         if(now.minute >= roundDate.minute){

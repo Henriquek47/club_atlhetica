@@ -5,7 +5,11 @@
   final actualDay = dateTime.day <= 9 ? '0'+dateTime.day.toString() : dateTime.day;
   final lastDay = dateTime.day + 5;
   
-  const String url = 'https://v3.football.api-sports.io/fixtures?team=40&season=2021&league=2&last=10';
+  String setUrlTeams(int? id){
+    final String url = 'https://v3.football.api-sports.io/fixtures?team=$id&season=$actualYear&league=71&last=10';
+    return url;
+  }
+
   final String urlAllNextRound = 'https://v3.football.api-sports.io/fixtures?season=$actualYear&from=$actualYear-$actualMonth-$actualDay&to=$actualYear-$actualMonth-${lastDay <= 9 ? lastDay.toString().padLeft(2, '0') : lastDay}&league=71';
 
   const headers = {

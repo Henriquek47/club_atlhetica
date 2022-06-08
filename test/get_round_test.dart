@@ -21,13 +21,14 @@ final client = MockClient();
   test('Get round information', () async {
    when(client.get(Uri.parse(urlAllNextRound), headers: headers)).thenAnswer((_) async => http.Response(bodyJson, 200));
   // Round result = await repository.getRoundApi(0);
-   var getRound = GetRound(repository);
+   var getRound = GetRound(repository: repository);
    Round getRoundFunc = await getRound.execute(0);
    expect(getRoundFunc.id, equals(838071));
-   expect(getRoundFunc.date.year, equals(2022));
+   expect(getRoundFunc.date!.year, equals(2022));
    expect(getRoundFunc.home, equals(125));
    expect(getRoundFunc.away, equals(1193));
    expect(getRoundFunc.hour, equals('10:40'));
+   expect(getRoundFunc.finishedOrInProgress(getRoundFunc.date!, getRoundFunc.date!), true);
    //expect(result.dateTime, equals('2022-06-0419:30:00+00:00'));
   });
 }

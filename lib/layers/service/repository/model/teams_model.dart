@@ -11,14 +11,14 @@ class SoccerMatch{
 }
 
 class Teams{
-  TeamHome? home;
-  TeamAway? away;
+  TeamHomeModel? home;
+  TeamAwayModel? away;
 
   Teams(this.home, this.away);
 
   Teams.fromJson(Map<String, dynamic> json){
-    home = json['home'] != null ? TeamHome.fromJson(json['home']) : null;
-    away = json['away'] != null ? TeamAway.fromJson(json['away']) : null;
+    home = json['home'] != null ? TeamHomeModel.fromJson(json['home']) : null;
+    away = json['away'] != null ? TeamAwayModel.fromJson(json['away']) : null;
   }
 }
 
@@ -34,23 +34,23 @@ class Goals{
   }
 }
 
-class TeamHome{
-  String? nome;
+class TeamHomeModel{
+  int? id;
 
-  TeamHome(this.nome);
+  TeamHomeModel(this.id);
 
-  TeamHome.fromJson(Map<String, dynamic> json){
-    nome = json['name'];
+  TeamHomeModel.fromJson(Map<String, dynamic> json){
+    id = json['id'];
   }
 }
 
-class TeamAway{
-  String? nome;
+class TeamAwayModel{
+  int? id;
 
-  TeamAway(this.nome);
+  TeamAwayModel(this.id);
 
-  TeamAway.fromJson(Map<String, dynamic> json){
-    nome = json['name'];
+  TeamAwayModel.fromJson(Map<String, dynamic> json){
+    id = json['id'];
   }
 }
 
