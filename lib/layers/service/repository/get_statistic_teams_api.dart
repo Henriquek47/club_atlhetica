@@ -5,17 +5,16 @@ import 'package:club_atlhetica/layers/service/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/url.dart';
 import 'package:http/http.dart' as http;
 
-import '../../domain/team.dart';
 
 class GetStatisticTeamsApi implements Repository{
 
-  http.Client client;
+  http.Client? client = http.Client();
 
-  GetStatisticTeamsApi(this.client);
+  GetStatisticTeamsApi({this.client});
 
   @override
   getApi(int? idTeam)async{
-    http.Response response = await client.get(Uri.parse(setUrlTeams(idTeam)), headers: headers);
+    http.Response response = await client!.get(Uri.parse(setUrlTeams(idTeam)), headers: headers);
     if(response.statusCode == 200){
     var body = jsonDecode(response.body);
     List team = body['response'];

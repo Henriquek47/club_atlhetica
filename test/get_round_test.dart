@@ -15,7 +15,7 @@ import 'get_round_test.mocks.dart';
 void main() {
 
 final client = MockClient(); 
-  Repository repository = GetRoundApi(client);
+  Repository repository = GetRoundApi(client: client);
   const bodyJson = '{"get":"fixtures","parameters":{"season":"2022","from":"2022-06-02","to":"2022-06-08","league":"71"},"errors":[],"results":15,"paging":{"current":1,"total":1},"response":[{"fixture":{"id":838071,"referee":"Raphael Claus","timezone":"UTC","date":"2022-06-04T10:40:00+00:00","timestamp":1654371000,"periods":{"first":null,"second":null},"venue":{"id":206,"name":"Est\u00e1dio Raimundo Sampaio","city":"Belo Horizonte, Minas Gerais"},"status":{"long":"Not Started","short":"NS","elapsed":null}},"league":{"id":71,"name":"Serie A","country":"Brazil","logo":"https:\/\/media.api-sports.io\/football\/leagues\/71.png","flag":"https:\/\/media.api-sports.io\/flags\/br.svg","season":2022,"round":"Regular Season - 9"},"teams":{"home":{"id":125,"name":"America Mineiro","logo":"https:\/\/media.api-sports.io\/football\/teams\/125.png","winner":null},"away":{"id":1193,"name":"Cuiaba","logo":"https:\/\/media.api-sports.io\/football\/teams\/1193.png","winner":null}},"goals":{"home":null,"away":null},"score":{"halftime":{"home":null,"away":null},"fulltime":{"home":null,"away":null},"extratime":{"home":null,"away":null},"penalty":{"home":null,"away":null}}}]}';
 //
   test('Get round information', () async {

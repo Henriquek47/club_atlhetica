@@ -1,4 +1,3 @@
-import 'package:club_atlhetica/layers/domain/team.dart';
 import 'package:club_atlhetica/layers/service/repository/model/teams_model.dart';
 import 'package:club_atlhetica/layers/service/repository/repository.dart';
 
