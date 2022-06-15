@@ -11,24 +11,19 @@ import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
   final http.Client client = http.Client();
-  Future<String?> getRound(bool home, int index) async {
-    Repository repositoryRound = GetRoundApi(client: client);
-    var getRoundVar = GetRound(repository: repositoryRound);
-    Round round = await getRoundVar.execute(0);
-    if(home){
-      return round.nameHome;
-    }else{
-      return round.nameAway;
-    }
+
+  Future<List<SoccerMatch>> getApiStatisticTeams(int id, bool home)async{
+   Repository repositoryTeam = GetStatisticTeamsApi(client: client);
+   Round round = await getRound(id);
+    var getTeam = GetStatisticTeams(repositoryTeam);
+    List<SoccerMatch> teams = await getTeam.execute(home == true ? round.home : round.away);
+    return teams;
   }
 
-  Future<int?> getStatisticTeams()async{
-    Repository repositoryTeam = GetStatisticTeamsApi(client: client);
+  Future<Round> getRound(int index) async {
     Repository repositoryRound = GetRoundApi(client: client);
     var getRoundVar = GetRound(repository: repositoryRound);
-    var getTeam = GetStatisticTeams(repositoryTeam);
-    Round round = await getRoundVar.execute(0);
-    List<SoccerMatch> teamHome = await getTeam.execute(round.home);
-    return teamHome[0].teams?.home?.id;
+    Round round = await getRoundVar.execute(index);
+    return round;
   }
 }

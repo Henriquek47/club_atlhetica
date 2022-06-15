@@ -6,14 +6,16 @@ class LastGames extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Container(
+      color: Colors.red,
+      child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(padding: EdgeInsets.only(left: 20),
         child: Text('Resultado dos jogos', style: TextStyle(fontSize: 25),)),
         const SizedBox(height: 15,),
       SizedBox(
-      height: Get.height /2.2,
+      height: Get.height * .3,
       width: Get.width,
       child: ListView.builder(
         itemCount: 10,
@@ -48,6 +50,6 @@ class LastGames extends StatelessWidget {
       const SizedBox(height: 8,),
       const Divider(color: Colors.white70, indent: 25, endIndent: 20, thickness: 1.5,)
       ]));
-    })))]);
+    })))]));
   }
 }

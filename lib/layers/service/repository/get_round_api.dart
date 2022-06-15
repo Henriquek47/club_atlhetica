@@ -18,20 +18,22 @@ class GetRoundApi implements Repository {
         await client.get(Uri.parse(urlAllNextRound), headers: headers);
     if (response.statusCode == 200) {
       var body = jsonDecode(response.body);
-      print(body);
       List allRound = body['response'];
-      List<RoundModel> round =
-          allRound.map((e) => RoundModel.fromJson(e)).toList();
+      List<RoundModel> round = allRound.map((e) => RoundModel.fromJson(e)).toList();
       final date = round[id!].fixture?.date;
       DateTime now = DateTime.parse(date.toString());
       return Round(
           round[id].fixture?.id,
           now,
           round[id].teams?.home?.nome,
+          round[id].teams?.home?.imageHome,
           round[id].teams?.away?.nome,
+          round[id].teams?.away?.imageaway,
           round[id].teams?.home?.id,
           round[id].teams?.away?.id,
-          '${now.hour <= 9 ? now.hour.toString().padLeft(2, '0') : now.hour.toString()}:${now.minute.toString()}');
+          '${now.hour <= 9 ? now.hour.toString().padLeft(2, '0') : now.hour.toString()}:${now.minute.toString()}',
+          round,
+          );
     } else {
       return Exception('Falha ao tentar conexão');
     }

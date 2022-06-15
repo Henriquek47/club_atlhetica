@@ -1,3 +1,4 @@
+import 'package:club_atlhetica/layers/domain/round.dart';
 import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,21 +8,28 @@ class NextGames extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(child: PageView.builder(
-      itemCount: 1,
+    return FutureBuilder<Round>(
+      future: controller.getRound(0),
+      builder: (context, snapshot){
+        if(snapshot.hasData){
+                return Expanded( 
+                  child: PageView.builder(
+      itemCount: snapshot.data?.round.length,
       itemBuilder: (conxtext, index){
-      return Column(
+      return FutureBuilder<Round>(
+              future: controller.getRound(index),
+              builder: (context, snapshot){ 
+              if(snapshot.hasData){
+                return Column(
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(children: [
             Container(color: Colors.blue, padding: const EdgeInsets.all(50)),
-            FutureBuilder(
-              future: controller.getNamedTeam(true, index),
-              builder: (context, snapshot) =>
-            Text(snapshot.data.toString())
-        )]),
+            
+            Text(snapshot.data!.nameHome.toString())
+        ]),
             Column(children: const [
               Text('Data do jogo'),
               SizedBox(height: 5,),
@@ -30,7 +38,7 @@ class NextGames extends GetView<HomeController> {
             Column(
               children: [
             Container(color: Colors.amber, padding: const EdgeInsets.all(50)),
-            const Text('São Paulo')
+            Text(snapshot.data!.nameAway.toString())
             ]),          ]
         ),
         const SizedBox(height: 10),
@@ -43,7 +51,10 @@ class NextGames extends GetView<HomeController> {
           Text('Ver mais', style: TextStyle(),)
         ]),
       ]
-    );
-  }));
+    );}else{
+      return const CircularProgressIndicator();
+    }});
+  }));}else{return const CircularProgressIndicator(color: Colors.deepOrange,);}
+  });
   }
 }

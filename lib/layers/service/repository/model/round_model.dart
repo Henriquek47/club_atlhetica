@@ -37,6 +37,7 @@ class Teams{
 class TeamHome{
   int? id;
   String? nome;
+  String? imageHome;
 
   TeamHome(this.nome, this.id);
 
@@ -47,8 +48,9 @@ class TeamHome{
 }
 
 class TeamAway{
-  String? nome;
   int? id;
+  String? nome;
+  String? imageaway;
 
   TeamAway(this.nome, this.id);
 
