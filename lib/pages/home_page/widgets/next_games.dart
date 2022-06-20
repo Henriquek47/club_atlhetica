@@ -11,24 +11,27 @@ class NextGames extends GetView<HomeController> {
     return FutureBuilder<Round>(
       future: controller.getRound(0),
       builder: (context, snapshot){
-        if(snapshot.hasData){
-                return Expanded( 
+        if(true){
+                return Container(
+                  color: Colors.transparent,
+                  height: Get.height * 0.35,
+                   width: Get.width,
                   child: PageView.builder(
       itemCount: snapshot.data?.round.length,
       itemBuilder: (conxtext, index){
       return FutureBuilder<Round>(
               future: controller.getRound(index),
               builder: (context, snapshot){ 
-              if(snapshot.hasData){
+              if(true){
                 return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             Column(children: [
-            Container(color: Colors.blue, padding: const EdgeInsets.all(50)),
-            
-            Text(snapshot.data!.nameHome.toString())
+              Image.asset('assets/corinthians.png', fit: BoxFit.cover, scale: 17,),
+              const SizedBox(height: 10,),
+            Text('Corinthians')
         ]),
             Column(children: const [
               Text('Data do jogo'),
@@ -37,9 +40,10 @@ class NextGames extends GetView<HomeController> {
             ]),
             Column(
               children: [
-            Container(color: Colors.amber, padding: const EdgeInsets.all(50)),
-            Text(snapshot.data!.nameAway.toString())
-            ]),          ]
+            Image.asset('assets/flamengo.png', scale: 18,),
+            const SizedBox(height: 10,),
+            Text('Flamengo')
+            ])]
         ),
         const SizedBox(height: 10),
         Column(
@@ -52,9 +56,19 @@ class NextGames extends GetView<HomeController> {
         ]),
       ]
     );}else{
-      return const CircularProgressIndicator();
-    }});
-  }));}else{return const CircularProgressIndicator(color: Colors.deepOrange,);}
+      return Container(
+                  color: Colors.transparent,
+                  height: Get.height * 0.445,
+                   width: Get.width,
+                   alignment: Alignment.center,
+                  child: const CircularProgressIndicator());}
+    });
+  }));}else{return Container(
+                  color: Colors.transparent,
+                  height: Get.height * 0.445,
+                   width: Get.width,
+                   alignment: Alignment.center,
+                  child: const CircularProgressIndicator());}
   });
   }
 }

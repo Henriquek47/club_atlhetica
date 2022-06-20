@@ -9,16 +9,31 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Column(
+    return LayoutBuilder(builder: (context, constraints) => Scaffold(
+      body: Stack(children: [
+        Container(
+          height: Get.height,
+          width: Get.width,
+          decoration: const BoxDecoration(
+            gradient: LinearGradient(
+              colors: [
+                Colors.white,
+                Colors.transparent
+              ],
+              begin: Alignment(0, -3),
+              end: Alignment.center
+            )
+          ),
+        ),
+        Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: const [
-          SizedBox(height: 20,),
-        Text('Club Atlhetica'),
-        SizedBox(height: 90),
-        NextGames(),
-        LastGames(),
+        children: [
+          const SizedBox(height: 20,),
+        const Text('Club Atlhetica'),
+        SizedBox(height: Get.height * 0.1,),
+        const NextGames(),
+        const LastGames(),
       ])
-    );
+    ])));
   }
 }

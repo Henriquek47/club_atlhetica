@@ -44,6 +44,8 @@ class TeamHome{
   TeamHome.fromJson(Map<String, dynamic> json){
     nome = json['name'];
     id = json['id'];
+    imageHome = json['logo'];
+
   }
 }
 
@@ -57,5 +59,6 @@ class TeamAway{
   TeamAway.fromJson(Map<String, dynamic> json){
     nome = json['name'];
     id = json['id'];
+    imageaway = json['logo'];
   }
 }

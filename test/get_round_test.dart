@@ -28,6 +28,7 @@ final client = MockClient();
    expect(getRoundFunc.home, equals(125));
    expect(getRoundFunc.away, equals(1193));
    expect(getRoundFunc.hour, equals('10:40'));
+   expect(getRoundFunc.imageHome, "https:\/\/media.api-sports.io\/football\/teams\/125.png");
    expect(getRoundFunc.finishedOrInProgress(getRoundFunc.date!, getRoundFunc.date!), true);
    //expect(result.dateTime, equals('2022-06-0419:30:00+00:00'));
   });

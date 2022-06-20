@@ -1,23 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class LastGames extends StatelessWidget {
   const LastGames({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.red,
+    return Expanded(
       child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const Padding(padding: EdgeInsets.only(left: 20),
         child: Text('Resultado dos jogos', style: TextStyle(fontSize: 25),)),
-        const SizedBox(height: 15,),
-      SizedBox(
-      height: Get.height * .3,
-      width: Get.width,
-      child: ListView.builder(
+        const SizedBox(height: 10,),
+      Expanded(child: ListView.builder(
         itemCount: 10,
         itemBuilder: ((context, index) {
       return Padding(
