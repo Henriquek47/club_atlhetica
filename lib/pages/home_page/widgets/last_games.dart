@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
 class LastGames extends StatelessWidget {
   const LastGames({Key? key}) : super(key: key);
@@ -30,14 +31,15 @@ class LastGames extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
             const Text('Data: 23/02', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, height: 2)),
-            Row(children: const[
-              Text('Atletico-MG ', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
-              SizedBox(width: 5,),
-              Text('1 x 1 ', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),),
-              SizedBox(width: 5,),
-              Text('Sport', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),),
-              SizedBox(width: 60,),
-              Text('Ver mais', style: TextStyle(fontSize: 12),)
+            Row(
+              children: [
+              const Text('Atletico-MG ', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+              const SizedBox(width: 5,),
+              const Text('1 x 1 ', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),),
+              const SizedBox(width: 5,),
+              const Text('Sport', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),),
+              SizedBox(width: Get.width * 0.2,),
+              const Text('Ver mais', style: TextStyle(fontSize: 12),)
             ],)
           ]),
         ],

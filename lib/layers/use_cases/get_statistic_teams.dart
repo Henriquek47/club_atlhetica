@@ -6,8 +6,8 @@ class GetStatisticTeams{
 
   GetStatisticTeams(this.repository);
 
-  execute(int? id)async{
-    List<SoccerMatch> team = await repository.getApi(id);
+  execute(int? idTeam)async{
+    List<SoccerMatch> team = await repository.getApi(idTeam);
     return team;
   }
 }

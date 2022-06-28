@@ -32,6 +32,7 @@ class HomePage extends GetView<HomeController> {
         const Text('Club Atlhetica'),
         SizedBox(height: Get.height * 0.1,),
         const NextGames(),
+        SizedBox(height: Get.height * 0.05,),
         const LastGames(),
       ])
     ])));

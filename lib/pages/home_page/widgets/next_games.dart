@@ -1,4 +1,5 @@
 import 'package:club_atlhetica/layers/domain/round.dart';
+import 'package:club_atlhetica/layers/service/repository/model/round_model.dart';
 import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,30 +9,30 @@ class NextGames extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<Round>(
-      future: controller.getRound(0),
+    return FutureBuilder<List<RoundModel>>(
+      future: controller.getRound(1),
       builder: (context, snapshot){
-        if(true){
+        if(snapshot.hasData){
                 return Container(
                   color: Colors.transparent,
                   height: Get.height * 0.35,
                    width: Get.width,
                   child: PageView.builder(
-      itemCount: snapshot.data?.round.length,
+      itemCount: snapshot.data?.length,
       itemBuilder: (conxtext, index){
-      return FutureBuilder<Round>(
-              future: controller.getRound(index),
-              builder: (context, snapshot){ 
-              if(true){
                 return Column(
       children: [
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(children: [
-              Image.asset('assets/corinthians.png', fit: BoxFit.cover, scale: 17,),
+              Image.network(snapshot.data![index].teams!.home!.imageHome.toString(), fit: BoxFit.cover, scale: 2,),
               const SizedBox(height: 10,),
-            Text('Corinthians')
+            Container(
+              alignment: Alignment.center,
+              width: Get.width * 0.2,
+              color: Colors.transparent,
+              child: Text(snapshot.data![index].teams!.home!.nome.toString(), textAlign: TextAlign.center,))
         ]),
             Column(children: const [
               Text('Data do jogo'),
@@ -40,9 +41,13 @@ class NextGames extends GetView<HomeController> {
             ]),
             Column(
               children: [
-            Image.asset('assets/flamengo.png', scale: 18,),
+            Image.network(snapshot.data![index].teams!.away!.imageaway.toString(), scale: 2,),
             const SizedBox(height: 10,),
-            Text('Flamengo')
+            Container(
+              alignment: Alignment.center,
+              width: Get.width * 0.2,
+              color: Colors.transparent,
+              child: Text(snapshot.data![index].teams!.away!.nome.toString(), textAlign: TextAlign.center,))
             ])]
         ),
         const SizedBox(height: 10),
@@ -55,14 +60,7 @@ class NextGames extends GetView<HomeController> {
           Text('Ver mais', style: TextStyle(),)
         ]),
       ]
-    );}else{
-      return Container(
-                  color: Colors.transparent,
-                  height: Get.height * 0.445,
-                   width: Get.width,
-                   alignment: Alignment.center,
-                  child: const CircularProgressIndicator());}
-    });
+    );
   }));}else{return Container(
                   color: Colors.transparent,
                   height: Get.height * 0.445,
