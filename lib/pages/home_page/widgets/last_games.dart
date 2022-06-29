@@ -10,8 +10,8 @@ class LastGames extends StatelessWidget {
       child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const Padding(padding: EdgeInsets.only(left: 20),
-        child: Text('Resultado dos jogos', style: TextStyle(fontSize: 25),)),
+        Padding(padding: const EdgeInsets.only(left: 20),
+        child: Text('Resultado dos jogos', style: TextStyle(fontSize: Get.textScaleFactor * 20),)),
         const SizedBox(height: 10,),
       Expanded(child: ListView.builder(
         itemCount: 10,
@@ -23,23 +23,23 @@ class LastGames extends StatelessWidget {
         children: [
           Container(
             color: index >= 2 ? Colors.red : Colors.blue,
-            height: 25,
-            width: 5,
+            height: 35,
+            width: 4,
           ),
           const SizedBox(width: 20,),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-            const Text('Data: 23/02', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, height: 2)),
+            Text('Data: 23/02', style: TextStyle(fontSize: Get.textScaleFactor * 14, fontWeight: FontWeight.w500, height: 2)),
             Row(
               children: [
-              const Text('Atletico-MG ', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500)),
+              Text('Atletico-MG ', style: TextStyle(fontSize: Get.textScaleFactor * 15, fontWeight: FontWeight.w500)),
               const SizedBox(width: 5,),
-              const Text('1 x 1 ', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),),
+              Text('1 x 1 ', style: TextStyle(fontSize: Get.textScaleFactor * 15, fontWeight: FontWeight.w500),),
               const SizedBox(width: 5,),
-              const Text('Sport', style: TextStyle(fontSize: 17, fontWeight: FontWeight.w500),),
+              Text('Sport', style: TextStyle(fontSize: Get.textScaleFactor * 15, fontWeight: FontWeight.w500),),
               SizedBox(width: Get.width * 0.2,),
-              const Text('Ver mais', style: TextStyle(fontSize: 12),)
+              Text('Ver mais', style: TextStyle(fontSize: Get.textScaleFactor * 10),)
             ],)
           ]),
         ],

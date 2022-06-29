@@ -6,7 +6,7 @@ import 'package:club_atlhetica/layers/service/repository/get_statistic_teams_api
 import 'package:club_atlhetica/layers/service/repository/model/round_model.dart';
 import 'package:club_atlhetica/layers/service/repository/model/teams_model.dart';
 import 'package:club_atlhetica/layers/service/repository/repository.dart';
-import 'package:club_atlhetica/layers/service/url.dart';
+import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:club_atlhetica/layers/use_cases/get_round.dart';
 import 'package:club_atlhetica/layers/use_cases/get_statistic_teams.dart';
 import 'package:flutter_test/flutter_test.dart';

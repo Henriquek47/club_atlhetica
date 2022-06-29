@@ -2,8 +2,26 @@ import 'package:club_atlhetica/pages/home_page/home_bindings.dart';
 import 'package:club_atlhetica/pages/home_page/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:workmanager/workmanager.dart';
 
-void main() {
+import 'layers/service/workmanager/workmanager_background.dart';
+
+
+
+void main()async{
+  WidgetsFlutterBinding.ensureInitialized();
+  await Workmanager().initialize(
+    callbackDispatcher,
+    isInDebugMode: false,
+  );
+  await Workmanager().registerPeriodicTask(
+    "5",
+    'fetchBackground',
+    frequency: const Duration(minutes: 20),
+    constraints: Constraints(
+      networkType: NetworkType.connected,
+    ),
+  );
   runApp(const MyApp());
 }
 

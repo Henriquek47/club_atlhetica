@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:club_atlhetica/layers/service/repository/model/teams_model.dart';
 import 'package:club_atlhetica/layers/service/repository/repository.dart';
-import 'package:club_atlhetica/layers/service/url.dart';
+import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:http/http.dart' as http;
 
 
