@@ -12,7 +12,6 @@ void main()async{
   WidgetsFlutterBinding.ensureInitialized();
   await Workmanager().initialize(
     callbackDispatcher,
-    isInDebugMode: false,
   );
   await Workmanager().registerPeriodicTask(
     "5",

@@ -1,4 +1,4 @@
-import 'package:club_atlhetica/layers/service/repository/model/round_model.dart';
+import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 
 import '../service/repository/repository.dart';
@@ -9,8 +9,8 @@ class GetRound{
   GetRound({this.repository});
 
   execute(int id)async{
-    List<RoundModel> round = await repository?.getApi(id);
-    final date = round[id].fixture?.date;
+    List<Round> round = await repository?.getApi(id);
+    final date = round[id].date;
     DateTime now = DateTime.parse(date.toString());
     finishedOrInProgress(now, dateTime);
     return round;

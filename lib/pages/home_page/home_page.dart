@@ -9,7 +9,7 @@ class HomePage extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(builder: (context, constraints) => Scaffold(
+    return LayoutBuilder(builder: (context, constraints) => SafeArea(child: Scaffold(
       body: Stack(children: [
         Container(
           height: Get.height,
@@ -27,14 +27,10 @@ class HomePage extends GetView<HomeController> {
         ),
         Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          const SizedBox(height: 20,),
-        const Text('Club Atlhetica'),
-        SizedBox(height: Get.height * 0.1,),
-        const NextGames(),
-        SizedBox(height: Get.height * 0.05,),
-        const LastGames(),
+        children: const [
+        NextGames(),
+        LastGames(),
       ])
-    ])));
+    ]))));
   }
 }

@@ -1,10 +1,9 @@
 // ignore_for_file: unnecessary_string_escapes
 
-import 'package:club_atlhetica/layers/domain/round.dart';
+import 'package:club_atlhetica/layers/entities/round.dart';
+import 'package:club_atlhetica/layers/entities/team.dart';
 import 'package:club_atlhetica/layers/service/repository/get_round_api.dart';
 import 'package:club_atlhetica/layers/service/repository/get_statistic_teams_api.dart';
-import 'package:club_atlhetica/layers/service/repository/model/round_model.dart';
-import 'package:club_atlhetica/layers/service/repository/model/teams_model.dart';
 import 'package:club_atlhetica/layers/service/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:club_atlhetica/layers/use_cases/get_round.dart';
@@ -33,11 +32,11 @@ void main() {
   test('Get id team', ()async{
    when(clientRound.get(Uri.parse(urlAllNextRound), headers: headers)).thenAnswer((_) async => http.Response(bodyJson, 200));
    GetRound getRound = GetRound(repository: repositoryRound);
-   List<RoundModel> round = await getRound.execute(0);
-   when(clientTeam.get(Uri.parse(setUrlTeams(round[0].teams?.home?.id)), headers: headers)).thenAnswer((_) async => http.Response(body, 200));
+   List<Round> round = await getRound.execute(0);
+   when(clientTeam.get(Uri.parse(setUrlTeams(round[0].idHome)), headers: headers)).thenAnswer((_) async => http.Response(body, 200));
    GetStatisticTeams getStatisticTeams = GetStatisticTeams(repositoryTeam);
-   List<SoccerMatch> team = await getStatisticTeams.execute(round[0].teams?.home?.id);
-   expect(team[0].teams?.home?.id, 125);
-   expect(team[0].goals?.home, 2);
+   List<Team> team = await getStatisticTeams.execute(round[0].idHome);
+   expect(team[0].id, 125);
+   expect(team[0].goals, 2);
   });
 }

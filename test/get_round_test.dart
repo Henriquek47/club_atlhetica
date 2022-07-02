@@ -1,7 +1,6 @@
 // ignore_for_file: unnecessary_string_escapes
 
-import 'package:club_atlhetica/layers/domain/round.dart';
-import 'package:club_atlhetica/layers/service/repository/model/round_model.dart';
+import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/service/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/repository/get_round_api.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
@@ -23,16 +22,16 @@ final client = MockClient();
    when(client.get(Uri.parse(urlAllNextRound), headers: headers)).thenAnswer((_) async => http.Response(bodyJson, 200));
   // Round result = await repository.getRoundApi(0);
    var getRound = GetRound(repository: repository);
-   List<RoundModel> getRoundFunc = await getRound.execute(0);
-   final date = getRoundFunc[0].fixture?.date;
+   List<Round> getRoundFunc = await getRound.execute(0);
+   final date = getRoundFunc[0].date;
     DateTime now = DateTime.parse(date.toString());
     
-   expect(getRoundFunc[0].fixture!.id, equals(838071));
+   expect(getRoundFunc[0].id, equals(838071));
    expect(now.year, equals(2022));
-   expect(getRoundFunc[0].teams!.home?.id, equals(125));
-   expect(getRoundFunc[0].teams!.away?.id, equals(1193));
+   expect(getRoundFunc[0].idHome, equals(125));
+   expect(getRoundFunc[0].idAway, equals(1193));
    expect('${now.hour <= 9 ? now.hour.toString().padLeft(2, '0') : now.hour.toString()}:${now.minute.toString()}', equals('10:40'));
-   expect(getRoundFunc[0].teams?.home?.imageHome, "https:\/\/media.api-sports.io\/football\/teams\/125.png");
+   expect(getRoundFunc[0].imageHome, "https:\/\/media.api-sports.io\/football\/teams\/125.png");
    expect(getRound.finishedOrInProgress(now, now), true);
    //expect(result.dateTime, equals('2022-06-0419:30:00+00:00'));
   });

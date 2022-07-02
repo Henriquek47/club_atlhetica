@@ -1,10 +1,9 @@
 import 'dart:convert';
 
-import 'package:club_atlhetica/layers/domain/round.dart';
-import 'package:club_atlhetica/layers/service/repository/model/round_model.dart';
+import 'package:club_atlhetica/layers/adapter/round_adapter.dart';
+import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/service/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 class GetRoundApi implements Repository {
@@ -19,7 +18,7 @@ class GetRoundApi implements Repository {
     if (response.statusCode == 200) {
       var body = jsonDecode(response.body);
       List allRound = body['response'];
-      List<RoundModel> round = allRound.map((e) => RoundModel.fromJson(e)).toList();
+      List<Round> round = allRound.map((e) => RoundAdapter.fromJson(e)).toList();
       //final date = round[id!].fixture?.date;
       //DateTime now = DateTime.parse(date.toString());
       return round;
