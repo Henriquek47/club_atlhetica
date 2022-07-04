@@ -6,12 +6,11 @@ import 'package:club_atlhetica/layers/service/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:http/http.dart' as http;
 
-class GetRoundApi implements Repository {
+class GetRoundApi{
   late http.Client client = http.Client();
 
   GetRoundApi({required this.client});
 
-  @override
   getApi(int? id) async {
     http.Response response =
         await client.get(Uri.parse(urlAllNextRound), headers: headers);

@@ -13,14 +13,14 @@ class HomeController extends GetxController {
   final http.Client client = http.Client();
 
   Future<List<Team>> getApiStatisticTeams(int id)async{
-   Repository repositoryTeam = GetStatisticTeamsApi(client: client);
+   GetStatisticTeamsApi repositoryTeam = GetStatisticTeamsApi(client: client);
     var getTeam = GetStatisticTeams(repositoryTeam);
-    List<Team> teams = await getTeam.execute(id);
+    List<Team> teams = await getTeam.execute(id, 0);
     return teams;
   }
 
   Future<List<Round>> getRound(int index) async {
-    Repository repositoryRound = GetRoundApi(client: client);
+    GetRoundApi repositoryRound = GetRoundApi(client: client);
     var getRoundVar = GetRound(repository: repositoryRound);
     List<Round> round = await getRoundVar.execute(index);
     return round;

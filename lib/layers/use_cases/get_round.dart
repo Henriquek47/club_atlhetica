@@ -1,10 +1,10 @@
 import 'package:club_atlhetica/layers/entities/round.dart';
+import 'package:club_atlhetica/layers/service/repository/get_round_api.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 
-import '../service/repository/repository.dart';
 
 class GetRound{
-  Repository? repository;
+  GetRoundApi? repository;
 
   GetRound({this.repository});
 
@@ -12,7 +12,7 @@ class GetRound{
     List<Round> round = await repository?.getApi(id);
     final date = round[id].date;
     DateTime now = DateTime.parse(date.toString());
-    finishedOrInProgress(now, dateTime);
+    bool fisnishOrProgress = finishedOrInProgress(now, dateTime);
     return round;
   }
   finishedOrInProgress(DateTime roundDate, DateTime now){
