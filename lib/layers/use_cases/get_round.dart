@@ -1,10 +1,11 @@
 import 'package:club_atlhetica/layers/entities/round.dart';
+import 'package:club_atlhetica/layers/infra/datadource/round_datasource.dart';
 import 'package:club_atlhetica/layers/service/repository/get_round_api.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 
 
 class GetRound{
-  GetRoundApi? repository;
+  RoundDataSource? repository;
 
   GetRound({this.repository});
 

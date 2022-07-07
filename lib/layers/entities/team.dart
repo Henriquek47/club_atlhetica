@@ -1,13 +1,26 @@
 class Team{
-  int? idHome;
-  int? idAway;
+  int? id;
+  List? statistics;
+
+  Team(this.id, this.statistics);
+}
+
+class TeamRound{
+  int? id;
   int? goalsHome;
   int? goalsAway;
+  List? statistics;
 
-  Team(this.idHome, this.idAway, this.goalsHome, this.goalsAway);
+  TeamRound(this.id, this.goalsHome, this.goalsAway, this.statistics);
 
   int? statisticTeams(List? goals, int? idTeam){
-    print(goals);
     return goals!.first;
   }
+}
+
+class TeamStatistic{
+  int? id;
+  List? statistics;
+
+  TeamStatistic(this.id, this.statistics);
 }

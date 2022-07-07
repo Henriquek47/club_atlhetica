@@ -1,7 +1,6 @@
 // ignore_for_file: unnecessary_string_escapes
 
 import 'package:club_atlhetica/layers/entities/round.dart';
-import 'package:club_atlhetica/layers/service/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/repository/get_round_api.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:club_atlhetica/layers/use_cases/get_round.dart';

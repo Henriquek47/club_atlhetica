@@ -1,16 +1,18 @@
 import 'dart:convert';
 
-import 'package:club_atlhetica/layers/adapter/round_adapter.dart';
 import 'package:club_atlhetica/layers/entities/round.dart';
-import 'package:club_atlhetica/layers/service/repository/repository.dart';
+import 'package:club_atlhetica/layers/infra/adapter/round_adapter.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:http/http.dart' as http;
 
-class GetRoundApi{
+import '../../infra/datadource/round_datasource.dart';
+
+class GetRoundApi extends RoundDataSource{
   late http.Client client = http.Client();
 
   GetRoundApi({required this.client});
 
+  @override
   getApi(int? id) async {
     http.Response response =
         await client.get(Uri.parse(urlAllNextRound), headers: headers);
