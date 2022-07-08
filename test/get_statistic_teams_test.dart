@@ -8,6 +8,7 @@ import 'package:club_atlhetica/layers/service/repository/get_statistic_teams_api
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:club_atlhetica/layers/use_cases/get_round.dart';
 import 'package:club_atlhetica/layers/use_cases/get_statistic_teams.dart';
+import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:http/http.dart' as http;
@@ -34,13 +35,19 @@ void main() async {
    List<Round> round = await getRound.execute(0);
    when(clientTeam.get(Uri.parse(setUrlTeams(round[0].idHome)), headers: headers)).thenAnswer((_) async => http.Response(teamGoals, 200));
    when(clientTeam.get(Uri.parse(setUrlTeamsStatistic(round[0].idHome, round[0].id)), headers: headers)).thenAnswer((_) async => http.Response(teamStatisticBody, 200));
-   ITeamStatisticRpository teamStatisticRpository = TeamStatisticRepository(repositoryTeam);
-   GetStatisticTeams getStatisticTeams = GetStatisticTeams(teamStatisticRpository);
+   ITeamStatisticRepository teamStatisticRepository = TeamStatisticRepository(repositoryTeam);
+   GetStatisticTeams getStatisticTeams = GetStatisticTeams(teamStatisticRepository);
    List<Team> teamStatistic = await getStatisticTeams.execute(round[0].idHome, round[0].id);
 
   test('Get id team', ()async{
    expect(teamStatistic[0].id, 125);
    expect(teamStatistic[0].id, 125);
    expect(teamStatistic[0].statistics![1]['value'], 7);
+  });
+
+  test('test homController', ()async{
+    HomeController homeController = HomeController();
+   List<Team> home = await homeController.statisticsTeam(151, 838128);
+   expect(home[3].id, 151);
   });
 }

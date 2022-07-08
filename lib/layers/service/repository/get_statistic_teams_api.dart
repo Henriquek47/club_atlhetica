@@ -13,39 +13,12 @@ class GetStatisticTeamsApi extends TeamDataSource{
   http.Client? client = http.Client();
 
   GetStatisticTeamsApi({this.client});
-
+  
   @override
   getGoalsTeam(int? idTeam)async{
     http.Response response = await client!.get(Uri.parse(setUrlTeams(idTeam)), headers: headers);
     if(response.statusCode == 200){
     var body = jsonDecode(response.body);
-    List team = body['response'];
-    List<TeamRound> allRoundTeam = team.map((e) => TeamAdapter.fromJsonGoals(e)).toList();
-     return allRoundTeam; 
-    }else{
-      Exception('Falha na conexão');
-      return [];
-    }
-  }
-  @override
-  getStatisticTeams(int? idTeam, int? idFixtures)async{
-    http.Response response = await client!.get(Uri.parse(setUrlTeamsStatistic(idTeam, idFixtures)), headers: headers);
-    if(response.statusCode == 200){
-    var body = jsonDecode(response.body);
-    List team = body['response'];
-    List<TeamStatistic> allStatisticTeamOnFixtures = team.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
-     return allStatisticTeamOnFixtures; 
-    }else{
-      Exception('Erro na conexão');
-      return [];
-    }
-  }
-  @override
-  getGoalsTeam2(int? idTeam)async{
-    http.Response response = await client!.get(Uri.parse(setUrlTeams(idTeam)), headers: headers);
-    if(response.statusCode == 200){
-    var body = jsonDecode(response.body);
-    List team = body['response'];
      return body; 
     }else{
       Exception('Falha na conexão');
@@ -53,11 +26,10 @@ class GetStatisticTeamsApi extends TeamDataSource{
     }
   }
   @override
-  getStatisticTeams2(int? idTeam, int? idFixtures)async{
+  getStatisticTeams(int? idTeam, int? idFixtures)async{
     http.Response response = await client!.get(Uri.parse(setUrlTeamsStatistic(idTeam, idFixtures)), headers: headers);
     if(response.statusCode == 200){
     var body = jsonDecode(response.body);
-    List team = body['response'];
      return body; 
     }else{
       Exception('Erro na conexão');
