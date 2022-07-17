@@ -4,7 +4,7 @@ import '../../entities/team.dart';
 import '../datadource/team_datasource.dart';
 
 abstract class ITeamStatisticRepository{
-  getStatisticTeam(int? idTeam, int? idFixtures);
+  getStatisticTeam(int? idTeam);
 }
 
 class TeamStatisticRepository extends ITeamStatisticRepository{
@@ -13,18 +13,15 @@ class TeamStatisticRepository extends ITeamStatisticRepository{
   TeamStatisticRepository(this.teamDataSource);
   
   @override
-  getStatisticTeam(int? idTeam, int? idFixtures)async{
-  Map teamStatisticResponse =  await teamDataSource.getStatisticTeams(idTeam, idFixtures);
-  Map teamRound = await teamDataSource.getGoalsTeam(idTeam);
-
-  List results = teamStatisticResponse['response'][0]['statistics'];
-  List statisticsGoals = teamRound['response'];
-  List<Team> teamStatistic = [];
+  getStatisticTeam(int? idTeam)async{
+  Map teamRound = await teamDataSource.last10RoundsTeam(idTeam);
+  List<int> fixture = [];
   for (var i = 0; i < 4; i++) {
-  Map<String, dynamic> addStatistic = statisticsGoals[i];
-  addStatistic.addAll({'statistics' : results});
-  teamStatistic = statisticsGoals.map((e) => TeamAdapter.fromjson(e)).toList();
+      fixture.add(teamRound['response'][i]['fixture']['id']);
   }
+  Map teamStatisticResponse =  await teamDataSource.statisticRound(fixture);
+  List results = teamStatisticResponse['response'];
+  List<TeamStatistic> teamStatistic = results.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
     return teamStatistic;
   }  
 }

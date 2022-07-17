@@ -9,9 +9,10 @@ class NextGames extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Round>>(
-      future: controller.getRound(1),
+      future: controller.getRound(),
       builder: (context, snapshot){
         if(snapshot.hasData){
+          print(controller.statisticsTeam());
                 return Container(
                   color: Colors.transparent,
                   height: Get.height * 0.6,
@@ -31,13 +32,13 @@ class NextGames extends GetView<HomeController> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(children: [
-              Image.network(snapshot.data![index].nameHome.toString(), fit: BoxFit.cover, scale: 1.8,),
+              Image.network(snapshot.data![index].imageHome.toString(), fit: BoxFit.cover, scale: 1.8,),
               const SizedBox(height: 10,),
             Container(
               alignment: Alignment.center,
               width: Get.width * 0.2,
               color: Colors.transparent,
-              child: Text(snapshot.data![index].nameAway.toString(), textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12),))
+              child: Text(snapshot.data![index].nameHome.toString(), textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12),))
         ]),
             Column(children: const [
               Text('Data do jogo'),
@@ -46,13 +47,13 @@ class NextGames extends GetView<HomeController> {
             ]),
             Column(
               children: [
-            Image.network(snapshot.data![index].imageHome.toString(), scale: 1.8,),
+            Image.network(snapshot.data![index].imageAway.toString(), scale: 1.8,),
             const SizedBox(height: 10,),
             Container(
               alignment: Alignment.center,
               width: Get.width * 0.2,
               color: Colors.transparent,
-              child: Text(snapshot.data![index].imageAway.toString(), textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12)))
+              child: Text(snapshot.data![index].nameAway.toString(), textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12)))
             ])]
         ),
         const SizedBox(height: 10),

@@ -1,7 +1,4 @@
 import 'dart:convert';
-
-import 'package:club_atlhetica/layers/entities/team.dart';
-import 'package:club_atlhetica/layers/infra/adapter/team_adapter.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,10 +12,11 @@ class GetStatisticTeamsApi extends TeamDataSource{
   GetStatisticTeamsApi({this.client});
   
   @override
-  getGoalsTeam(int? idTeam)async{
+  last10RoundsTeam(int? idTeam)async{
     http.Response response = await client!.get(Uri.parse(setUrlTeams(idTeam)), headers: headers);
     if(response.statusCode == 200){
     var body = jsonDecode(response.body);
+    print('teamRound');
      return body; 
     }else{
       Exception('Falha na conexão');
@@ -26,10 +24,11 @@ class GetStatisticTeamsApi extends TeamDataSource{
     }
   }
   @override
-  getStatisticTeams(int? idTeam, int? idFixtures)async{
-    http.Response response = await client!.get(Uri.parse(setUrlTeamsStatistic(idTeam, idFixtures)), headers: headers);
+  statisticRound(List<int> ids)async{
+    http.Response response = await client!.get(Uri.parse(setUrlTeamsStatistic(ids)), headers: headers);
     if(response.statusCode == 200){
     var body = jsonDecode(response.body);
+    print('statistic');
      return body; 
     }else{
       Exception('Erro na conexão');

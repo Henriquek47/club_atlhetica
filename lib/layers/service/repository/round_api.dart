@@ -13,16 +13,17 @@ class GetRoundApi extends RoundDataSource{
   GetRoundApi({required this.client});
 
   @override
-  getApi(int? id) async {
+  getApi() async {
     http.Response response =
-        await client.get(Uri.parse(urlAllNextRound), headers: headers);
+        await client.get(Uri.parse(roundsUrl), headers: headers);
     if (response.statusCode == 200) {
       var body = jsonDecode(response.body);
       List allRound = body['response'];
+      print('round');
       List<Round> round = allRound.map((e) => RoundAdapter.fromJson(e)).toList();
       //final date = round[id!].fixture?.date;
       //DateTime now = DateTime.parse(date.toString());
-      return round;
+      return allRound;
     } else {
       return Exception('Falha ao tentar conexão');
     }

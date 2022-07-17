@@ -5,7 +5,7 @@ class GetStatisticTeams{
 
   GetStatisticTeams(this.repository);
 
-  execute(int? idTeam, int? idFixtures)async{
-  return await repository.getStatisticTeam(idTeam, idFixtures);
+  execute(int? idTeam)async{
+  return await repository.getStatisticTeam(idTeam);
   }
 }

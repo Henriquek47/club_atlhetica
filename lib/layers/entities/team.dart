@@ -1,17 +1,7 @@
-class Team{
-  int? id;
-  List? statistics;
-
-  Team(this.id, this.statistics);
-}
-
 class TeamRound{
   int? id;
-  int? goalsHome;
-  int? goalsAway;
-  List? statistics;
 
-  TeamRound(this.id, this.goalsHome, this.goalsAway, this.statistics);
+  TeamRound(this.id);
 
   int? statisticTeams(List? goals, int? idTeam){
     return goals!.first;
@@ -19,8 +9,11 @@ class TeamRound{
 }
 
 class TeamStatistic{
-  int? id;
+  int? idHome;
+  int? idAway;
+  int? goalsHome;
+  int? goalsAway;
   List? statistics;
 
-  TeamStatistic(this.id, this.statistics);
+  TeamStatistic(this.idHome, this.idAway, this.goalsHome, this.goalsAway, this.statistics);
 }

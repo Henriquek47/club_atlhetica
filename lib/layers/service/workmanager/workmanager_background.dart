@@ -8,6 +8,7 @@ import 'package:workmanager/workmanager.dart';
       case 'fetchBackground':
       print('teste');
       HomeController homeController = HomeController();
+      homeController.statisticsTeam();
         NotifcationServirce notifcationServirce = NotifcationServirce();
         notifcationServirce.showNotification(CustomNotification(id: 1, title: 'teste', body: 'acesse', payload: 'aaaa'));
         break;
