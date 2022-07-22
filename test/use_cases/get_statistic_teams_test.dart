@@ -38,13 +38,9 @@ void main() async {
    when(clientTeam.get(Uri.parse(setUrlTeamsStatistic([838131, 838122])), headers: headers)).thenAnswer((_) async => http.Response(teamStatisticBody, 200));
    ITeamStatisticRepository teamStatisticRepository = TeamStatisticRepository(repositoryTeam);
    GetStatisticTeams getStatisticTeams = GetStatisticTeams(teamStatisticRepository);
-   List<TeamStatistic> statistic = await getStatisticTeams.execute(125);
+   List<TeamStatistic> statistic = await getStatisticTeams.execute(125, 125);
   test('Get id team', ()async{
     expect(statistic[0].idHome, 152);
-  });
-
-  test('test homController', ()async{
-   // HomeController homeController = HomeController();
-   //List<Team> home = await homeController.statisticsTeam();
+    expect(statistic[0].statisticHome.cornerKicks, 11);
   });
 }

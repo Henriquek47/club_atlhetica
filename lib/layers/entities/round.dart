@@ -7,6 +7,7 @@ class Round{
   String? imageAway;
   int? idHome;
   int? idAway;
+  int? nextGames;
 
-  Round(this.id, this.date, this.nameHome, this.imageHome, this.nameAway, this.imageAway, this.idHome, this.idAway);
+  Round(this.id, this.date, this.nameHome, this.imageHome, this.nameAway, this.imageAway, this.idHome, this.idAway, this.nextGames);
 }

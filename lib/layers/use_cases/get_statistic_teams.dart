@@ -1,3 +1,4 @@
+import 'package:club_atlhetica/layers/entities/team.dart';
 import 'package:club_atlhetica/layers/infra/repository/team_statistic_repository.dart';
 
 class GetStatisticTeams{
@@ -5,7 +6,8 @@ class GetStatisticTeams{
 
   GetStatisticTeams(this.repository);
 
-  execute(int? idTeam)async{
-  return await repository.getStatisticTeam(idTeam);
+  execute(int? idTeamHome, int? idTeamAway)async{
+  List<TeamStatistic> statistics = await repository.getStatisticTeam(idTeamHome, idTeamAway);
+  return statistics;
   }
 }

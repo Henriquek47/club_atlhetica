@@ -21,12 +21,23 @@ class HomeController extends GetxController {
     TeamStatisticRepository teamStatisticRepository = TeamStatisticRepository(statisticTeamsApi);
     GetStatisticTeams statisticTeams = GetStatisticTeams(teamStatisticRepository);
     List<Round> round = await getRound();
-    int roundIndex = 0;
-        List<TeamStatistic> statistics = [];
-    for (var i = 0; i < round.length; i++) {
-      Future.delayed(const Duration(seconds: 50),() {statisticTeams.execute(round[roundIndex].idHome);});
-      roundIndex = i;
+    List<Round> roundReverse = List.from(round.reversed);
+    List<TeamStatistic> statistics = [];
+    List<int> lastFixtures = [];
+        
+    for (var i = 0; i < roundReverse.length; i++) {
+      final date = roundReverse[i].date;
+      DateTime now = DateTime.parse(date.toString());
+      DateTime nowDay = DateTime.now();
+      //create random hour to call the game
+      if(now.hour != 0 && now.month >= nowDay.month && roundReverse[i].nextGames == null && lastFixtures.contains(roundReverse[i].id) == false){
+        await statisticTeams.execute(roundReverse[i].idHome, roundReverse[i].idAway);
+        lastFixtures.add(roundReverse[i].id!);
+      }
+          print(lastFixtures);
+
     }
+    print(statistics);
     return statistics;
   }
 

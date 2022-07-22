@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import '../../infra/datadource/team_datasource.dart';
@@ -7,13 +8,13 @@ import '../../infra/datadource/team_datasource.dart';
 
 class GetStatisticTeamsApi extends TeamDataSource{
 
-  http.Client? client = http.Client();
+  http.Client client = http.Client();
 
-  GetStatisticTeamsApi({this.client});
+  GetStatisticTeamsApi({required this.client});
   
   @override
   last10RoundsTeam(int? idTeam)async{
-    http.Response response = await client!.get(Uri.parse(setUrlTeams(idTeam)), headers: headers);
+    http.Response response = await client.get(Uri.parse(setUrlTeams(idTeam)), headers: headers);
     if(response.statusCode == 200){
     var body = jsonDecode(response.body);
     print('teamRound');
@@ -25,7 +26,7 @@ class GetStatisticTeamsApi extends TeamDataSource{
   }
   @override
   statisticRound(List<int> ids)async{
-    http.Response response = await client!.get(Uri.parse(setUrlTeamsStatistic(ids)), headers: headers);
+    http.Response response = await client.get(Uri.parse(setUrlTeamsStatistic(ids)), headers: headers);
     if(response.statusCode == 200){
     var body = jsonDecode(response.body);
     print('statistic');
