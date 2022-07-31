@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:http/http.dart' as http;
 
 import '../../infra/datadource/team_datasource.dart';

@@ -1,21 +1,17 @@
 import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/infra/adapter/round_adapter.dart';
 import 'package:club_atlhetica/layers/infra/datadource/round_datasource.dart';
+import 'package:club_atlhetica/layers/infra/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 
 
 class GetRound{
-  RoundDataSource? repository;
+  IRepository? repository;
 
   GetRound({this.repository});
 
   execute()async{
-    List allRound = await repository!.getApi();
-    List<Round> round = allRound.map((e) => RoundAdapter.fromJson(e)).toList();
-    //final date = round[id].date;
-   // DateTime now = DateTime.parse(date.toString());
-    //bool fisnishOrProgress = finishedOrInProgress(now, dateTime);
-    return round;
+    return await repository!.getRounds();
   }
 
   finishedOrInProgress(DateTime roundDate, DateTime now){

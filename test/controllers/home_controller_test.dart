@@ -6,5 +6,6 @@ void main() {
   test('test homController', ()async{
    HomeController homeController = HomeController();
    List<TeamStatistic> home = await homeController.statisticsTeam();
-  });
+  },
+  timeout: const Timeout(Duration(seconds: 31)));
 }

@@ -17,6 +17,7 @@ class TeamAdapter{
   }
   static Statistic fromStatistic(dynamic data){
     return Statistic(
+      data['team']['id'],
       data['statistics'][0]['value'], data['statistics'][1]['value'], data['statistics'][2]['value'], data['statistics'][3]['value'],
       data['statistics'][4]['value'], data['statistics'][5]['value'], data['statistics'][6]['value'], data['statistics'][7]['value'], 
       data['statistics'][8]['value'], data['statistics'][9]['value'], data['statistics'][10]['value'], data['statistics'][11]['value'], 
