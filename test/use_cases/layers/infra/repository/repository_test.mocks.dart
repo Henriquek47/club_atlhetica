@@ -2,11 +2,18 @@
 // in club_atlhetica/test/use_cases/layers/infra/repository/repository_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i3;
+import 'dart:async' as _i6;
+import 'dart:convert' as _i9;
+import 'dart:typed_data' as _i10;
 
 import 'package:club_atlhetica/layers/entities/round.dart' as _i5;
-import 'package:club_atlhetica/layers/entities/team.dart' as _i4;
-import 'package:club_atlhetica/layers/infra/repository/repository.dart' as _i2;
+import 'package:club_atlhetica/layers/entities/team.dart' as _i7;
+import 'package:club_atlhetica/layers/infra/repository/repository.dart' as _i4;
+import 'package:club_atlhetica/layers/service/database/db.dart' as _i12;
+import 'package:http/src/base_request.dart' as _i11;
+import 'package:http/src/client.dart' as _i8;
+import 'package:http/src/response.dart' as _i2;
+import 'package:http/src/streamed_response.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
 
 // ignore_for_file: type=lint
@@ -19,25 +26,123 @@ import 'package:mockito/mockito.dart' as _i1;
 // ignore_for_file: unnecessary_parenthesis
 // ignore_for_file: camel_case_types
 
+class _FakeResponse_0 extends _i1.Fake implements _i2.Response {}
+
+class _FakeStreamedResponse_1 extends _i1.Fake implements _i3.StreamedResponse {
+}
+
 /// A class which mocks [IRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockIRepository extends _i1.Mock implements _i2.IRepository {
+class MockIRepository extends _i1.Mock implements _i4.IRepository {
   MockIRepository() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i3.Future<List<_i4.TeamStatistic>> getStatisticTeam(
+  set listRounds(List<_i5.Round>? _listRounds) =>
+      super.noSuchMethod(Invocation.setter(#listRounds, _listRounds),
+          returnValueForMissingStub: null);
+  @override
+  _i6.Future<List<_i7.TeamStatistic>> getStatisticTeam(
           int? idTeamHome, int? idTeamAway) =>
       (super.noSuchMethod(
               Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway]),
               returnValue:
-                  Future<List<_i4.TeamStatistic>>.value(<_i4.TeamStatistic>[]))
-          as _i3.Future<List<_i4.TeamStatistic>>);
+                  Future<List<_i7.TeamStatistic>>.value(<_i7.TeamStatistic>[]))
+          as _i6.Future<List<_i7.TeamStatistic>>);
   @override
-  _i3.Future<List<_i5.Round>> getRounds() =>
+  _i6.Future<List<_i5.Round>> getRounds() =>
       (super.noSuchMethod(Invocation.method(#getRounds, []),
               returnValue: Future<List<_i5.Round>>.value(<_i5.Round>[]))
-          as _i3.Future<List<_i5.Round>>);
+          as _i6.Future<List<_i5.Round>>);
+}
+
+/// A class which mocks [Client].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockClient extends _i1.Mock implements _i8.Client {
+  MockClient() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i6.Future<_i2.Response> head(Uri? url, {Map<String, String>? headers}) =>
+      (super.noSuchMethod(Invocation.method(#head, [url], {#headers: headers}),
+              returnValue: Future<_i2.Response>.value(_FakeResponse_0()))
+          as _i6.Future<_i2.Response>);
+  @override
+  _i6.Future<_i2.Response> get(Uri? url, {Map<String, String>? headers}) =>
+      (super.noSuchMethod(Invocation.method(#get, [url], {#headers: headers}),
+              returnValue: Future<_i2.Response>.value(_FakeResponse_0()))
+          as _i6.Future<_i2.Response>);
+  @override
+  _i6.Future<_i2.Response> post(Uri? url,
+          {Map<String, String>? headers,
+          Object? body,
+          _i9.Encoding? encoding}) =>
+      (super.noSuchMethod(
+              Invocation.method(#post, [url],
+                  {#headers: headers, #body: body, #encoding: encoding}),
+              returnValue: Future<_i2.Response>.value(_FakeResponse_0()))
+          as _i6.Future<_i2.Response>);
+  @override
+  _i6.Future<_i2.Response> put(Uri? url,
+          {Map<String, String>? headers,
+          Object? body,
+          _i9.Encoding? encoding}) =>
+      (super.noSuchMethod(
+              Invocation.method(#put, [url],
+                  {#headers: headers, #body: body, #encoding: encoding}),
+              returnValue: Future<_i2.Response>.value(_FakeResponse_0()))
+          as _i6.Future<_i2.Response>);
+  @override
+  _i6.Future<_i2.Response> patch(Uri? url,
+          {Map<String, String>? headers,
+          Object? body,
+          _i9.Encoding? encoding}) =>
+      (super.noSuchMethod(
+              Invocation.method(#patch, [url],
+                  {#headers: headers, #body: body, #encoding: encoding}),
+              returnValue: Future<_i2.Response>.value(_FakeResponse_0()))
+          as _i6.Future<_i2.Response>);
+  @override
+  _i6.Future<_i2.Response> delete(Uri? url,
+          {Map<String, String>? headers,
+          Object? body,
+          _i9.Encoding? encoding}) =>
+      (super.noSuchMethod(
+              Invocation.method(#delete, [url],
+                  {#headers: headers, #body: body, #encoding: encoding}),
+              returnValue: Future<_i2.Response>.value(_FakeResponse_0()))
+          as _i6.Future<_i2.Response>);
+  @override
+  _i6.Future<String> read(Uri? url, {Map<String, String>? headers}) =>
+      (super.noSuchMethod(Invocation.method(#read, [url], {#headers: headers}),
+          returnValue: Future<String>.value('')) as _i6.Future<String>);
+  @override
+  _i6.Future<_i10.Uint8List> readBytes(Uri? url,
+          {Map<String, String>? headers}) =>
+      (super.noSuchMethod(
+              Invocation.method(#readBytes, [url], {#headers: headers}),
+              returnValue: Future<_i10.Uint8List>.value(_i10.Uint8List(0)))
+          as _i6.Future<_i10.Uint8List>);
+  @override
+  _i6.Future<_i3.StreamedResponse> send(_i11.BaseRequest? request) =>
+      (super.noSuchMethod(Invocation.method(#send, [request]),
+              returnValue:
+                  Future<_i3.StreamedResponse>.value(_FakeStreamedResponse_1()))
+          as _i6.Future<_i3.StreamedResponse>);
+  @override
+  void close() => super.noSuchMethod(Invocation.method(#close, []),
+      returnValueForMissingStub: null);
+}
+
+/// A class which mocks [DB].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockDB extends _i1.Mock implements _i12.DB {
+  MockDB() {
+    _i1.throwOnMissingStub(this);
+  }
 }

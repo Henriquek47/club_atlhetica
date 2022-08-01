@@ -11,7 +11,7 @@ class GetRound{
   GetRound({this.repository});
 
   execute()async{
-    return await repository!.getRounds();
+    return repository!.listRounds;
   }
 
   finishedOrInProgress(DateTime roundDate, DateTime now){

@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/infra/adapter/round_adapter.dart';
 import 'package:club_atlhetica/layers/infra/adapter/team_adapter.dart';
 import 'package:club_atlhetica/layers/infra/datadource/round_datasource.dart';
+import 'package:club_atlhetica/layers/service/database/db.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../../entities/team.dart';
 import '../datadource/team_datasource.dart';
@@ -9,13 +14,21 @@ import '../datadource/team_datasource.dart';
 abstract class IRepository{
   Future<List<TeamStatistic>> getStatisticTeam(int? idTeamHome, int? idTeamAway);
   Future<List<Round>> getRounds();
+  List<Round>? listRounds;
 }
 
 class Repository extends IRepository{
   TeamDataSource? teamDataSource;
   RoundDataSource? roundDataSource;
+  Database? db;
 
-  Repository({this.teamDataSource, this.roundDataSource});
+  Repository({this.teamDataSource, this.roundDataSource, this.db}){
+    _initialDatabase();
+  }
+
+  _initialDatabase(){
+    return getRounds;
+  }
   
   @override
   getStatisticTeam(int? idTeamHome, int? idTeamAway)async{
@@ -29,7 +42,7 @@ class Repository extends IRepository{
       roundTeamLast.add(teamRoundAway);
     }
   }
-  
+
   List<int> fixture = [];
   for(int j=0; j<1; j++){
     for (var i = 0; i < 10; i++) {
@@ -48,11 +61,21 @@ class Repository extends IRepository{
   
   @override
   Future<List<Round>> getRounds()async{
-    List allRound = await roundDataSource!.getApi();
-    List<Round> round = allRound.map((e) => RoundAdapter.fromJson(e)).toList();
+    List rounds = await db!.query('round');
+    List allRound = [];
+    if(rounds.isEmpty){
+      allRound = await roundDataSource!.getApi();
+      db!.update('round', {'response': allRound.toString()});
+    }
+
+    String response = await rounds.first['response'];
+    var body = jsonDecode(response);
+    List list = body['response'];
+    print(list);
+    List<Round> listRounds = list.map((e) => RoundAdapter.fromJson(e)).toList();
     //final date = round[id].date;
    // DateTime now = DateTime.parse(date.toString());
     //bool fisnishOrProgress = finishedOrInProgress(now, dateTime);
-    return round;
+    return listRounds;
   }  
 }

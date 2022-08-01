@@ -1,7 +1,4 @@
 import 'dart:convert';
-
-import 'package:club_atlhetica/layers/entities/round.dart';
-import 'package:club_atlhetica/layers/infra/adapter/round_adapter.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:http/http.dart' as http;
 
@@ -20,7 +17,6 @@ class GetRoundApi extends RoundDataSource{
       var body = jsonDecode(response.body);
       List allRound = body['response'];
       print('round');
-      List<Round> round = allRound.map((e) => RoundAdapter.fromJson(e)).toList();
       //final date = round[id!].fixture?.date;
       //DateTime now = DateTime.parse(date.toString());
       return allRound;
