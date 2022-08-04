@@ -1,3 +1,3 @@
 abstract class RoundDataSource{
-  getApi();
+  Future getApi();
 }

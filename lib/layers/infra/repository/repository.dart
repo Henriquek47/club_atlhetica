@@ -4,8 +4,6 @@ import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/infra/adapter/round_adapter.dart';
 import 'package:club_atlhetica/layers/infra/adapter/team_adapter.dart';
 import 'package:club_atlhetica/layers/infra/datadource/round_datasource.dart';
-import 'package:club_atlhetica/layers/service/database/db.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../entities/team.dart';
@@ -14,7 +12,6 @@ import '../datadource/team_datasource.dart';
 abstract class IRepository{
   Future<List<TeamStatistic>> getStatisticTeam(int? idTeamHome, int? idTeamAway);
   Future<List<Round>> getRounds();
-  List<Round>? listRounds;
 }
 
 class Repository extends IRepository{
@@ -62,10 +59,12 @@ class Repository extends IRepository{
   @override
   Future<List<Round>> getRounds()async{
     List rounds = await db!.query('round');
-    List allRound = [];
+    String allRound = '';
     if(rounds.isEmpty){
+      print("AQUI");
       allRound = await roundDataSource!.getApi();
-      db!.update('round', {'response': allRound.toString()});
+      await db!.insert('round', {'response': allRound});
+      rounds = await db!.query('round');
     }
 
     String response = await rounds.first['response'];

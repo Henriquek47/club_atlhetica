@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../../infra/datadource/round_datasource.dart';
 
 class GetRoundApi extends RoundDataSource{
-  late http.Client client = http.Client();
+  final http.Client client;
 
   GetRoundApi({required this.client});
 
@@ -19,7 +19,7 @@ class GetRoundApi extends RoundDataSource{
       print('round');
       //final date = round[id!].fixture?.date;
       //DateTime now = DateTime.parse(date.toString());
-      return allRound;
+      return response.body;
     } else {
       return Exception('Falha ao tentar conexão');
     }

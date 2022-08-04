@@ -1,9 +1,4 @@
-import 'package:club_atlhetica/layers/entities/round.dart';
-import 'package:club_atlhetica/layers/infra/adapter/round_adapter.dart';
-import 'package:club_atlhetica/layers/infra/datadource/round_datasource.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
-import 'package:club_atlhetica/layers/service/repository/url.dart';
-
 
 class GetRound{
   IRepository? repository;
@@ -11,7 +6,7 @@ class GetRound{
   GetRound({this.repository});
 
   execute()async{
-    return repository!.listRounds;
+    return await repository!.getRounds();
   }
 
   finishedOrInProgress(DateTime roundDate, DateTime now){

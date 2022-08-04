@@ -7,27 +7,29 @@ import 'package:club_atlhetica/layers/entities/team.dart';
 import 'package:club_atlhetica/layers/infra/datadource/round_datasource.dart';
 import 'package:club_atlhetica/layers/infra/datadource/team_datasource.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
+import 'package:club_atlhetica/layers/service/database/db.dart';
 import 'package:club_atlhetica/layers/service/repository/statistic_teams_api.dart';
 import 'package:club_atlhetica/layers/use_cases/get_round.dart';
 import 'package:club_atlhetica/layers/use_cases/get_statistic_teams.dart';
 import 'package:get/get.dart';
+import 'package:sqflite/sqflite.dart';
 
 import '../../layers/service/repository/round_api.dart';
 import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
-  final http.Client client = http.Client();
+  final http.Client client;
+  final IRepository repository;
+
+  HomeController({required this.client, required this.repository});
 
   Future<List<TeamStatistic>> statisticsTeam()async{
-    TeamDataSource statisticTeamsApi = GetStatisticTeamsApi(client: client);
-    RoundDataSource roundDataSource = GetRoundApi(client: client);
-    IRepository teamStatisticRepository = Repository(teamDataSource: statisticTeamsApi, roundDataSource: roundDataSource);
-    GetStatisticTeams statisticTeams = GetStatisticTeams(teamStatisticRepository);
+    GetStatisticTeams statisticTeams = GetStatisticTeams(repository);
     List<Round> round = await getRound();
     List<Round> roundReverse = List.from(round.reversed);
     List<TeamStatistic> statistics = [];
     var random = Random();
-        
+    print(roundReverse);
     for (var i = 0; i < roundReverse.length; i++) {
       final date = roundReverse[i].date;
       DateTime now = DateTime.parse(date.toString());
@@ -36,6 +38,7 @@ class HomeController extends GetxController {
       if(now.hour != 0 && now.month >= nowDay.month && roundReverse[i].nextGames == null){
         List<TeamStatistic> list = await statisticTeams.execute(roundReverse[i].idHome, roundReverse[i].idAway);
         statistics.addAll(list);
+        print(statistics.length);
         i = roundReverse.length;
         return statistics;
       }
@@ -45,9 +48,7 @@ class HomeController extends GetxController {
   }
 
   Future<List<Round>> getRound() async {
-    RoundDataSource roundDataSource = GetRoundApi(client: client);
-    IRepository repository = Repository(roundDataSource: roundDataSource);
-    var getRoundVar = GetRound(repository: repository);
+    GetRound getRoundVar = GetRound(repository: repository);
     List<Round> round = await getRoundVar.execute();
     return round;
   }
