@@ -37,8 +37,8 @@ void main() {
    final statistic = Statistic(1,1,1,1,1,1,1,1,1,1,'',1,1,1,1,1,'');
    when(repository.getStatisticTeam(131, 121)).thenAnswer((_) async => List<TeamStatistic>.from([TeamStatistic(131, 121, 1, 1, statistic, statistic)]));
    HomeController homeController = HomeController(client: client, repository: repository);
-   List<TeamStatistic> home = await homeController.statisticsTeam();
-   expect(home, isA<List<TeamStatistic>>());
+   int home = await homeController.statisticsTeam();
+   expect(home, isA<int>());
   });
     
   test('get Rounds', ()async{

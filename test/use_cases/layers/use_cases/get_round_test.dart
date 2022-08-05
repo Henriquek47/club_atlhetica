@@ -18,7 +18,7 @@ import 'get_round_test.mocks.dart';
 void main() async {
   when(getRound.execute()).thenAnswer((_) async => List<Round>.from([]));
   final result = await getRound.execute();
-  test('Get id team', ()async{
+  test('Verificar o tipo do retorno', ()async{
     expect(result, isA<List<Round>>());
   });
 }

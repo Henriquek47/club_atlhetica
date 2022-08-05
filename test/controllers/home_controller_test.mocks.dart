@@ -6,8 +6,8 @@ import 'dart:async' as _i5;
 import 'dart:convert' as _i6;
 import 'dart:typed_data' as _i7;
 
-import 'package:club_atlhetica/layers/entities/round.dart' as _i10;
-import 'package:club_atlhetica/layers/entities/team.dart' as _i11;
+import 'package:club_atlhetica/layers/entities/round.dart' as _i11;
+import 'package:club_atlhetica/layers/entities/team.dart' as _i10;
 import 'package:club_atlhetica/layers/infra/repository/repository.dart' as _i9;
 import 'package:http/src/base_request.dart' as _i8;
 import 'package:http/src/client.dart' as _i4;
@@ -119,19 +119,15 @@ class MockIRepository extends _i1.Mock implements _i9.IRepository {
   }
 
   @override
-  set listRounds(List<_i10.Round>? _listRounds) =>
-      super.noSuchMethod(Invocation.setter(#listRounds, _listRounds),
-          returnValueForMissingStub: null);
-  @override
-  _i5.Future<List<_i11.TeamStatistic>> getStatisticTeam(
+  _i5.Future<List<_i10.TeamStatistic>> getStatisticTeam(
           int? idTeamHome, int? idTeamAway) =>
       (super.noSuchMethod(
           Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway]),
-          returnValue: Future<List<_i11.TeamStatistic>>.value(
-              <_i11.TeamStatistic>[])) as _i5.Future<List<_i11.TeamStatistic>>);
+          returnValue: Future<List<_i10.TeamStatistic>>.value(
+              <_i10.TeamStatistic>[])) as _i5.Future<List<_i10.TeamStatistic>>);
   @override
-  _i5.Future<List<_i10.Round>> getRounds() =>
+  _i5.Future<List<_i11.Round>> getRounds() =>
       (super.noSuchMethod(Invocation.method(#getRounds, []),
-              returnValue: Future<List<_i10.Round>>.value(<_i10.Round>[]))
-          as _i5.Future<List<_i10.Round>>);
+              returnValue: Future<List<_i11.Round>>.value(<_i11.Round>[]))
+          as _i5.Future<List<_i11.Round>>);
 }

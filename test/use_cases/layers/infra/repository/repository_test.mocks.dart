@@ -6,6 +6,11 @@ import 'dart:async' as _i5;
 import 'dart:convert' as _i6;
 import 'dart:typed_data' as _i7;
 
+import 'package:club_atlhetica/layers/entities/round.dart' as _i11;
+import 'package:club_atlhetica/layers/entities/team.dart' as _i10;
+import 'package:club_atlhetica/layers/infra/datadource/team_datasource.dart'
+    as _i12;
+import 'package:club_atlhetica/layers/infra/repository/repository.dart' as _i9;
 import 'package:http/src/base_request.dart' as _i8;
 import 'package:http/src/client.dart' as _i4;
 import 'package:http/src/response.dart' as _i2;
@@ -105,4 +110,48 @@ class MockClient extends _i1.Mock implements _i4.Client {
   @override
   void close() => super.noSuchMethod(Invocation.method(#close, []),
       returnValueForMissingStub: null);
+}
+
+/// A class which mocks [IRepository].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockIRepository extends _i1.Mock implements _i9.IRepository {
+  MockIRepository() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<List<_i10.TeamStatistic>> getStatisticTeam(
+          int? idTeamHome, int? idTeamAway) =>
+      (super.noSuchMethod(
+          Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway]),
+          returnValue: Future<List<_i10.TeamStatistic>>.value(
+              <_i10.TeamStatistic>[])) as _i5.Future<List<_i10.TeamStatistic>>);
+  @override
+  _i5.Future<List<_i11.Round>> getRounds() =>
+      (super.noSuchMethod(Invocation.method(#getRounds, []),
+              returnValue: Future<List<_i11.Round>>.value(<_i11.Round>[]))
+          as _i5.Future<List<_i11.Round>>);
+}
+
+/// A class which mocks [TeamDataSource].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockTeamDataSource extends _i1.Mock implements _i12.TeamDataSource {
+  MockTeamDataSource() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<Map<dynamic, dynamic>> last10RoundsTeam(int? idTeam) =>
+      (super.noSuchMethod(Invocation.method(#last10RoundsTeam, [idTeam]),
+              returnValue:
+                  Future<Map<dynamic, dynamic>>.value(<dynamic, dynamic>{}))
+          as _i5.Future<Map<dynamic, dynamic>>);
+  @override
+  _i5.Future<Map<dynamic, dynamic>> statisticRound(List<int>? ids) =>
+      (super.noSuchMethod(Invocation.method(#statisticRound, [ids]),
+              returnValue:
+                  Future<Map<dynamic, dynamic>>.value(<dynamic, dynamic>{}))
+          as _i5.Future<Map<dynamic, dynamic>>);
 }

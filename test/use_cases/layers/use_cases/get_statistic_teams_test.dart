@@ -18,7 +18,7 @@ void main() async {
   final statistic = Statistic(1,1,1,1,1,1,1,1,1,1,'',1,1,1,1,1,'');
   when(getTeams.execute(125, 125)).thenAnswer((_) async => List<TeamStatistic>.from([TeamStatistic(1, 1, 1, 1, statistic, statistic)]));
   final result = await getTeams.execute(125, 125);
-  test('Get id team', ()async{
+  test('Verificar o tipo do retorno', ()async{
     expect(result, isA<List<TeamStatistic>>());
   });
 }

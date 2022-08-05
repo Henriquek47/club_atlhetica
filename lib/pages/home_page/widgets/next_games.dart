@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 
 class NextGames extends GetView<HomeController> {
   const NextGames({Key? key}) : super(key: key);
-
+  
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<List<Round>>(

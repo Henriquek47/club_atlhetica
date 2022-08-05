@@ -4,6 +4,7 @@ import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/infra/adapter/round_adapter.dart';
 import 'package:club_atlhetica/layers/infra/adapter/team_adapter.dart';
 import 'package:club_atlhetica/layers/infra/datadource/round_datasource.dart';
+import 'package:club_atlhetica/layers/service/database/db.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../entities/team.dart';
@@ -58,6 +59,7 @@ class Repository extends IRepository{
   
   @override
   Future<List<Round>> getRounds()async{
+    db = await DB.instance.database;
     List rounds = await db!.query('round');
     String allRound = '';
     if(rounds.isEmpty){
@@ -70,7 +72,6 @@ class Repository extends IRepository{
     String response = await rounds.first['response'];
     var body = jsonDecode(response);
     List list = body['response'];
-    print(list);
     List<Round> listRounds = list.map((e) => RoundAdapter.fromJson(e)).toList();
     //final date = round[id].date;
    // DateTime now = DateTime.parse(date.toString());
