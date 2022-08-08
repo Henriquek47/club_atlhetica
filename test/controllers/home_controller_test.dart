@@ -1,7 +1,6 @@
 import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/entities/team.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
-import 'package:club_atlhetica/layers/service/repository/round_api.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:flutter_test/flutter_test.dart';

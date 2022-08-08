@@ -54,16 +54,16 @@ void main()async{
     var db = await openDatabase(inMemoryDatabasePath, version: 2,
         onCreate: (db, version) async {
       await db
-          .execute('CREATE TABLE round (id INTEGER PRIMARY KEY, response TEXT)');
+          .execute('CREATE TABLE round (id INTEGER PRIMARY KEY, response TEXT, day INTEGER, month INTEGER)');
     });
+    await db.insert('round', {'response': nextRounds, 'day': dateTime.day, 'month': dateTime.month});
     // Insert some data
     
     when(client.get(Uri.parse(roundsUrl), headers: headers)).thenAnswer((_) async => http.Response(nextRounds, 200));
     final repository = Repository(db: db, roundDataSource: GetRoundApi(client: client));
     List<Round> list = await repository.getRounds();
-    expect(await db.query('round'), [
-      {'id': 1, 'response': nextRounds}
-    ]);
+    List dbList = await db.query('round');
+    expect(dbList.first['response'], nextRounds);
     expect(list.first.id, 837991);
     await db.close();
   });

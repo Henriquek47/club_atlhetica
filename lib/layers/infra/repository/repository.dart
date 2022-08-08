@@ -5,6 +5,7 @@ import 'package:club_atlhetica/layers/infra/adapter/round_adapter.dart';
 import 'package:club_atlhetica/layers/infra/adapter/team_adapter.dart';
 import 'package:club_atlhetica/layers/infra/datadource/round_datasource.dart';
 import 'package:club_atlhetica/layers/service/database/db.dart';
+import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../entities/team.dart';
@@ -57,25 +58,24 @@ class Repository extends IRepository{
   }
   }
   
-  @override
+   @override
   Future<List<Round>> getRounds()async{
     db = await DB.instance.database;
     List rounds = await db!.query('round');
     String allRound = '';
-    if(rounds.isEmpty){
-      print("AQUI");
-      allRound = await roundDataSource!.getApi();
-      await db!.insert('round', {'response': allRound});
-      rounds = await db!.query('round');
+    if(rounds.isEmpty || rounds.first['day'] == null || dateTime.day < rounds.first['day'] && dateTime.month < rounds.first['month'] ){
+        print("AQUI");
+        allRound = await roundDataSource!.getApi();
+        await db!.update('round', {'response': allRound});
+        await db!.update('round', {'day': dateTime.day});
+        await db!.update('round', {'month': dateTime.month});
+        rounds = await db!.query('round');
     }
 
     String response = await rounds.first['response'];
     var body = jsonDecode(response);
     List list = body['response'];
     List<Round> listRounds = list.map((e) => RoundAdapter.fromJson(e)).toList();
-    //final date = round[id].date;
-   // DateTime now = DateTime.parse(date.toString());
-    //bool fisnishOrProgress = finishedOrInProgress(now, dateTime);
     return listRounds;
   }  
 }

@@ -12,7 +12,6 @@ class NextGames extends GetView<HomeController> {
       future: controller.getRound(),
       builder: (context, snapshot){
         if(snapshot.hasData){
-          print(controller.statisticsTeam());
                 return Container(
                   color: Colors.transparent,
                   height: Get.height * 0.6,

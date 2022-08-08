@@ -19,7 +19,7 @@ class DB{
   _initDatabase() async {
     return await openDatabase(
       join(await getDatabasesPath(), 'atlhetica.db'),
-      version: 1,
+      version: 2,
       onCreate:  _onCreate,
     );
   }
@@ -32,7 +32,9 @@ class DB{
   String get _responseAllRounds => '''
   CREATE TABLE round (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    response TEXT
+    response TEXT,
+    day INTEGER,
+    month INTEGER
   )
 ''';
 
