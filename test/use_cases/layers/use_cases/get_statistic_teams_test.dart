@@ -13,13 +13,16 @@ import 'get_statistic_teams_test.mocks.dart';
 
 
   final client = MockIRepository();
-  final getTeams = TeamWinner(client);
+  final team_winner= TeamWinner(client);
 
 void main() async {
-  when(getTeams.execute()).thenAnswer((_) async => 0);
-  when(client.getRounds()).thenAnswer((_) async => List<Round>.from([]));
-  final result = await getTeams.execute();
+  when(client.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null)]));
+  Statistic statistic = Statistic(1,1,1,1,1,1,1,1,1,1,'',1,1,1,1,1,'');
+  TeamStatistic teamStatistic = TeamStatistic(1, 1, 1, 0, statistic, statistic);
+  when(client.getStatisticTeam(1, 1)).thenAnswer((_) async => List<TeamStatistic>.from([teamStatistic, teamStatistic, teamStatistic, teamStatistic]));
+  final result = await team_winner.execute();
   test('Verificar o tipo do retorno', ()async{
     expect(result, isA<int>());
+    expect(result, equals(0));
   });
 }

@@ -14,11 +14,6 @@ class GetRoundApi extends RoundDataSource{
     http.Response response =
         await client.get(Uri.parse(roundsUrl), headers: headers);
     if (response.statusCode == 200) {
-      var body = jsonDecode(response.body);
-      List allRound = body['response'];
-      print('round');
-      //final date = round[id!].fixture?.date;
-      //DateTime now = DateTime.parse(date.toString());
       return response.body;
     } else {
       return Exception('Falha ao tentar conexão');

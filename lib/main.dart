@@ -16,7 +16,7 @@ void main()async{
   await Workmanager().registerPeriodicTask(
     "5",
     'fetchBackground',
-    frequency: const Duration(minutes: 20),
+    frequency: const Duration(minutes: 15),
     constraints: Constraints(
       networkType: NetworkType.connected,
     ),

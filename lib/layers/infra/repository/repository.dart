@@ -32,7 +32,7 @@ class Repository extends IRepository{
   @override
   getStatisticTeam(int? idTeamHome, int? idTeamAway)async{
     List roundTeamLast = [];
-  for(int i=0; i<1; i++){
+  for(int i=0; i<2; i++){
     if(i==0){
       Map teamRoundHome = await teamDataSource!.last10RoundsTeam(idTeamHome);
       roundTeamLast.add(teamRoundHome);
@@ -43,13 +43,13 @@ class Repository extends IRepository{
   }
 
   List<int> fixture = [];
-  for(int j=0; j<1; j++){
-    for (var i = 0; i < 10; i++) {
+  for(int j=0; j<2; j++){
+    for (var i = 0; i < 3; i++) {
       fixture.add(roundTeamLast[j]['response'][i]['fixture']['id']);
     }
   }
   Map teamStatisticResponse =  await teamDataSource!.statisticRound(fixture);
-  List results = teamStatisticResponse['response'];
+  List results = teamStatisticResponse['response'];//tem dois responses
   if(fixture.length > 1){
   List<TeamStatistic> teamStatistic = results.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
     return teamStatistic;
@@ -66,10 +66,14 @@ class Repository extends IRepository{
     if(rounds.isEmpty || rounds.first['day'] == null || dateTime.day < rounds.first['day'] && dateTime.month < rounds.first['month'] ){
         print("AQUI");
         allRound = await roundDataSource!.getApi();
-        await db!.update('round', {'response': allRound});
-        await db!.update('round', {'day': dateTime.day});
-        await db!.update('round', {'month': dateTime.month});
+        if(rounds.isEmpty){
+          await db!.insert('round', {'response': allRound, 'month': dateTime.month, 'day': dateTime.day});
+        }else{
+          await db!.update('round', {'response': allRound, 'month': dateTime.month, 'day': dateTime.day});
+        }
+        print('oi');
         rounds = await db!.query('round');
+        print('oi2');
     }
 
     String response = await rounds.first['response'];

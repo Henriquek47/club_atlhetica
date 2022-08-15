@@ -1,4 +1,3 @@
-import 'package:club_atlhetica/layers/entities/team.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/repository/round_api.dart';
 import 'package:club_atlhetica/layers/service/repository/statistic_teams_api.dart';
@@ -14,7 +13,7 @@ import 'package:http/http.dart' as http;
       print('teste');
       HomeController homeController = HomeController(client: http.Client(), repository: Repository(roundDataSource: GetRoundApi(client: http.Client()), teamDataSource: GetStatisticTeamsApi(client: http.Client())));
       int statistic = await homeController.statisticsTeam();
-      print('aquuiiiiii $statistic');
+      //print('aquuiiiiii $statistic');
       if(statistic == 0){
         NotifcationServirce notifcationServirce = NotifcationServirce();
         notifcationServirce.showNotification(CustomNotification(id: 1, title: 'home', body: 'acesse', payload: 'aaaa'));
@@ -27,6 +26,7 @@ import 'package:http/http.dart' as http;
       }
         break;
     }
+    print('testefail');
     return Future.value(true);
   });
 }

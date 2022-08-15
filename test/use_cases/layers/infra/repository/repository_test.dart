@@ -44,7 +44,7 @@ void main()async{
     when(client.get(Uri.parse(setUrlTeams(131)), headers: headers)).thenAnswer((_) async => http.Response(last10RoundsOfTeam, 200));
     when(repositoryMock.getRounds()).thenAnswer((_) async => List<Round>.from([]));
     final repository = Repository(teamDataSource: GetStatisticTeamsApi(client: client));
-    List<TeamStatistic> list = await repository.getStatisticTeam(131, 121);
+    List<TeamStatistic> list = await repository.getStatisticTeam(131, 131);
 
     expect(list.first.goalsHome, equals(1));
 

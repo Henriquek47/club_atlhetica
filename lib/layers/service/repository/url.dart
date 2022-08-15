@@ -18,7 +18,7 @@
     return url;
   }
 
-  final String roundsUrl = 'https://v3.football.api-sports.io//fixtures?league=71&season=$actualYear&to=$actualYear-${lastDay>30 ? monthNext <= 9 ? '0'+ monthNext.toString() : monthNext : actualMonth}-${lastDay <= 9 ? lastDay.toString().padLeft(2, '0') : lastDay}&from=$actualYear-01-01';
+  final String roundsUrl = 'https://v3.football.api-sports.io//fixtures?league=71&season=$actualYear&to=$actualYear-${lastDay>30 ? monthNext <= 9 ? '0'+ monthNext.toString() : monthNext : actualMonth}-${lastDay <= 9 ? lastDay.toString().padLeft(2, '0') : lastDay}&from=$actualYear-05-01';
   //Brasileirão------------------------------------------------------------------------------------------------------------
 
   const headers = {

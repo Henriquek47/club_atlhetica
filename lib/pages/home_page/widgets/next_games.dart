@@ -58,7 +58,7 @@ class NextGames extends GetView<HomeController> {
         const SizedBox(height: 10),
         Column(
           children:  [
-          GestureDetector(child: Text('Aposta', style: TextStyle(fontSize: 17)),),
+          GestureDetector(child: const Text('Aposta', style: TextStyle(fontSize: 17)),),
           SizedBox(height: 10,),
           Text('Cor-Hand.FT 0.0', style: TextStyle(fontSize: 17),),
           SizedBox(height: 10,),
