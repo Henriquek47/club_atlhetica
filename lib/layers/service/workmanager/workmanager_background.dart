@@ -19,6 +19,7 @@ import 'package:http/http.dart' as http;
         notifcationServirce.showNotification(CustomNotification(id: 1, title: 'home', body: 'acesse', payload: 'aaaa'));
       }else if(statistic == 1){
         NotifcationServirce notifcationServirce = NotifcationServirce();
+        print('aqui away');
         notifcationServirce.showNotification(CustomNotification(id: 1, title: 'away', body: 'acesse', payload: 'aaaa'));
       }else{
         NotifcationServirce notifcationServirce = NotifcationServirce();

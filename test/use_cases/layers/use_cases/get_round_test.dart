@@ -16,9 +16,16 @@ import 'get_round_test.mocks.dart';
   final getRound = GetRound(repository: client);
 
 void main() async {
-  when(getRound.execute()).thenAnswer((_) async => List<Round>.from([]));
-  final result = await getRound.execute();
-  test('Verificar o tipo do retorno', ()async{
-    expect(result, isA<List<Round>>());
+  when(client.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null), Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,1)]));
+  List<Round> nextRounds = await getRound.nextRounds();
+  List<Round> allRounds = await getRound.allRounds();
+  test('Retornar round que nao aconteceram na lista', ()async{
+    expect(nextRounds.length, equals(1));
+    expect(nextRounds, isA<List<Round>>());
+  });
+
+  test('retornar todos os rounds', ()async{
+    expect(allRounds, isA<List<Round>>());
+    expect(allRounds.length, equals(2));
   });
 }

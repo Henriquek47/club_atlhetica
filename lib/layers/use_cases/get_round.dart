@@ -1,3 +1,4 @@
+import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
 
 class GetRound{
@@ -5,7 +6,14 @@ class GetRound{
 
   GetRound({this.repository});
 
-  execute()async{
+  nextRounds()async{
+    List<Round> round = await repository!.getRounds();
+        List<Round> nextRounds = round.where((element) => element.nextGames == null).toList();
+        print(nextRounds.length);
+        return nextRounds;
+  }
+
+  allRounds()async{
     return await repository!.getRounds();
   }
 
