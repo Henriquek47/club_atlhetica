@@ -8,6 +8,7 @@ class Round{
   int? idHome;
   int? idAway;
   int? nextGames;
+  bool? notification;
 
-  Round(this.id, this.date, this.nameHome, this.imageHome, this.nameAway, this.imageAway, this.idHome, this.idAway, this.nextGames);
+  Round(this.id, this.date, this.nameHome, this.imageHome, this.nameAway, this.imageAway, this.idHome, this.idAway, this.nextGames, this.notification);
 }

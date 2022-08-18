@@ -9,6 +9,7 @@ import 'dart:typed_data' as _i7;
 import 'package:club_atlhetica/layers/entities/round.dart' as _i11;
 import 'package:club_atlhetica/layers/entities/team.dart' as _i10;
 import 'package:club_atlhetica/layers/infra/repository/repository.dart' as _i9;
+import 'package:club_atlhetica/layers/use_cases/team_winner.dart' as _i12;
 import 'package:http/src/base_request.dart' as _i8;
 import 'package:http/src/client.dart' as _i4;
 import 'package:http/src/response.dart' as _i2;
@@ -120,9 +121,9 @@ class MockIRepository extends _i1.Mock implements _i9.IRepository {
 
   @override
   _i5.Future<List<_i10.TeamStatistic>> getStatisticTeam(
-          int? idTeamHome, int? idTeamAway) =>
+          int? idTeamHome, int? idTeamAway, int? index) =>
       (super.noSuchMethod(
-          Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway]),
+          Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway, index]),
           returnValue: Future<List<_i10.TeamStatistic>>.value(
               <_i10.TeamStatistic>[])) as _i5.Future<List<_i10.TeamStatistic>>);
   @override
@@ -130,4 +131,18 @@ class MockIRepository extends _i1.Mock implements _i9.IRepository {
       (super.noSuchMethod(Invocation.method(#getRounds, []),
               returnValue: Future<List<_i11.Round>>.value(<_i11.Round>[]))
           as _i5.Future<List<_i11.Round>>);
+}
+
+/// A class which mocks [ITeamWinner].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockITeamWinner extends _i1.Mock implements _i12.ITeamWinner {
+  MockITeamWinner() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i5.Future<int> execute() =>
+      (super.noSuchMethod(Invocation.method(#execute, []),
+          returnValue: Future<int>.value(0)) as _i5.Future<int>);
 }

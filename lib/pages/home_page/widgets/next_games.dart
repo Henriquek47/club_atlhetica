@@ -11,6 +11,7 @@ class NextGames extends GetView<HomeController> {
     return FutureBuilder<List<Round>>(
       future: controller.getRound(),
       builder: (context, snapshot){
+        print('testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee ${controller.statisticsTeam()}');
         if(snapshot.hasData){
                 return Container(
                   color: Colors.transparent,

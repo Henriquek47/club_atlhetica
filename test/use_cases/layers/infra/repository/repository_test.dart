@@ -39,15 +39,20 @@ void main()async{
   });
   
   test('Verificar se o retorno está acontecendo', () async {
-
+    var db = await openDatabase(inMemoryDatabasePath, version: 3,
+        onCreate: (db, version) async {
+      await db
+          .execute('CREATE TABLE round (id INTEGER PRIMARY KEY, response TEXT, day INTEGER, month INTEGER)');
+    });
+    await db.insert('round', {'response': nextRounds, 'day': dateTime.day, 'month': dateTime.month});
     when(client.get(Uri.parse(setUrlTeamsStatistic([838131,838122])), headers: headers)).thenAnswer((_) async => http.Response(teamStatisticBody, 200));
     when(client.get(Uri.parse(setUrlTeams(131)), headers: headers)).thenAnswer((_) async => http.Response(last10RoundsOfTeam, 200));
     when(repositoryMock.getRounds()).thenAnswer((_) async => List<Round>.from([]));
-    final repository = Repository(teamDataSource: GetStatisticTeamsApi(client: client));
-    List<TeamStatistic> list = await repository.getStatisticTeam(131, 131);
+    final repository = Repository(teamDataSource: GetStatisticTeamsApi(client: client), db: db);
+    List<TeamStatistic> list = await repository.getStatisticTeam(131, 131, 0);
 
     expect(list.first.goalsHome, equals(1));
-
+    await db.close();
   });
     
   test('Verificar se a resposta do banco de dados esta vindo correta', ()async{

@@ -9,7 +9,6 @@ class GetRound{
   nextRounds()async{
     List<Round> round = await repository!.getRounds();
         List<Round> nextRounds = round.where((element) => element.nextGames == null).toList();
-        print(nextRounds.length);
         return nextRounds;
   }
 

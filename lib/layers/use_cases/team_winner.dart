@@ -16,8 +16,9 @@ class TeamWinner implements ITeamWinner{
   execute()async{
     List<Round> round = await repository.getRounds();
     for (var i = 0; i < round.length; i++) {
-      if(round[i].nextGames == null){
-        List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway);
+      print(round[i].notification);
+      if(round[i].nextGames == null && round[i].notification == false){
+        List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway, i);
           if(statistic[0].goalsHome! > statistic[1].goalsAway!){
             return 0;
           }else{

@@ -16,10 +16,10 @@ import 'get_statistic_teams_test.mocks.dart';
   final team_winner= TeamWinner(client);
 
 void main() async {
-  when(client.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null)]));
+  when(client.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false)]));
   Statistic statistic = Statistic(1,1,1,1,1,1,1,1,1,1,'',1,1,1,1,1,'');
   TeamStatistic teamStatistic = TeamStatistic(1, 1, 1, 0, statistic, statistic);
-  when(client.getStatisticTeam(1, 1)).thenAnswer((_) async => List<TeamStatistic>.from([teamStatistic, teamStatistic, teamStatistic, teamStatistic]));
+  when(client.getStatisticTeam(1, 1, 0)).thenAnswer((_) async => List<TeamStatistic>.from([teamStatistic, teamStatistic, teamStatistic, teamStatistic]));
   final result = await team_winner.execute();
   test('Verificar o tipo do retorno', ()async{
     expect(result, isA<int>());

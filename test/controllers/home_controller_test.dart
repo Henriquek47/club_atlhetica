@@ -2,6 +2,7 @@ import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/entities/team.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
+import 'package:club_atlhetica/layers/use_cases/team_winner.dart';
 import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
@@ -16,6 +17,8 @@ import 'home_controller_test.mocks.dart';
 
 @GenerateMocks([http.Client])
 @GenerateMocks([IRepository])
+@GenerateMocks([ITeamWinner])
+
 void main() {
   TestWidgetsFlutterBinding.ensureInitialized();
 
@@ -32,9 +35,9 @@ void main() {
   test('get winner', ()async{
    when(client.get(Uri.parse(setUrlTeamsStatistic([1,2,3,4,5,6,7,8,9,10,11])), headers: headers)).thenAnswer((_) async => http.Response(teamStatisticBody, 200));
    when(client.get(Uri.parse(setUrlTeams(125)), headers: headers)).thenAnswer((_) async => http.Response(last10RoundsOfTeam, 200));
-   when(repository.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-08-13T22:00:00+00:00', 'Sport', '', 'São Paulo', '', 131, 121, null)]));
+   when(repository.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-08-13T22:00:00+00:00', 'Sport', '', 'São Paulo', '', 131, 121, null, false)]));
    final statistic = Statistic(1,1,1,1,1,1,1,1,1,1,'',1,1,1,1,1,'');
-   when(repository.getStatisticTeam(131, 121)).thenAnswer((_) async => List<TeamStatistic>.from([TeamStatistic(131, 121, 1, 1, statistic, statistic)]));
+   when(repository.getStatisticTeam(131, 121, 0)).thenAnswer((_) async => List<TeamStatistic>.from([TeamStatistic(131, 121, 1, 1, statistic, statistic), TeamStatistic(131, 121, 1, 1, statistic, statistic)]));
    HomeController homeController = HomeController(client: client, repository: repository);
    int home = await homeController.statisticsTeam();
    expect(home, isA<int>());
