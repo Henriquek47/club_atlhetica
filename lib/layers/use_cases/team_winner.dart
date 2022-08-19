@@ -19,13 +19,25 @@ class TeamWinner implements ITeamWinner{
       print(round[i].notification);
       if(round[i].nextGames == null && round[i].notification == false){
         List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway, i);
-          if(statistic[0].goalsHome! > statistic[1].goalsAway!){
-            return 0;
-          }else{
-            return 1;
+          if(round[i].idHome == statistic[0].idHome && round[i].idAway == statistic[1].idAway){
+            return winnerFunc(statistic[0].goalsHome, statistic[1].goalsAway);
+          }else if(round[i].idHome == statistic[0].idAway && round[i].idAway == statistic[1].idHome){
+            return winnerFunc(statistic[0].goalsAway, statistic[1].goalsHome);
+          }else if(round[i].idHome == statistic[0].idAway && round[i].idAway == statistic[1].idAway){
+            return winnerFunc(statistic[0].goalsAway, statistic[1].goalsAway);
+          }else if(round[i].idHome == statistic[0].idHome && round[i].idAway == statistic[1].idHome){
+            return winnerFunc(statistic[0].goalsHome, statistic[1].goalsHome);
           }
       }
     }
     return 5;
+  }
+
+  int winnerFunc(goalsHome, goalsAway){
+    if(goalsHome > goalsAway){
+            return 0;
+          }else{
+            return 1;
+          }
   }
 }
