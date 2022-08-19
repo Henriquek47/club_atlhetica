@@ -16,8 +16,7 @@
   String setUrlTeamsStatistic(List<int> ids){
       String idsFixtures = ids.toString();
       String idsFormat = idsFixtures.replaceAll(',', '-').replaceAll(' ', '');
-      print(idsFormat);
-      final String url = 'https://v3.football.api-sports.io/fixtures?ids=${ids[0]}-${ids[1]}';
+      final String url = 'https://v3.football.api-sports.io/fixtures?ids=$idsFormat';
     return url;
   }
 
