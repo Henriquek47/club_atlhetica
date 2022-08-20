@@ -49,9 +49,8 @@ void main()async{
     when(client.get(Uri.parse(setUrlTeams(131)), headers: headers)).thenAnswer((_) async => http.Response(last10RoundsOfTeam, 200));
     when(repositoryMock.getRounds()).thenAnswer((_) async => List<Round>.from([]));
     final repository = Repository(teamDataSource: GetStatisticTeamsApi(client: client), db: db);
-    List<TeamStatistic> list = await repository.getStatisticTeam(131, 131, 0);
-
-    expect(list.first.goalsHome, equals(1));
+    List<TeamStatistic> list = await repository.getStatisticTeam(131, 131, 0);//O for tem que ser mudado para menor que 3 para o teste funcionar
+    expect(list.first.goalsHome, equals(1));                                  //corrigir esse erro
     await db.close();
   });
     
@@ -73,4 +72,20 @@ void main()async{
     await db.close();
   });
 
+  test('Atualizar banco de dados', ()async{
+    var db = await openDatabase(inMemoryDatabasePath, version: 2,
+        onCreate: (db, version) async {
+      await db
+          .execute('CREATE TABLE round (id INTEGER PRIMARY KEY, response TEXT, day INTEGER, month INTEGER)');
+    });
+    await db.insert('round', {'response': nextRounds, 'day': dateTime.day, 'month': dateTime.month});
+    // Insert some data
+    when(client.get(Uri.parse(roundsUrl), headers: headers)).thenAnswer((_) async => http.Response(nextRounds, 200));
+    when(repositoryMock.getRounds()).thenAnswer((_) async => List<Round>.from([]));
+    final repository = Repository(db: db, roundDataSource: GetRoundApi(client: client));
+    List<Round> list = await repository.updateData(0, 'Corinthians');// o random tem que ser mudado para o num 1 para o teste funcionar
+    List dbList = await db.query('round');                           // corrigir esse erro
+    await db.close();
+  });
+    
 }

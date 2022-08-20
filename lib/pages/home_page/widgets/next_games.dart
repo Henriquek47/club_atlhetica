@@ -40,10 +40,12 @@ class NextGames extends GetView<HomeController> {
               child: Text(snapshot.data![index].nameHome.toString(), textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12),)),
               Container(height: 50, width: 50, color: snapshot.data![index].notification! ? Colors.green : Colors.red)
         ]),
-            Column(children: const [
-              Text('Data do jogo'),
-              SizedBox(height: 5,),
-              Text('22/05', style: TextStyle(fontSize: 20),),
+            Column(children: [
+              const Text('Data do jogo'),
+              const SizedBox(height: 5,),
+              const Text('22/05', style: TextStyle(fontSize: 20),),
+              const SizedBox(height: 5,),
+              Text('Provavel vencedor\n${snapshot.data![index].winner}', textAlign: TextAlign.center,style: TextStyle(fontSize: 12),),
             ]),
             Column(
               children: [

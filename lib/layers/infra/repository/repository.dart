@@ -15,6 +15,7 @@ import '../datadource/team_datasource.dart';
 abstract class IRepository{
   Future<List<TeamStatistic>> getStatisticTeam(int? idTeamHome, int? idTeamAway, int index);
   Future<List<Round>> getRounds();
+  Future<List<Round>> updateData(int index, String winner);
 }
 
 class Repository extends IRepository{
@@ -32,7 +33,6 @@ class Repository extends IRepository{
   
   @override
   getStatisticTeam(int? idTeamHome, int? idTeamAway, int index)async{
-    db = await DB.instance.database;
     List roundTeamLast = [];
   for(int i=0; i<2; i++){
     if(i==0){
@@ -53,12 +53,6 @@ class Repository extends IRepository{
   List results = teamStatisticResponse['response'];//tem dois responses
   if(fixture.length > 1){
   List<TeamStatistic> teamStatistic = results.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
-    List rounds = await db!.query('round');
-    String response = await rounds.first['response'];
-    final body = jsonDecode(response);
-    body['response'][index]['fixture']['notification'] = true;
-    await db!.update('round', {'response': jsonEncode(body)});
-    rounds = await db!.query('round');
     return teamStatistic;
   }else{
     return [];
@@ -88,9 +82,10 @@ class Repository extends IRepository{
     List list = body['response'];
     var _random = Random().nextInt(100);
     var newBody;
-    if(body['response'][_random]['fixture']['notification'] == null){
+    if(body['response'][_random]['fixture']['notification'] == null || body['response'][_random]['fixture']['winner'] == null){
     for (int i = 0; i<list.length; i++) {
       body['response'][i]['fixture']['notification'] = false;
+      body['response'][i]['fixture']['winner'] = 'Empate';
       newBody = body;
     }
      await db!.update('round', {'response': jsonEncode(newBody)});
@@ -98,5 +93,26 @@ class Repository extends IRepository{
     rounds = await db!.query('round');
     List<Round> listRounds = list.map((e) => RoundAdapter.fromJson(e)).toList();
     return listRounds;
+  }
+  
+  @override
+  Future<List<Round>> updateData(int index, String winner)async{
+    db = await DB.instance.database;
+    List rounds = await db!.query('round');
+    String response = await rounds.first['response'];
+    final body = jsonDecode(response);
+    var _random = Random().nextInt(100);
+    if(rounds.isEmpty || body['response'][_random]['fixture']['notification'] == null || body['response'][_random]['fixture']['winner'] == null){
+      return await getRounds();
+    }else{
+      List list = body['response'];
+      body['response'][index]['fixture']['notification'] = true;
+      body['response'][index]['fixture']['winner'] = winner;
+      await db!.update('round', {'response': jsonEncode(body)});
+      rounds = await db!.query('round');
+      print(list);
+      List<Round> listRounds = list.map((e) => RoundAdapter.fromJson(e)).toList();
+      return listRounds;
+   }
   }  
 }

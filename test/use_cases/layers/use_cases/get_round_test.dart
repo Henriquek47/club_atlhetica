@@ -16,7 +16,7 @@ import 'get_round_test.mocks.dart';
   final getRound = GetRound(repository: client);
 
 void main() async {
-  when(client.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false), Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,1, false)]));
+  when(client.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false, ''), Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,1, false, '')]));
   List<Round> nextRounds = await getRound.nextRounds();
   List<Round> allRounds = await getRound.allRounds();
   test('Retornar round que nao aconteceram na lista', ()async{

@@ -9,6 +9,7 @@ class Round{
   int? idAway;
   int? nextGames;
   bool? notification;
+  String? winner;
 
-  Round(this.id, this.date, this.nameHome, this.imageHome, this.nameAway, this.imageAway, this.idHome, this.idAway, this.nextGames, this.notification);
+  Round(this.id, this.date, this.nameHome, this.imageHome, this.nameAway, this.imageAway, this.idHome, this.idAway, this.nextGames, this.notification, this.winner);
 }
