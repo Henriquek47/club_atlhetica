@@ -17,7 +17,7 @@ class HomePage extends GetView<HomeController> {
           decoration: const BoxDecoration(
             gradient: LinearGradient(
               colors: [
-                Colors.white,
+                Colors.transparent,
                 Colors.transparent
               ],
               begin: Alignment(0, -3),

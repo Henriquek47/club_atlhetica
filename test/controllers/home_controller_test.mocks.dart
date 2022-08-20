@@ -142,7 +142,8 @@ class MockITeamWinner extends _i1.Mock implements _i12.ITeamWinner {
   }
 
   @override
-  _i5.Future<int> execute() =>
+  _i5.Future<List<dynamic>> execute() =>
       (super.noSuchMethod(Invocation.method(#execute, []),
-          returnValue: Future<int>.value(0)) as _i5.Future<int>);
+              returnValue: Future<List<dynamic>>.value(<dynamic>[]))
+          as _i5.Future<List<dynamic>>);
 }

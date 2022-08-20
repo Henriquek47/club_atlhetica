@@ -43,10 +43,9 @@ class Repository extends IRepository{
       roundTeamLast.add(teamRoundAway);
     }
   }
-
   List<int> fixture = [];
   for(int j=0; j<2; j++){
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < 10; i++) {
       fixture.add(roundTeamLast[j]['response'][i]['fixture']['id']);
     }
   }
@@ -90,7 +89,6 @@ class Repository extends IRepository{
     var _random = Random().nextInt(100);
     var newBody;
     if(body['response'][_random]['fixture']['notification'] == null){
-      print("ta entrando aqui????????????????????????????");
     for (int i = 0; i<list.length; i++) {
       body['response'][i]['fixture']['notification'] = false;
       newBody = body;

@@ -45,7 +45,7 @@ void main()async{
           .execute('CREATE TABLE round (id INTEGER PRIMARY KEY, response TEXT, day INTEGER, month INTEGER)');
     });
     await db.insert('round', {'response': nextRounds, 'day': dateTime.day, 'month': dateTime.month});
-    when(client.get(Uri.parse(setUrlTeamsStatistic([838131,838122])), headers: headers)).thenAnswer((_) async => http.Response(teamStatisticBody, 200));
+    when(client.get(Uri.parse(setUrlTeamsStatistic([838131, 838122, 838117, 838131, 838122, 838117])), headers: headers)).thenAnswer((_) async => http.Response(teamStatisticBody, 200));
     when(client.get(Uri.parse(setUrlTeams(131)), headers: headers)).thenAnswer((_) async => http.Response(last10RoundsOfTeam, 200));
     when(repositoryMock.getRounds()).thenAnswer((_) async => List<Round>.from([]));
     final repository = Repository(teamDataSource: GetStatisticTeamsApi(client: client), db: db);

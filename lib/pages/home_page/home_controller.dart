@@ -11,7 +11,7 @@ class HomeController extends GetxController {
 
   HomeController({required this.client, required this.repository});
 
-  Future<int> statisticsTeam()async{
+  Future<List> statisticsTeam()async{
     TeamWinner winner = TeamWinner(repository);
     return await winner.execute();
   }

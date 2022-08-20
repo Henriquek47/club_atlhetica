@@ -11,7 +11,6 @@ class NextGames extends GetView<HomeController> {
     return FutureBuilder<List<Round>>(
       future: controller.getRound(),
       builder: (context, snapshot){
-        print('testeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee ${controller.statisticsTeam()}');
         if(snapshot.hasData){
                 return Container(
                   color: Colors.transparent,
@@ -38,7 +37,8 @@ class NextGames extends GetView<HomeController> {
               alignment: Alignment.center,
               width: Get.width * 0.2,
               color: Colors.transparent,
-              child: Text(snapshot.data![index].nameHome.toString(), textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12),))
+              child: Text(snapshot.data![index].nameHome.toString(), textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12),)),
+              Container(height: 50, width: 50, color: snapshot.data![index].notification! ? Colors.green : Colors.red)
         ]),
             Column(children: const [
               Text('Data do jogo'),

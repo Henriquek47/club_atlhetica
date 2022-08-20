@@ -12,18 +12,20 @@ import 'package:http/http.dart' as http;
       case 'fetchBackground':
       print('teste');
       HomeController homeController = HomeController(client: http.Client(), repository: Repository(roundDataSource: GetRoundApi(client: http.Client()), teamDataSource: GetStatisticTeamsApi(client: http.Client())));
-      int statistic = await homeController.statisticsTeam();
+      List statistic = await homeController.statisticsTeam();
       //print('aquuiiiiii $statistic');
-      if(statistic == 0){
+      if(statistic.first == 0){
         NotifcationServirce notifcationServirce = NotifcationServirce();
-        notifcationServirce.showNotification(CustomNotification(id: 1, title: 'home', body: 'acesse', payload: 'aaaa'));
-      }else if(statistic == 1){
+        notifcationServirce.showNotification(CustomNotification(id: 1, title: 'Vencedor', body: statistic[1], payload: 'aaaa'));
+      }else if(statistic.first == 1){
         NotifcationServirce notifcationServirce = NotifcationServirce();
-        print('aqui away');
-        notifcationServirce.showNotification(CustomNotification(id: 1, title: 'away', body: 'acesse', payload: 'aaaa'));
+        notifcationServirce.showNotification(CustomNotification(id: 1, title: 'Vencedor', body: statistic[1], payload: 'aaaa'));
+      }else if(statistic.first == 2){
+        NotifcationServirce notifcationServirce = NotifcationServirce();
+        notifcationServirce.showNotification(CustomNotification(id: 1, title: 'Empate', body: '', payload: 'aaaa'));
       }else{
         NotifcationServirce notifcationServirce = NotifcationServirce();
-        notifcationServirce.showNotification(CustomNotification(id: 1, title: 'empate', body: 'acesse', payload: 'aaaa'));
+        notifcationServirce.showNotification(CustomNotification(id: 1, title: 'Sem Dados', body: '', payload: 'aaaa'));
       }
         break;
     }

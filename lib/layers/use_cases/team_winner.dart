@@ -4,7 +4,7 @@ import 'package:club_atlhetica/layers/infra/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 
 abstract class ITeamWinner{
-  Future<int> execute();
+  Future<List> execute();
 }
 
 class TeamWinner implements ITeamWinner{
@@ -16,28 +16,30 @@ class TeamWinner implements ITeamWinner{
   execute()async{
     List<Round> round = await repository.getRounds();
     for (var i = 0; i < round.length; i++) {
-      print(round[i].notification);
       if(round[i].nextGames == null && round[i].notification == false){
         List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway, i);
+        print(statistic.length);
           if(round[i].idHome == statistic[0].idHome && round[i].idAway == statistic[1].idAway){
-            return winnerFunc(statistic[0].goalsHome, statistic[1].goalsAway);
+            return winnerFunc(statistic[0].goalsHome, statistic[1].goalsAway, round[i].nameHome, round[i].nameAway);
           }else if(round[i].idHome == statistic[0].idAway && round[i].idAway == statistic[1].idHome){
-            return winnerFunc(statistic[0].goalsAway, statistic[1].goalsHome);
+            return winnerFunc(statistic[0].goalsAway, statistic[1].goalsHome, round[i].nameHome, round[i].nameAway);
           }else if(round[i].idHome == statistic[0].idAway && round[i].idAway == statistic[1].idAway){
-            return winnerFunc(statistic[0].goalsAway, statistic[1].goalsAway);
+            return winnerFunc(statistic[0].goalsAway, statistic[1].goalsAway, round[i].nameHome, round[i].nameAway);
           }else if(round[i].idHome == statistic[0].idHome && round[i].idAway == statistic[1].idHome){
-            return winnerFunc(statistic[0].goalsHome, statistic[1].goalsHome);
+            return winnerFunc(statistic[0].goalsHome, statistic[1].goalsHome, round[i].nameHome, round[i].nameAway);
           }
       }
     }
-    return 5;
+    return [5, 'Sem Dados'];
   }
 
-  int winnerFunc(goalsHome, goalsAway){
+  List winnerFunc(goalsHome, goalsAway, nameHome, nameAway){
     if(goalsHome > goalsAway){
-            return 0;
+            return [0, nameHome];
+          }else if(goalsHome < goalsAway){
+            return [1, nameAway];
           }else{
-            return 1;
+            return [2, 'Empate'];
           }
   }
 }
