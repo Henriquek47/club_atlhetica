@@ -4,17 +4,20 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class NextGames extends GetView<HomeController> {
-  const NextGames({Key? key}) : super(key: key);
+  final AsyncSnapshot<List<Round>> snapshot;
+  const NextGames(this.snapshot, {Key? key}) : super(key: key);
+
+  String data(int index){
+    var data = DateTime.parse(snapshot.data![index].date!);
+    String dataFormat = '${data.day <= 9 ? data.day.toString().padLeft(2, '0') : data.day}-${data.month <= 9 ? data.month.toString().padLeft(2, '0') : data.month}';
+    return dataFormat;
+  }
   
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Round>>(
-      future: controller.getRound(),
-      builder: (context, snapshot){
-        if(snapshot.hasData){
-                return Container(
+    return Container(
                   color: Colors.transparent,
-                  height: Get.height * 0.6,
+                  height: Get.height * 0.5,
                    width: Get.width,
                   child: PageView.builder(
       itemCount: snapshot.data?.length,
@@ -31,19 +34,18 @@ class NextGames extends GetView<HomeController> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(children: [
-              Image.network(snapshot.data![index].imageHome.toString(), fit: BoxFit.cover, scale: 1.8,),
+              Image.network(snapshot.data![index].imageHome!, fit: BoxFit.cover, scale: 1.8,),
               const SizedBox(height: 10,),
             Container(
               alignment: Alignment.center,
               width: Get.width * 0.2,
               color: Colors.transparent,
               child: Text(snapshot.data![index].nameHome.toString(), textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12),)),
-              Container(height: 50, width: 50, color: snapshot.data![index].notification! ? Colors.green : Colors.red)
         ]),
             Column(children: [
               const Text('Data do jogo'),
               const SizedBox(height: 5,),
-              const Text('22/05', style: TextStyle(fontSize: 20),),
+              Text(data(index), style: const TextStyle(fontSize: 20),),
               const SizedBox(height: 5,),
               Text('Provavel vencedor\n${snapshot.data![index].winner}', textAlign: TextAlign.center,style: TextStyle(fontSize: 12),),
             ]),
@@ -62,19 +64,13 @@ class NextGames extends GetView<HomeController> {
         Column(
           children:  [
           GestureDetector(child: const Text('Aposta', style: TextStyle(fontSize: 17)),),
-          SizedBox(height: 10,),
-          Text('Cor-Hand.FT 0.0', style: TextStyle(fontSize: 17),),
-          SizedBox(height: 10,),
-          Text('Ver mais', style: TextStyle(),)
+          const SizedBox(height: 10,),
+          const Text('Cor-Hand.FT 0.0', style: TextStyle(fontSize: 17),),
+          const SizedBox(height: 10,),
+          const Text('Ver mais', style: TextStyle(),)
         ]),
       ]
     ))]);
-  }));}else{return Container(
-                  color: Colors.transparent,
-                  height: Get.height * 0.445,
-                   width: Get.width,
-                   alignment: Alignment.center,
-                  child: const CircularProgressIndicator());}
-  });
+  }));
   }
 }

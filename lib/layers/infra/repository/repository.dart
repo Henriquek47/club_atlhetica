@@ -50,7 +50,7 @@ class Repository extends IRepository{
     }
   }
   Map teamStatisticResponse =  await teamDataSource!.statisticRound(fixture);
-  List results = teamStatisticResponse['response'];//tem dois responses
+  List results = teamStatisticResponse['response'];//tem 20 responses
   if(fixture.length > 1){
   List<TeamStatistic> teamStatistic = results.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
     return teamStatistic;
@@ -85,7 +85,7 @@ class Repository extends IRepository{
     if(body['response'][_random]['fixture']['notification'] == null || body['response'][_random]['fixture']['winner'] == null){
     for (int i = 0; i<list.length; i++) {
       body['response'][i]['fixture']['notification'] = false;
-      body['response'][i]['fixture']['winner'] = 'Empate';
+      body['response'][i]['fixture']['winner'] = 'Analisando';
       newBody = body;
     }
      await db!.update('round', {'response': jsonEncode(newBody)});
