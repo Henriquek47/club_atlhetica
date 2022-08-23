@@ -39,4 +39,9 @@ class MockIRepository extends _i1.Mock implements _i2.IRepository {
       (super.noSuchMethod(Invocation.method(#getRounds, []),
               returnValue: Future<List<_i5.Round>>.value(<_i5.Round>[]))
           as _i3.Future<List<_i5.Round>>);
+  @override
+  _i3.Future<List<_i5.Round>> updateData(int? index, String? winner) =>
+      (super.noSuchMethod(Invocation.method(#updateData, [index, winner]),
+              returnValue: Future<List<_i5.Round>>.value(<_i5.Round>[]))
+          as _i3.Future<List<_i5.Round>>);
 }

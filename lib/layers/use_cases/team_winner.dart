@@ -16,19 +16,27 @@ class TeamWinner implements ITeamWinner{
   @override
   execute()async{
     List<Round> round = await repository.getRounds();
+    int goalsHome = 0;
+    int goalsAway = 0;
     for (var i = 0; i < round.length; i++) {
       if(round[i].nextGames == null && round[i].notification == false){
         List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway, i);
-        print(statistic.length);
-          if(round[i].idHome == statistic[0].idHome && round[i].idAway == statistic[1].idAway){
-            return await winnerFunc(statistic[0].goalsHome, statistic[1].goalsAway, round[i].nameHome, round[i].nameAway, i);
-          }else if(round[i].idHome == statistic[0].idAway && round[i].idAway == statistic[1].idHome){
-            return await winnerFunc(statistic[0].goalsAway, statistic[1].goalsHome, round[i].nameHome, round[i].nameAway, i);
-          }else if(round[i].idHome == statistic[0].idAway && round[i].idAway == statistic[1].idAway){
-            return await winnerFunc(statistic[0].goalsAway, statistic[1].goalsAway, round[i].nameHome, round[i].nameAway, i);
-          }else if(round[i].idHome == statistic[0].idHome && round[i].idAway == statistic[1].idHome){
-            return await winnerFunc(statistic[0].goalsHome, statistic[1].goalsHome, round[i].nameHome, round[i].nameAway, i);
+
+        for (var k = 0; k < 10; k++) {
+          if(round[i].idHome == statistic[k].idHome){
+            goalsHome += statistic[k].goalsHome!;
+          }else{
+            goalsHome += statistic[k].goalsAway!;
           }
+        }
+          for (var k = 0; k < 10; k++) {
+          if(round[i].idAway == statistic[k].idAway){
+            goalsAway += statistic[k].goalsAway!;
+          }else{
+            goalsAway += statistic[k].goalsHome!;
+          }
+        }
+        return winnerFunc(goalsHome, goalsAway, round[i].nameHome, round[i].nameAway, i);
       }
     }
     return [5, 'Sem Dados'];
@@ -36,12 +44,15 @@ class TeamWinner implements ITeamWinner{
 
   Future<List> winnerFunc(goalsHome, goalsAway, nameHome, nameAway, index)async{
     if(goalsHome > goalsAway){
+      print('Entrou em vitoria');
       await repository.updateData(index, nameHome);
       return [0, nameHome];
     }else if(goalsHome < goalsAway){
+      print('Entrou em vitoria');
       await repository.updateData(index, nameAway);
       return [1, nameAway];
     }else{
+      print('Entrou em empate');
       return [2, 'Empate'];
     }
   }

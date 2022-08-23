@@ -23,13 +23,8 @@ class Repository extends IRepository{
   RoundDataSource? roundDataSource;
   Database? db;
 
-  Repository({this.teamDataSource, this.roundDataSource, this.db}){
-    _initialDatabase();
-  }
+  Repository({this.teamDataSource, this.roundDataSource, this.db});
 
-  _initialDatabase(){
-    return getRounds;
-  }
   
   @override
   getStatisticTeam(int? idTeamHome, int? idTeamAway, int index)async{
@@ -64,7 +59,8 @@ class Repository extends IRepository{
     db = await DB.instance.database;
     List rounds = await db!.query('round');
     String allRound = '';
-    if(rounds.isEmpty || rounds.first['day'] == null || dateTime.day < rounds.first['day'] && dateTime.month < rounds.first['month'] ){
+    print(rounds);
+    if(rounds.isEmpty || rounds.first['day'] == null){
         print("AQUI");
         allRound = await roundDataSource!.getApi();
         if(rounds.isEmpty){
@@ -110,7 +106,6 @@ class Repository extends IRepository{
       body['response'][index]['fixture']['winner'] = winner;
       await db!.update('round', {'response': jsonEncode(body)});
       rounds = await db!.query('round');
-      print(list);
       List<Round> listRounds = list.map((e) => RoundAdapter.fromJson(e)).toList();
       return listRounds;
    }

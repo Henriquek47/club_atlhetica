@@ -132,6 +132,11 @@ class MockIRepository extends _i1.Mock implements _i9.IRepository {
       (super.noSuchMethod(Invocation.method(#getRounds, []),
               returnValue: Future<List<_i11.Round>>.value(<_i11.Round>[]))
           as _i5.Future<List<_i11.Round>>);
+  @override
+  _i5.Future<List<_i11.Round>> updateData(int? index, String? winner) =>
+      (super.noSuchMethod(Invocation.method(#updateData, [index, winner]),
+              returnValue: Future<List<_i11.Round>>.value(<_i11.Round>[]))
+          as _i5.Future<List<_i11.Round>>);
 }
 
 /// A class which mocks [TeamDataSource].

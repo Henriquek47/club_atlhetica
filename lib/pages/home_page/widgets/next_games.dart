@@ -40,7 +40,7 @@ class NextGames extends GetView<HomeController> {
               alignment: Alignment.center,
               width: Get.width * 0.2,
               color: Colors.transparent,
-              child: Text(snapshot.data![index].nameHome.toString(), textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12),)),
+              child: Text(snapshot.data![index].nameHome!, textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12),)),
         ]),
             Column(children: [
               const Text('Data do jogo'),
@@ -51,13 +51,13 @@ class NextGames extends GetView<HomeController> {
             ]),
             Column(
               children: [
-            Image.network(snapshot.data![index].imageAway.toString(), scale: 1.8,),
+            Image.network(snapshot.data![index].imageAway!, scale: 1.8,),
             const SizedBox(height: 10,),
             Container(
               alignment: Alignment.center,
               width: Get.width * 0.2,
               color: Colors.transparent,
-              child: Text(snapshot.data![index].nameAway.toString(), textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12)))
+              child: Text(snapshot.data![index].nameAway!, textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12)))
             ])]
         ),
         const SizedBox(height: 10),
