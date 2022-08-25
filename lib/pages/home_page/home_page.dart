@@ -12,6 +12,37 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return LayoutBuilder(builder: (context, constraints) => SafeArea(child: Scaffold(
+      endDrawer: Drawer(
+        child: Column(children: [
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 20),
+            child: Text('Clube Atletic')),
+          Expanded(child: ListView(
+            padding: const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
+          children: [
+            ListTile(
+              tileColor: 0==0 ? Colors.green[400] : Colors.transparent,
+              title: Text('Competições', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300),),
+            ),
+            SizedBox(height: 10,),
+            ListTile(
+              title: Text('Perfil', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300)),
+            ),
+            SizedBox(height: 10,),
+            ListTile(
+              title: Text('Próximos Jogos', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300)),
+            ),
+            SizedBox(height: 10,),
+            ListTile(
+              title: Text('Modo dark', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300)),
+            ),
+            SizedBox(height: 10,),
+            ListTile(
+              title: Text('Desconectar/Sair', style: TextStyle(fontSize: 15, fontWeight: FontWeight.w300)),
+            ),
+          ],
+        )),
+      ])),
       body: Stack(children: [
         Container(
           height: Get.height,
@@ -45,7 +76,17 @@ class HomePage extends GetView<HomeController> {
           alignment: Alignment.center,
             child: const CircularProgressIndicator()));
       }
-      })
+      }),
+      Builder(
+        builder: (context) => Positioned(
+          right: 10,
+          height: 60,
+        child: IconButton(
+          icon: const Icon(Icons.view_headline_outlined),
+          onPressed: (){
+            Scaffold.of(context).openEndDrawer();
+          },
+          )))
     ]))));
   }
 }
