@@ -30,12 +30,16 @@ class HomePage extends GetView<HomeController> {
             )
           ),
         ),
-          Column(
+        Obx(() {
+          if(controller.roundAll.isEmpty || controller.roundNext.isEmpty){
+            return Center(child: CircularProgressIndicator(),);
+          }else{
+          return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
+            children: const [
             NextGames(),
             LastGames()
-      ]),
+      ]);}},),
       Builder(
         builder: (context) => Positioned(
           right: 10,
