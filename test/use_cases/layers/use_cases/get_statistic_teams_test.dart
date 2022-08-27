@@ -16,8 +16,8 @@ import 'get_statistic_teams_test.mocks.dart';
   final team_winner= TeamWinner(client);
 
 void main() async {
-  when(client.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false, ''),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false,'')]));
-  when(client.updateData(0, '')).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false, ''),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false,'')]));
+  when(client.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false, '',1,1),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false,'',1,1)]));
+  when(client.updateData(0, '')).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false, '',1,1),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false,'',1,1)]));
   Statistic statistic = Statistic(1,1,1,1,1,1,1,1,1,1,'',1,1,1,1,1,'');
   TeamStatistic teamStatistic = TeamStatistic(1, 1, 1, 0, statistic, statistic);
   for (var i = 0; i < 2; i++) {

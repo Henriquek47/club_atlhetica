@@ -6,14 +6,14 @@ class GetRound{
 
   GetRound({this.repository});
 
-  nextRounds()async{
-    List<Round> round = await repository!.getRounds();
-        List<Round> nextRounds = round.where((element) => element.nextGames == null).toList();
-        return nextRounds;
+  getAllRounds()async{
+    return await repository!.getRounds();
   }
 
-  allRounds()async{
-    return await repository!.getRounds();
+  nextRounds()async{
+    List<Round> round = await getAllRounds();
+        List<Round> nextRounds = round.where((element) => element.nextGames == null).toList();
+        return nextRounds;
   }
 
   finishedOrInProgress(DateTime roundDate, DateTime now){

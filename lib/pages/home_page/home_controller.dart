@@ -8,17 +8,46 @@ import 'package:http/http.dart' as http;
 class HomeController extends GetxController {
   final http.Client client;
   final IRepository repository;
+  bool teste = false;
+  var roundAll = <Round>[].obs;
+  var roundNext = <Round>[].obs;
 
   HomeController({required this.client, required this.repository});
+
+  @override
+  void onInit()async{
+    await initRepository().whenComplete(()async{
+      await nextRound();
+      await getAllRound();
+    });
+    super.onInit();
+  }
+
+  Future initRepository()async{
+    await repository.initRepository();
+  }
 
   Future<List> statisticsTeam()async{
     TeamWinner winner = TeamWinner(repository);
     return await winner.execute();
   }
 
-  Future<List<Round>> getRound() async {
+  Future<List<Round>> nextRound() async {
     GetRound getRoundVar = GetRound(repository: repository);
     List<Round> round = await getRoundVar.nextRounds();
-    return round;
+    roundNext.assignAll(round);
+    return roundNext;
+  }
+
+  Future<List<Round>> getAllRound() async {
+    GetRound getRoundVar = GetRound(repository: repository);
+    List<Round> round = await getRoundVar.getAllRounds();
+    roundAll.assignAll(round);
+    return roundAll;
+  }
+
+  @override
+  void onClose() {
+    super.onClose();
   }
 }

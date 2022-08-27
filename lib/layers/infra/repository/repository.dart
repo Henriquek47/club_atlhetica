@@ -16,6 +16,7 @@ abstract class IRepository{
   Future<List<TeamStatistic>> getStatisticTeam(int? idTeamHome, int? idTeamAway, int index);
   Future<List<Round>> getRounds();
   Future<List<Round>> updateData(int index, String winner);
+  initRepository();
 }
 
 class Repository extends IRepository{
@@ -58,21 +59,6 @@ class Repository extends IRepository{
   Future<List<Round>> getRounds()async{
     db = await DB.instance.database;
     List rounds = await db!.query('round');
-    String allRound = '';
-    print(rounds);
-    if(rounds.isEmpty || rounds.first['day'] == null){
-        print("AQUI");
-        allRound = await roundDataSource!.getApi();
-        if(rounds.isEmpty){
-          await db!.insert('round', {'response': allRound, 'month': dateTime.month, 'day': dateTime.day});
-        }else{
-          await db!.update('round', {'response': allRound, 'month': dateTime.month, 'day': dateTime.day});
-        }
-        print('oi');
-        rounds = await db!.query('round');
-        print('oi2');
-    }
-
     String response = await rounds.first['response'];
     var body = jsonDecode(response);
     List list = body['response'];
@@ -109,5 +95,25 @@ class Repository extends IRepository{
       List<Round> listRounds = list.map((e) => RoundAdapter.fromJson(e)).toList();
       return listRounds;
    }
+  }
+  
+  @override
+  initRepository()async{
+    db = await DB.instance.database;
+    List rounds = await db!.query('round');
+    String allRound = '';
+    print(rounds);
+    if(rounds.isEmpty || rounds.first['day'] == null){
+        print("AQUI");
+        allRound = await roundDataSource!.getApi();
+        if(rounds.isEmpty){
+          await db!.insert('round', {'response': allRound, 'month': dateTime.month, 'day': dateTime.day});
+        }else{
+          await db!.update('round', {'response': allRound, 'month': dateTime.month, 'day': dateTime.day});
+        }
+        print('oi');
+        rounds = await db!.query('round');
+        print('oi2');
+    }
   }  
 }

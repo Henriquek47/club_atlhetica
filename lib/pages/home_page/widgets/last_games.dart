@@ -1,14 +1,14 @@
+import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../layers/entities/round.dart';
 
-class LastGames extends StatelessWidget {
-  final AsyncSnapshot<List<Round>> snapshot;
-  const LastGames({Key? key, required this.snapshot}) : super(key: key);
+class LastGames extends GetView<HomeController> {
+  const LastGames({Key? key}) : super(key: key);
 
   String data(int index){
-    var data = DateTime.parse(snapshot.data![index].date!);
+    var data = DateTime.parse(controller.roundAll[index].date!);
     String dataFormat = '${data.day <= 9 ? data.day.toString().padLeft(2, '0') : data.day}-${data.month <= 9 ? data.month.toString().padLeft(2, '0') : data.month}';
     return dataFormat;
   }
@@ -22,8 +22,8 @@ class LastGames extends StatelessWidget {
         Padding(padding: const EdgeInsets.only(left: 20),
         child: Text('Resultado dos jogos', style: TextStyle(fontSize: Get.textScaleFactor * 20),)),
         const SizedBox(height: 10,),
-      Expanded(child: ListView.builder(
-        itemCount: 10,
+      Expanded(child: Obx(() => ListView.builder(
+        itemCount: controller.roundAll.length,
         itemBuilder: ((context, index) {
       return Padding(
         padding: const EdgeInsets.only(bottom: 20, left: 20),
@@ -43,11 +43,11 @@ class LastGames extends StatelessWidget {
             Text('Data: ${data(index)}', style: TextStyle(fontSize: Get.textScaleFactor * 14, fontWeight: FontWeight.normal, height: 2)),
             Row(
               children: [
-              Text(snapshot.data![index].nameHome!, style: TextStyle(fontSize: Get.textScaleFactor * 13, fontWeight: FontWeight.normal)),
+              Text(controller.roundAll[index].nameHome!, style: TextStyle(fontSize: Get.textScaleFactor * 13, fontWeight: FontWeight.normal)),
               const SizedBox(width: 5,),
-              Text('1 x 1 ', style: TextStyle(fontSize: Get.textScaleFactor * 15, fontWeight: FontWeight.w500),),
+              Text(controller.roundAll[index].goalsHome != null ? '${controller.roundAll[index].goalsHome} x ${controller.roundAll[index].goalsAway}' : '0 x 0', style: TextStyle(fontSize: Get.textScaleFactor * 15, fontWeight: FontWeight.w500),),
               const SizedBox(width: 5,),
-              Text(snapshot.data![index].nameAway!, style: TextStyle(fontSize: Get.textScaleFactor * 13, fontWeight: FontWeight.normal),),
+              Text(controller.roundAll[index].nameAway!, style: TextStyle(fontSize: Get.textScaleFactor * 13, fontWeight: FontWeight.normal),),
               SizedBox(width: Get.width * 0.2,),
             ],)
           ]),
@@ -56,6 +56,6 @@ class LastGames extends StatelessWidget {
       const SizedBox(height: 8,),
       const Divider(color: Colors.white70, indent: 25, endIndent: 20, thickness: 1.5,)
       ]));
-    })))]));
+    }))))]));
   }
 }
