@@ -37,7 +37,7 @@ void main() {
    when(client.get(Uri.parse(setUrlTeams(125)), headers: headers)).thenAnswer((_) async => http.Response(last10RoundsOfTeam, 200));
    when(repository.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-08-13T22:00:00+00:00', 'Sport', '', 'São Paulo', '', 131, 121, null, false, '',1,1)]));
    final statistic = Statistic(1,1,1,1,1,1,1,1,1,1,'',1,1,1,1,1,'');
-   when(repository.getStatisticTeam(131, 121, 0)).thenAnswer((_) async => List<TeamStatistic>.from([TeamStatistic(131, 121, 1, 1, statistic, statistic), TeamStatistic(131, 121, 1, 1, statistic, statistic)]));
+   when(repository.getStatisticTeam(131, 121, 0)).thenAnswer((_) async => List<TeamStatistic>.generate(20, (index) => TeamStatistic(131, 121, 1, 1, statistic, statistic)));
    HomeController homeController = HomeController(client: client, repository: repository);
    List home = await homeController.statisticsTeam();
    expect(home.first, isA<int>());
@@ -47,7 +47,7 @@ void main() {
    when(client.get(Uri.parse(roundsUrl), headers: headers)).thenAnswer((_) async => http.Response(nextRounds, 200));
    when(repository.getRounds()).thenAnswer((_) async => List<Round>.from([]));
    HomeController homeController = HomeController(client: client, repository: repository);
-   List<Round> home = await homeController.nextRound();
+   List<Round> home = await homeController.getAllRound();
    expect(home, isA<List<Round>>());
   });
 }

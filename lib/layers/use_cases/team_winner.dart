@@ -43,6 +43,7 @@ class TeamWinner implements ITeamWinner{
   }
 
   Future<List> winnerFunc(goalsHome, goalsAway, nameHome, nameAway, index)async{
+    print(roundsUrl);
     if(goalsHome > goalsAway){
       print('Entrou em vitoria');
       await repository.updateData(index, nameHome);

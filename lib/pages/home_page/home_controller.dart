@@ -41,7 +41,7 @@ class HomeController extends GetxController {
 
   Future<List<Round>> getAllRound() async {
     GetRound getRoundVar = GetRound(repository: repository);
-    List<Round> round = await getRoundVar.getAllRounds();
+    List<Round> round = await getRoundVar.beforeRounds();
     roundAll.assignAll(round);
     return roundAll;
   }

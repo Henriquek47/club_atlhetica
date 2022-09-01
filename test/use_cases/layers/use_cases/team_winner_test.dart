@@ -8,7 +8,8 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 
-import 'get_statistic_teams_test.mocks.dart';
+import 'team_winner_test.mocks.dart';
+
 @GenerateMocks([IRepository])
 
 
@@ -21,7 +22,7 @@ void main() async {
   Statistic statistic = Statistic(1,1,1,1,1,1,1,1,1,1,'',1,1,1,1,1,'');
   TeamStatistic teamStatistic = TeamStatistic(1, 1, 1, 0, statistic, statistic);
   for (var i = 0; i < 2; i++) {
-    when(client.getStatisticTeam(1, 1, i)).thenAnswer((_) async => List<TeamStatistic>.from([teamStatistic, teamStatistic, teamStatistic, teamStatistic]));
+    when(client.getStatisticTeam(1, 1, i)).thenAnswer((_) async => List<TeamStatistic>.generate(20, (index) => teamStatistic));
   }
   final result = await team_winner.execute();
   test('Verificar o tipo do retorno', ()async{

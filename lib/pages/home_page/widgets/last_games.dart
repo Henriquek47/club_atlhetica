@@ -47,8 +47,10 @@ class LastGames extends GetView<HomeController> {
               const SizedBox(width: 5,),
               Text(controller.roundAll[index].goalsHome != null ? '${controller.roundAll[index].goalsHome} x ${controller.roundAll[index].goalsAway}' : '0 x 0', style: TextStyle(fontSize: Get.textScaleFactor * 15, fontWeight: FontWeight.w500),),
               const SizedBox(width: 5,),
-              Text(controller.roundAll[index].nameAway!, style: TextStyle(fontSize: Get.textScaleFactor * 13, fontWeight: FontWeight.normal),),
-              SizedBox(width: Get.width * 0.2,),
+                Container(
+                  width: Get.width * 0.45,
+                color: Colors.transparent,
+                child: Text(controller.roundAll[index].nameAway!, style: TextStyle(fontSize: Get.textScaleFactor * 13, fontWeight: FontWeight.normal), overflow: TextOverflow.fade, maxLines: 1, softWrap: false,),),
             ],)
           ]),
         ],

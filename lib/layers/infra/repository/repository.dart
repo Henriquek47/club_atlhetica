@@ -102,8 +102,7 @@ class Repository extends IRepository{
     db = await DB.instance.database;
     List rounds = await db!.query('round');
     String allRound = '';
-    print(rounds);
-    if(rounds.isEmpty || rounds.first['day'] == null){
+    if(rounds.isEmpty || rounds.first['day'] == null || DateTime.utc(dateTime.year, rounds.first['month'], rounds.first['day'] + 5,).isBefore(DateTime.now())){
         print("AQUI");
         allRound = await roundDataSource!.getApi();
         if(rounds.isEmpty){
