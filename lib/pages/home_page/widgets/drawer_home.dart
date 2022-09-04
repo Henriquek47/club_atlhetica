@@ -20,7 +20,6 @@ class DrawerHome extends GetView<HomeController> {
             const SizedBox(height: 10,),
             ListTile(
               onTap: ()async{
-                Get.toNamed('/profile');
                 await controller.setScreen(1);
               },
               tileColor: controller.screen.value == 1 ? Colors.green[400] : Colors.transparent,
@@ -29,7 +28,6 @@ class DrawerHome extends GetView<HomeController> {
             const SizedBox(height: 10,),
             ListTile(
               onTap: ()async{
-                Get.toNamed('/home');
                 await controller.setScreen(0);
               },
               tileColor: controller.screen.value == 0 ? Colors.green[400] : Colors.transparent,

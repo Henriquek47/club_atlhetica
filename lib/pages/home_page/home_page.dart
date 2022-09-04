@@ -2,6 +2,7 @@ import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:club_atlhetica/pages/home_page/widgets/drawer_home.dart';
 import 'package:club_atlhetica/pages/home_page/widgets/last_games.dart';
 import 'package:club_atlhetica/pages/home_page/widgets/next_games.dart';
+import 'package:club_atlhetica/pages/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -36,9 +37,9 @@ class HomePage extends GetView<HomeController> {
           }else{
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-            NextGames(),
-            LastGames()
+            children: [
+            controller.screen.value == 0 ? const NextGames() : const ProfilePage(),
+            const LastGames()
       ]);}},),
       Builder(
         builder: (context) => Positioned(
