@@ -62,9 +62,8 @@ class Repository extends IRepository{
     String response = await rounds.first['response'];
     var body = jsonDecode(response);
     List list = body['response'];
-    var _random = Random().nextInt(100);
     var newBody;
-    if(body['response'][_random]['fixture']['notification'] == null || body['response'][_random]['fixture']['winner'] == null){
+    if(body['response'][1]['fixture']['notification'] == null || body['response'][1]['fixture']['winner'] == null){
     for (int i = 0; i<list.length; i++) {
       body['response'][i]['fixture']['notification'] = false;
       body['response'][i]['fixture']['winner'] = 'Analisando';
@@ -83,8 +82,7 @@ class Repository extends IRepository{
     List rounds = await db!.query('round');
     String response = await rounds.first['response'];
     final body = jsonDecode(response);
-    var _random = Random().nextInt(100);
-    if(rounds.isEmpty || body['response'][_random]['fixture']['notification'] == null || body['response'][_random]['fixture']['winner'] == null){
+    if(rounds.isEmpty || body['response'][1]['fixture']['notification'] == null || body['response'][1]['fixture']['winner'] == null){
       return await getRounds();
     }else{
       List list = body['response'];

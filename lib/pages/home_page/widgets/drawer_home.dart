@@ -1,20 +1,16 @@
+import 'package:club_atlhetica/main.dart';
+import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 
-class DrawerHome extends StatefulWidget {
+class DrawerHome extends GetView<HomeController> {
   const DrawerHome({Key? key}) : super(key: key);
 
   @override
-  State<DrawerHome> createState() => _DrawerHomeState();
-}
-
-class _DrawerHomeState extends State<DrawerHome> {
-  int selectElement = 0;
-
-  @override
   Widget build(BuildContext context) {
+    print(controller.pref.darkMode);
     return Column(children: [
           const Padding(
             padding: EdgeInsets.symmetric(vertical: 20),
@@ -28,27 +24,29 @@ class _DrawerHomeState extends State<DrawerHome> {
             const SizedBox(height: 10,),
             ListTile(
               onTap: (){
-                setState(() {
-                  selectElement = 0;
-                });
+                
               },
-              tileColor: selectElement == 0 ? Colors.green[400] : Colors.transparent,
+              tileColor: true == 0 ? Colors.green[400] : Colors.transparent,
               title: Text('Perfil', style: TextStyle(fontSize: Get.textScaleFactor * 14, fontWeight: FontWeight.w300)),
             ),
             const SizedBox(height: 10,),
             ListTile(
               onTap: (){
-                setState(() {
-                  selectElement = 1;
-                });
+                
               },
-              tileColor: selectElement == 1 ? Colors.green[400] : Colors.transparent,
+              tileColor: false == 1 ? Colors.green[400] : Colors.transparent,
               title: Text('Próximos Jogos', style: TextStyle(fontSize: Get.textScaleFactor * 14, fontWeight: FontWeight.w300)),
             ),
             const SizedBox(height: 10,),
             ListTile(
               title: Text('Modo dark', style: TextStyle(fontSize: Get.textScaleFactor * 14, fontWeight: FontWeight.w300)),
-            ),
+              trailing: Obx(() => Switch(
+                value: controller.darkBool.value,
+                onChanged: (value)async{
+                  await controller.darkMode(value);
+                }
+              ),
+            )),
             const SizedBox(height: 10,),
             ListTile(
               title: Text('Desconectar/Sair', style: TextStyle(fontSize: Get.textScaleFactor * 14, fontWeight: FontWeight.w300)),

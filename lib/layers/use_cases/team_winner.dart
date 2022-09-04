@@ -19,7 +19,7 @@ class TeamWinner implements ITeamWinner{
     int goalsHome = 0;
     int goalsAway = 0;
     for (var i = 0; i < round.length; i++) {
-      if(round[i].nextGames == null && round[i].notification == false){
+      if(round[i].nextGames == null && round[i].notification == false && DateTime.parse(round[i].date!).hour - dateTime.hour <= 2){
         List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway, i);
 
         for (var k = 0; k < 10; k++) {

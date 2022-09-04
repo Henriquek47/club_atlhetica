@@ -1,14 +1,17 @@
 import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
+import 'package:club_atlhetica/layers/service/database/shared_pref.dart';
 import 'package:club_atlhetica/layers/use_cases/get_round.dart';
 import 'package:club_atlhetica/layers/use_cases/team_winner.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
   final http.Client client;
   final IRepository repository;
-  bool teste = false;
+  final SharedPrefe pref = SharedPrefe();
+  RxBool darkBool = false.obs;
   var roundAll = <Round>[].obs;
   var roundNext = <Round>[].obs;
 
@@ -16,11 +19,18 @@ class HomeController extends GetxController {
 
   @override
   void onInit()async{
+    await pref.initSharedPrefe();
     await initRepository().whenComplete(()async{
       await nextRound();
       await getAllRound();
     });
     super.onInit();
+  }
+
+  @override
+  void onReady()async{
+    await darkMode(pref.darkMode);
+    super.onReady();
   }
 
   Future initRepository()async{
@@ -44,6 +54,14 @@ class HomeController extends GetxController {
     List<Round> round = await getRoundVar.beforeRounds();
     roundAll.assignAll(round);
     return roundAll;
+  }
+
+  darkMode(bool darkBool)async{
+    await pref.setData(darkBool);
+    this.darkBool.value = pref.darkMode;
+    Get.changeThemeMode(
+      pref.darkMode ? ThemeMode.dark : ThemeMode.light,
+    );
   }
 
   @override

@@ -32,7 +32,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: !Get.isDarkMode ? AppThemeDark.theme : AppThemeLight.theme,
+      theme: AppThemeLight.theme,
+      darkTheme: AppThemeDark.theme,
+      themeMode: ThemeMode.system,
       initialRoute: '/home',
       getPages: [
         GetPage(name: '/home', page: () => const HomePage(), binding: HomeBindings()),

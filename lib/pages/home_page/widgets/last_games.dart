@@ -43,12 +43,13 @@ class LastGames extends GetView<HomeController> {
             Text('Data: ${data(index)}', style: TextStyle(fontSize: Get.textScaleFactor * 14, fontWeight: FontWeight.normal, height: 2)),
             Row(
               children: [
-              Text(controller.roundAll[index].nameHome!, style: TextStyle(fontSize: Get.textScaleFactor * 13, fontWeight: FontWeight.normal)),
+              Text(controller.roundAll[index].nameHome!.length > 19 ? '${controller.roundAll[index].nameHome!.substring(0,19)}...' : controller.roundAll[index].nameHome!,
+                style: TextStyle(fontSize: Get.textScaleFactor * 13, fontWeight: FontWeight.normal), ),
               const SizedBox(width: 5,),
               Text(controller.roundAll[index].goalsHome != null ? '${controller.roundAll[index].goalsHome} x ${controller.roundAll[index].goalsAway}' : '0 x 0', style: TextStyle(fontSize: Get.textScaleFactor * 15, fontWeight: FontWeight.w500),),
               const SizedBox(width: 5,),
                 Container(
-                  width: Get.width * 0.45,
+                  width: Get.width * 0.35,
                 color: Colors.transparent,
                 child: Text(controller.roundAll[index].nameAway!, style: TextStyle(fontSize: Get.textScaleFactor * 13, fontWeight: FontWeight.normal), overflow: TextOverflow.fade, maxLines: 1, softWrap: false,),),
             ],)

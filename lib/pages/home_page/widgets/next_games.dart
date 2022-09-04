@@ -1,4 +1,3 @@
-import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -9,6 +8,12 @@ class NextGames extends GetView<HomeController> {
   String data(int index){
     var data = DateTime.parse(controller.roundNext[index].date!);
     String dataFormat = '${data.day <= 9 ? data.day.toString().padLeft(2, '0') : data.day}-${data.month <= 9 ? data.month.toString().padLeft(2, '0') : data.month}';
+    return dataFormat;
+  }
+
+  String hour(int index){
+    var data = DateTime.parse(controller.roundNext[index].date!);
+    String dataFormat = '${data.hour <= 9 ? data.hour.toString().padLeft(2, '0') : data.hour}:${data.minute <= 9 ? data.minute.toString().padLeft(2, '0') : data.minute}';
     return dataFormat;
   }
   
@@ -59,13 +64,13 @@ class NextGames extends GetView<HomeController> {
               child: Text(controller.roundNext[index].nameAway!, textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12)))
             ])]
         ),
-        const SizedBox(height: 10),
+        const SizedBox(height: 5),
         Column(
           children:  [
-          GestureDetector(child: const Text('Provavel', style: TextStyle(fontSize: 14)),),
-          const SizedBox(height: 10,),
-          Text(controller.roundNext[index].winner!, style: const TextStyle(fontSize: 15),),
-          const SizedBox(height: 10,),
+          GestureDetector(child: const Text('Horário', style: TextStyle(fontSize: 14)),),
+          const SizedBox(height: 5,),
+          Text(hour(index), style: const TextStyle(fontSize: 15),),
+          const SizedBox(height: 5,),
           const Text('Ver mais', style: TextStyle(fontSize: 12),)
         ]),
       ]
