@@ -1,5 +1,6 @@
 import 'package:club_atlhetica/pages/home_page/home_bindings.dart';
 import 'package:club_atlhetica/pages/home_page/home_page.dart';
+import 'package:club_atlhetica/pages/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:workmanager/workmanager.dart';
@@ -38,6 +39,7 @@ class MyApp extends StatelessWidget {
       initialRoute: '/home',
       getPages: [
         GetPage(name: '/home', page: () => const HomePage(), binding: HomeBindings()),
+        GetPage(name: '/profile', page: () => const ProfilePage())
       ],
     );
   }

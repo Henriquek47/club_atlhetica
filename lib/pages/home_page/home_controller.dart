@@ -10,8 +10,9 @@ import 'package:http/http.dart' as http;
 class HomeController extends GetxController {
   final http.Client client;
   final IRepository repository;
-  final SharedPrefe pref = SharedPrefe();
+  final SharedPrefe _pref = SharedPrefe();
   RxBool darkBool = false.obs;
+  RxInt screen = 0.obs;
   var roundAll = <Round>[].obs;
   var roundNext = <Round>[].obs;
 
@@ -19,7 +20,7 @@ class HomeController extends GetxController {
 
   @override
   void onInit()async{
-    await pref.initSharedPrefe();
+    await _pref.initSharedPrefe();
     await initRepository().whenComplete(()async{
       await nextRound();
       await getAllRound();
@@ -29,7 +30,8 @@ class HomeController extends GetxController {
 
   @override
   void onReady()async{
-    await darkMode(pref.darkMode);
+    await darkMode(_pref.darkMode);
+    await setScreen(_pref.screen);
     super.onReady();
   }
 
@@ -57,11 +59,16 @@ class HomeController extends GetxController {
   }
 
   darkMode(bool darkBool)async{
-    await pref.setData(darkBool);
-    this.darkBool.value = pref.darkMode;
+    await _pref.setDarkMode(darkBool);
+    this.darkBool.value = _pref.darkMode;
     Get.changeThemeMode(
-      pref.darkMode ? ThemeMode.dark : ThemeMode.light,
+      _pref.darkMode ? ThemeMode.dark : ThemeMode.light,
     );
+  }
+
+  setScreen(int id)async{
+   await _pref.setScreen(id);
+   screen.value = _pref.screen; 
   }
 
   @override
