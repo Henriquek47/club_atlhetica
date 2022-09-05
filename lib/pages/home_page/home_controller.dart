@@ -13,6 +13,7 @@ class HomeController extends GetxController {
   final SharedPrefe _pref = SharedPrefe();
   RxBool darkBool = false.obs;
   RxInt screen = 0.obs;
+  RxBool expanded = false.obs;
   var roundAll = <Round>[].obs;
   var roundNext = <Round>[].obs;
 

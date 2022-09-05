@@ -20,7 +20,7 @@ class GetRound{
   beforeRounds()async{
     List<Round> round = await getAllRounds();
     List<Round> nextRounds = round.where((element) => element.nextGames != null).toList();
-    return nextRounds;
+    return nextRounds.reversed.toList();
   }
 
   finishedOrInProgress(DateTime roundDate, DateTime now){

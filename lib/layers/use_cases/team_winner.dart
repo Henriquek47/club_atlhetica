@@ -54,6 +54,8 @@ class TeamWinner implements ITeamWinner{
       return [1, nameAway];
     }else{
       print('Entrou em empate');
+      print('$goalsHome - $goalsAway');
+      print(nameHome);
       return [2, 'Empate'];
     }
   }
