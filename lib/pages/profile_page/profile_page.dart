@@ -1,7 +1,8 @@
+import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class ProfilePage extends StatelessWidget {
+class ProfilePage extends GetView<HomeController> {
   const ProfilePage({Key? key}) : super(key: key);
 
   @override
@@ -17,13 +18,13 @@ class ProfilePage extends StatelessWidget {
                     ),
                     Padding(padding: EdgeInsets.only(top: Get.height * 0.05),
                   child:Center(
-      child: Container(
+      child: Obx(() => Container(
         decoration: BoxDecoration(
           boxShadow: const [
-            BoxShadow(color: Colors.black, blurRadius: 10, spreadRadius: -1, offset: Offset(0, 6))
+            BoxShadow(color: Colors.black54, blurRadius: 10, spreadRadius: -1, offset: Offset(0, 6))
           ],
               borderRadius: BorderRadius.circular(15),
-              color: Colors.grey[900],
+              color: controller.darkBool.value ? Colors.grey[900] : Colors.grey[100],
             ),
         height: Get.height * 0.32,
         width: Get.width * 0.65,
@@ -50,7 +51,7 @@ class ProfilePage extends StatelessWidget {
             child: Text('Lucro R\$ 520,00', style: TextStyle(fontSize: Get.textScaleFactor * 10)),
           )
         ]),
-      )
+      ))
     ))]));
   }
 }

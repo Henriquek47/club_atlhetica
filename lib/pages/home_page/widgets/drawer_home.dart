@@ -53,27 +53,26 @@ class DrawerHome extends GetView<HomeController> {
                     children: [
                       ExpansionPanel(
                         headerBuilder: (BuildContext context, bool isExpanded) {
-                          return ListTile(
+                          return const ListTile(
                             title: Text('Competições', style: TextStyle(fontWeight: FontWeight.w300),),
                           );
                         },
-                        body: Expanded(
-                          child: ListView(
+                        body: ListView(
                             shrinkWrap: true,
                             children: [
                           ListTile(
                           tileColor: Colors.green[400],
-                          title: Text('Brasileirão', style: TextStyle(fontWeight: FontWeight.w300),),
+                          title: const Text('Brasileirão', style: TextStyle(fontWeight: FontWeight.w300),),
                         ),
-                        ListTile(
+                        const ListTile(
                           tileColor: Colors.transparent,
                           title: Text('Champions', style: TextStyle(fontWeight: FontWeight.w300),),
                         ),
-                        ListTile(
+                        const ListTile(
                           tileColor: Colors.transparent,
                           title: Text('Copa do Brasil', style: TextStyle(fontWeight: FontWeight.w300),),
                         ),
-                      ])),
+                      ]),
                         isExpanded: controller.expanded.value,
                       ),
                     ],
