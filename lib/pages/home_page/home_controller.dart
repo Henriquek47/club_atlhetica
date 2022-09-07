@@ -16,6 +16,7 @@ class HomeController extends GetxController {
   RxBool expanded = false.obs;
   var roundAll = <Round>[].obs;
   var roundNext = <Round>[].obs;
+  RxInt timer = 0.obs;
 
   HomeController({required this.client, required this.repository});
 
@@ -70,6 +71,10 @@ class HomeController extends GetxController {
   setScreen(int id)async{
    await _pref.setScreen(id);
    screen.value = _pref.screen; 
+  }
+
+  timerLoad(){
+    Future.delayed(const Duration(seconds: 15),() => timer.value = 1,);
   }
 
   @override

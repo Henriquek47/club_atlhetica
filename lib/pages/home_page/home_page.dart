@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:club_atlhetica/pages/home_page/widgets/drawer_home.dart';
 import 'package:club_atlhetica/pages/home_page/widgets/last_games.dart';
@@ -32,8 +35,11 @@ class HomePage extends GetView<HomeController> {
           ),
         ),
         Obx(() {
-          if(controller.roundAll.isEmpty || controller.roundNext.isEmpty){
+          if(controller.roundAll.isEmpty || controller.roundNext.isEmpty && controller.timer.value == 0){
+            controller.timerLoad();
             return const Center(child: CircularProgressIndicator(),);
+          }else if(controller.roundNext.isEmpty && controller.timer.value == 1){
+            return const Center(child: Text('Sem jogos no momento'));
           }else{
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,

@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
@@ -13,7 +14,9 @@ class GetRound{
 
   nextRounds()async{
     List<Round> round = await getAllRounds();
-        List<Round> nextRounds = round.where((element) => element.nextGames == null && DateTime.parse(element.date!).isAfter(dateTime)).toList();
+    print(clock.now());
+    print(DateTime.parse(round.first.date!).isAfter(clock.now()));
+        List<Round> nextRounds = round.where((element) => element.nextGames == null && DateTime.parse(element.date!).isAfter(clock.now())).toList();
         return nextRounds;
   }
 

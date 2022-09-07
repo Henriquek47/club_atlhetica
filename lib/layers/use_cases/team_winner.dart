@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/entities/team.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
@@ -19,9 +20,10 @@ class TeamWinner implements ITeamWinner{
     int goalsHome = 0;
     int goalsAway = 0;
     for (var i = 0; i < round.length; i++) {
-      if(round[i].nextGames == null && round[i].notification == false && DateTime.parse(round[i].date!).hour - dateTime.hour <= 2){
+      print(DateTime.parse(round[i].date!).hour);
+      print(dateTime.hour);
+      if(round[i].nextGames == null && round[i].notification == false && DateTime.parse(round[i].date!).hour - clock.now().hour <= 2){
         List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway, i);
-
         for (var k = 0; k < 10; k++) {
           if(round[i].idHome == statistic[k].idHome){
             goalsHome += statistic[k].goalsHome!;
