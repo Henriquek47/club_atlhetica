@@ -19,10 +19,12 @@ class TeamWinner implements ITeamWinner{
     List<Round> round = await repository.getRounds();
     int goalsHome = 0;
     int goalsAway = 0;
+    print((DateTime.parse(round[0].date!).hour - 3) - clock.now().hour);
     for (var i = 0; i < round.length; i++) {
-      print(DateTime.parse(round[i].date!).hour);
-      print(dateTime.hour);
-      if(round[i].nextGames == null && round[i].notification == false && DateTime.parse(round[i].date!).hour - clock.now().hour <= 2){
+      if(round[i].nextGames == null && round[i].notification == false){
+        int hour = DateTime.parse(round[i].date!).hour - 3;
+        if(hour - clock.now().hour <= 2 && hour - clock.now().hour >= 0
+      && DateTime.parse(round[i].date!).day == clock.now().day && DateTime.parse(round[i].date!).month == clock.now().month){
         List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway, i);
         for (var k = 0; k < 10; k++) {
           if(round[i].idHome == statistic[k].idHome){
@@ -38,6 +40,7 @@ class TeamWinner implements ITeamWinner{
             goalsAway += statistic[k].goalsHome!;
           }
         }
+      }
         return winnerFunc(goalsHome, goalsAway, round[i].nameHome, round[i].nameAway, i);
       }
     }
@@ -45,7 +48,6 @@ class TeamWinner implements ITeamWinner{
   }
 
   Future<List> winnerFunc(goalsHome, goalsAway, nameHome, nameAway, index)async{
-    print(roundsUrl);
     if(goalsHome > goalsAway){
       print('Entrou em vitoria');
       await repository.updateData(index, nameHome);

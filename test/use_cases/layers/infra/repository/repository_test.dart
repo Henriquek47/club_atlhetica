@@ -83,8 +83,8 @@ void main()async{
     when(client.get(Uri.parse(roundsUrl), headers: headers)).thenAnswer((_) async => http.Response(nextRounds, 200));
     when(repositoryMock.getRounds()).thenAnswer((_) async => List<Round>.from([]));
     final repository = Repository(db: db, roundDataSource: GetRoundApi(client: client));
-    List<Round> list = await repository.updateData(0, 'Corinthians');// o random tem que ser mudado para o num 1 para o teste funcionar
-    List dbList = await db.query('round');                           // corrigir esse erro
+    List<Round> list = await repository.updateData(0, 'Corinthians');
+    List dbList = await db.query('round');                           
     await db.close();
   });
     

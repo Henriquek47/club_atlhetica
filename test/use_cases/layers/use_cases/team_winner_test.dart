@@ -19,8 +19,8 @@ import 'team_winner_test.mocks.dart';
   final team_winner= TeamWinner(client);
 
 void main() async {
-  await withClock(Clock.fixed(DateTime(2022, 9, 3, 21)), ()async{
-    when(client.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T22:00:00+00:00','','', '', '',1,1,null, false, '',1,1),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false,'',1,1)]));
+  await withClock(Clock.fixed(DateTime(2022, 9, 3, 15)), ()async{
+    when(client.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T19:00:00+00:00','','', '', '',1,1,null, false, '',1,1),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false,'',1,1)]));
     Statistic statistic = Statistic(1,1,1,1,1,1,1,1,1,1,'',1,1,1,1,1,'');
     TeamStatistic teamStatistic = TeamStatistic(1, 1, 1, 0, statistic, statistic);
     when(client.updateData(any, '')).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false, '',1,1),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false,'',1,1)]));
