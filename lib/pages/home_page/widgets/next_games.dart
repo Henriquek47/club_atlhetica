@@ -13,7 +13,8 @@ class NextGames extends GetView<HomeController> {
 
   String hour(int index){
     var data = DateTime.parse(controller.roundNext[index].date!);
-    String dataFormat = '${data.hour <= 9 ? data.hour.toString().padLeft(2, '0') : data.hour}:${data.minute <= 9 ? data.minute.toString().padLeft(2, '0') : data.minute}';
+    int hour = data.hour - 3;
+    String dataFormat = '${hour <= 9 ? hour.toString().padLeft(2, '0') : hour}:${data.minute <= 9 ? data.minute.toString().padLeft(2, '0') : data.minute}';
     return dataFormat;
   }
   
