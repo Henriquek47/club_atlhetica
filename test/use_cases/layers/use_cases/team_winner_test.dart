@@ -25,7 +25,7 @@ void main() async {
     TeamStatistic teamStatistic = TeamStatistic(1, 1, 1, 0, statistic, statistic);
     when(client.updateData(any, '')).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false, '',1,1),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false,'',1,1)]));
     for (var i = 0; i < 2; i++) {
-      when(client.getStatisticTeam(1, 1, i)).thenAnswer((_) async => List<TeamStatistic>.generate(20, (index) => teamStatistic));
+      when(client.getStatisticTeam(1, 1)).thenAnswer((_) async => List<TeamStatistic>.generate(20, (index) => teamStatistic));
     }
     final result = await team_winner.execute();
     test('Verificar o tipo do retorno', ()async{

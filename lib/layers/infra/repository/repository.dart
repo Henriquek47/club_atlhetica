@@ -13,7 +13,7 @@ import '../../entities/team.dart';
 import '../datadource/team_datasource.dart';
 
 abstract class IRepository{
-  Future<List<TeamStatistic>> getStatisticTeam(int? idTeamHome, int? idTeamAway, int index);
+  Future<List<TeamStatistic>> getStatisticTeam(int? idTeamHome, int? idTeamAway);
   Future<List<Round>> getRounds();
   Future<List<Round>> updateData(int index, String winner);
   initRepository();
@@ -23,13 +23,12 @@ class Repository extends IRepository{
   TeamDataSource? teamDataSource;
   RoundDataSource? roundDataSource;
   Database? db;
+  List roundTeamLast = [];
 
   Repository({this.teamDataSource, this.roundDataSource, this.db});
 
-  
-  @override
-  getStatisticTeam(int? idTeamHome, int? idTeamAway, int index)async{
-    List roundTeamLast = [];
+  Future get10lastRound(int? idTeamHome, int? idTeamAway)async{
+  roundTeamLast = [];
   for(int i=0; i<2; i++){
     if(i==0){
       Map teamRoundHome = await teamDataSource!.last10RoundsTeam(idTeamHome);
@@ -39,16 +38,31 @@ class Repository extends IRepository{
       roundTeamLast.add(teamRoundAway);
     }
   }
+  return roundTeamLast;
+  }
+  
+  @override
+  getStatisticTeam(int? idTeamHome, int? idTeamAway)async{
+    await get10lastRound(idTeamHome, idTeamAway);
   List<int> fixture = [];
-  for(int j=0; j<2; j++){
+  print(roundTeamLast);
+  try {
+    for(int j=0; j<2; j++){
     for (var i = 0; i < 10; i++) {
       fixture.add(roundTeamLast[j]['response'][i]['fixture']['id']);
     }
+  }  
+  }on RangeError {
+    print(e);
+  }catch(e){
+    print(e);
   }
+
   Map teamStatisticResponse =  await teamDataSource!.statisticRound(fixture);
   List results = teamStatisticResponse['response'];//tem 20 responses
   if(fixture.length > 1){
   List<TeamStatistic> teamStatistic = results.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
+  print(teamStatistic[0].statisticAway.fouls);
     return teamStatistic;
   }else{
     return [];

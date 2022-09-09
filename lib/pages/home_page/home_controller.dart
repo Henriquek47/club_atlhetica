@@ -1,4 +1,5 @@
 import 'package:club_atlhetica/layers/entities/round.dart';
+import 'package:club_atlhetica/layers/entities/team.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/database/shared_pref.dart';
 import 'package:club_atlhetica/layers/use_cases/get_round.dart';
@@ -16,7 +17,10 @@ class HomeController extends GetxController {
   RxBool expanded = false.obs;
   var roundAll = <Round>[].obs;
   var roundNext = <Round>[].obs;
+  var statistic = <TeamStatistic>[].obs;
   RxInt timer = 0.obs;
+  RxBool details = false.obs;
+  RxInt index = 0.obs;
 
   HomeController({required this.client, required this.repository});
 
@@ -41,14 +45,22 @@ class HomeController extends GetxController {
     await repository.initRepository();
   }
 
-  Future<List> statisticsTeam()async{
+  Future<List> winner()async{
     TeamWinner winner = TeamWinner(repository);
     return await winner.execute();
+  }
+
+  Future<List<TeamStatistic>> statisticTeam(int idHome, int idAway)async{
+    TeamWinner winner = TeamWinner(repository);
+    List<TeamStatistic> list = await winner.getStatisticTeam(idHome, idAway);
+    statistic.assignAll(list);
+    return statistic;
   }
 
   Future<List<Round>> nextRound() async {
     GetRound getRoundVar = GetRound(repository: repository);
     List<Round> round = await getRoundVar.nextRounds();
+    roundNext = <Round>[].obs;
     roundNext.assignAll(round);
     return roundNext;
   }
@@ -75,6 +87,10 @@ class HomeController extends GetxController {
 
   timerLoad(){
     Future.delayed(const Duration(seconds: 15),() => timer.value = 1,);
+  }
+
+  getIndex(int index){
+    this.index.value = index;
   }
 
   @override

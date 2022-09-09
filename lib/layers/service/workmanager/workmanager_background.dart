@@ -12,7 +12,7 @@ import 'package:http/http.dart' as http;
       case 'fetchBackground':
       print('teste');
       HomeController homeController = HomeController(client: http.Client(), repository: Repository(roundDataSource: GetRoundApi(client: http.Client()), teamDataSource: GetStatisticTeamsApi(client: http.Client())));
-      List statistic = await homeController.statisticsTeam();
+      List statistic = await homeController.winner();
       //print('aquuiiiiii $statistic');
       if(statistic.first == 0){
         NotifcationServirce notifcationServirce = NotifcationServirce();
@@ -24,8 +24,7 @@ import 'package:http/http.dart' as http;
         NotifcationServirce notifcationServirce = NotifcationServirce();
         notifcationServirce.showNotification(CustomNotification(id: 1, title: 'Empate', body: '', payload: 'aaaa'));
       }else{
-        NotifcationServirce notifcationServirce = NotifcationServirce();
-        notifcationServirce.showNotification(CustomNotification(id: 1, title: 'Sem Dados', body: '', payload: 'aaaa'));
+        return Future.value(true);
       }
         break;
     }

@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:club_atlhetica/layers/service/repository/url.dart';
+import 'package:club_atlhetica/pages/details/details_next_games.dart';
 import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:club_atlhetica/pages/home_page/widgets/drawer_home.dart';
 import 'package:club_atlhetica/pages/home_page/widgets/last_games.dart';
@@ -45,7 +46,7 @@ class HomePage extends GetView<HomeController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
             controller.screen.value == 0 ? const NextGames() : const ProfilePage(),
-            const LastGames()
+            controller.details.value ? const DetailsNextGames() : const LastGames()
       ]);}},),
       Builder(
         builder: (context) => Positioned(

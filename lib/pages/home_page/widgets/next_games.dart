@@ -25,6 +25,7 @@ class NextGames extends GetView<HomeController> {
                   height: Get.height * 0.5,
                    width: Get.width,
                   child: Obx(() => PageView.builder(
+                    onPageChanged: ((value) => controller.details.value = false),
       itemCount: controller.roundNext.length,
       itemBuilder: (conxtext, index){
                 return Stack(children: [
@@ -72,7 +73,15 @@ class NextGames extends GetView<HomeController> {
           const SizedBox(height: 5,),
           Text(hour(index), style: const TextStyle(fontSize: 15),),
           const SizedBox(height: 5,),
-          const Text('Ver mais', style: TextStyle(fontSize: 12),)
+          GestureDetector(
+            onTap: ()async{
+              controller.details.value = !controller.details.value;
+              if(controller.details.value){
+              print(controller.roundNext[index].idHome!);
+              await controller.statisticTeam(controller.roundNext[index].idHome!, controller.roundNext[index].idAway!);
+              }
+            },
+            child: const Text('Ver mais', style: TextStyle(fontSize: 12))),
         ]),
       ]
     ))]);

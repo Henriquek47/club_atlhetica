@@ -25,7 +25,7 @@ class TeamWinner implements ITeamWinner{
         int hour = DateTime.parse(round[i].date!).hour - 3;
         if(hour - clock.now().hour <= 2 && hour - clock.now().hour >= 0
       && DateTime.parse(round[i].date!).day == clock.now().day && DateTime.parse(round[i].date!).month == clock.now().month){
-        List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway, i);
+        List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway);
         for (var k = 0; k < 10; k++) {
           if(round[i].idHome == statistic[k].idHome){
             goalsHome += statistic[k].goalsHome!;
@@ -62,5 +62,9 @@ class TeamWinner implements ITeamWinner{
       print(nameHome);
       return [2, 'Empate'];
     }
+  }
+
+  Future<List<TeamStatistic>> getStatisticTeam(int idHome, int idAway)async{
+    return await repository.getStatisticTeam(idHome, idAway);
   }
 }

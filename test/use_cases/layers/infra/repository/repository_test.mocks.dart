@@ -122,9 +122,9 @@ class MockIRepository extends _i1.Mock implements _i9.IRepository {
 
   @override
   _i5.Future<List<_i10.TeamStatistic>> getStatisticTeam(
-          int? idTeamHome, int? idTeamAway, int? index) =>
+          int? idTeamHome, int? idTeamAway) =>
       (super.noSuchMethod(
-          Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway, index]),
+          Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway]),
           returnValue: Future<List<_i10.TeamStatistic>>.value(
               <_i10.TeamStatistic>[])) as _i5.Future<List<_i10.TeamStatistic>>);
   @override
