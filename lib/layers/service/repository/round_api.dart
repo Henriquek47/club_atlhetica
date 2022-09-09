@@ -13,10 +13,10 @@ class GetRoundApi extends RoundDataSource{
   getApi() async {
     http.Response response =
         await client.get(Uri.parse(roundsUrl), headers: headers);
-    if (response.statusCode == 200) {
+    try {
       return response.body;
-    } else {
-      return Exception('Falha ao tentar conexão');
+    } catch (e) {
+      print(e);
     }
   }
 }

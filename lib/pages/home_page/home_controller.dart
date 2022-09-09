@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/entities/team.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
@@ -21,6 +23,7 @@ class HomeController extends GetxController {
   RxInt timer = 0.obs;
   RxBool details = false.obs;
   RxInt index = 0.obs;
+  RxString imageHome = RxString('');
 
   HomeController({required this.client, required this.repository});
 
@@ -51,6 +54,7 @@ class HomeController extends GetxController {
   }
 
   Future<List<TeamStatistic>> statisticTeam(int idHome, int idAway)async{
+    statistic = <TeamStatistic>[].obs;
     TeamWinner winner = TeamWinner(repository);
     List<TeamStatistic> list = await winner.getStatisticTeam(idHome, idAway);
     statistic.assignAll(list);
@@ -91,6 +95,27 @@ class HomeController extends GetxController {
 
   getIndex(int index){
     this.index.value = index;
+  }
+
+  getImageHome(int index){
+    try {
+      return roundNext[index].imageHome;
+    } catch (e) {
+      return 'Error';
+    }
+  }
+
+  getImageAway(int index)async{
+    try {
+  final result = await InternetAddress.lookup('example.com');
+  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
+    print('${roundNext[index].imageAway} aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      imageHome.value = roundNext[index].imageAway!;
+  }
+} on SocketException catch (_) {
+  return '';
+}
+return '';
   }
 
   @override

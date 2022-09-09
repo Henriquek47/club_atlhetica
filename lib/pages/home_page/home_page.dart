@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:club_atlhetica/pages/details/details_next_games.dart';
@@ -35,7 +36,7 @@ class HomePage extends GetView<HomeController> {
             )
           ),
         ),
-        Obx(() {
+        Obx((){
           if(controller.roundAll.isEmpty || controller.roundNext.isEmpty && controller.timer.value == 0){
             controller.timerLoad();
             return const Center(child: CircularProgressIndicator(),);
