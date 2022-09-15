@@ -12,8 +12,8 @@ class GetStatisticTeamsApi extends TeamDataSource{
   GetStatisticTeamsApi({required this.client});
   
   @override
-  last10RoundsTeam(int? idTeam)async{
-    http.Response response = await client.get(Uri.parse(setUrlTeams(idTeam)), headers: headers);
+  last10RoundsTeam(int? idTeam, int idLeague)async{
+    http.Response response = await client.get(Uri.parse(setUrlTeams(idTeam, idLeague)), headers: headers);
     if(response.statusCode == 200){
     var body = jsonDecode(response.body);
     print('teamRound');

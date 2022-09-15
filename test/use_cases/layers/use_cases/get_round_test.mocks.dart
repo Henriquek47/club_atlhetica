@@ -28,10 +28,19 @@ class MockIRepository extends _i1.Mock implements _i2.IRepository {
   }
 
   @override
+  int get posLeague =>
+      (super.noSuchMethod(Invocation.getter(#posLeague), returnValue: 0)
+          as int);
+  @override
+  set posLeague(int? _posLeague) =>
+      super.noSuchMethod(Invocation.setter(#posLeague, _posLeague),
+          returnValueForMissingStub: null);
+  @override
   _i3.Future<List<_i4.TeamStatistic>> getStatisticTeam(
-          int? idTeamHome, int? idTeamAway) =>
+          int? idTeamHome, int? idTeamAway, int? idLeague) =>
       (super.noSuchMethod(
-              Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway]),
+              Invocation.method(
+                  #getStatisticTeam, [idTeamHome, idTeamAway, idLeague]),
               returnValue:
                   Future<List<_i4.TeamStatistic>>.value(<_i4.TeamStatistic>[]))
           as _i3.Future<List<_i4.TeamStatistic>>);
@@ -41,8 +50,15 @@ class MockIRepository extends _i1.Mock implements _i2.IRepository {
               returnValue: Future<List<_i5.Round>>.value(<_i5.Round>[]))
           as _i3.Future<List<_i5.Round>>);
   @override
-  _i3.Future<List<_i5.Round>> updateData(int? index, String? winner) =>
-      (super.noSuchMethod(Invocation.method(#updateData, [index, winner]),
+  _i3.Future<List<_i5.Round>> updateData(
+          int? index, String? winner, int? fixture) =>
+      (super.noSuchMethod(
+              Invocation.method(#updateData, [index, winner, fixture]),
               returnValue: Future<List<_i5.Round>>.value(<_i5.Round>[]))
           as _i3.Future<List<_i5.Round>>);
+  @override
+  _i3.Future<List<dynamic>> winners() =>
+      (super.noSuchMethod(Invocation.method(#winners, []),
+              returnValue: Future<List<dynamic>>.value(<dynamic>[]))
+          as _i3.Future<List<dynamic>>);
 }

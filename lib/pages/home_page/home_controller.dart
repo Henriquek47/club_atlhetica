@@ -24,6 +24,8 @@ class HomeController extends GetxController {
   RxBool details = false.obs;
   RxInt index = 0.obs;
   RxString imageHome = RxString('');
+  RxInt posLeague = 0.obs;
+  RxInt select = 0.obs;
 
   HomeController({required this.client, required this.repository});
 
@@ -31,8 +33,8 @@ class HomeController extends GetxController {
   void onInit()async{
     await _pref.initSharedPrefe();
     await initRepository().whenComplete(()async{
-      await nextRound();
       await getAllRound();
+      await nextRound();
     });
     super.onInit();
   }
@@ -53,10 +55,12 @@ class HomeController extends GetxController {
     return await winner.execute();
   }
 
-  Future<List<TeamStatistic>> statisticTeam(int idHome, int idAway)async{
+  Future<List<TeamStatistic>> statisticTeam(int idHome, int idAway, )async{
     statistic = <TeamStatistic>[].obs;
     TeamWinner winner = TeamWinner(repository);
-    List<TeamStatistic> list = await winner.getStatisticTeam(idHome, idAway);
+    int idLeague = 71;
+    repository.posLeague == 0 ? idLeague = 71 : repository.posLeague == 1 ? idLeague = 2 : repository.posLeague == 2 ? idLeague = 73 : idLeague = 0;
+    List<TeamStatistic> list = await winner.getStatisticTeam(idHome, idAway, idLeague);
     statistic.assignAll(list);
     return statistic;
   }
@@ -64,7 +68,6 @@ class HomeController extends GetxController {
   Future<List<Round>> nextRound() async {
     GetRound getRoundVar = GetRound(repository: repository);
     List<Round> round = await getRoundVar.nextRounds();
-    roundNext = <Round>[].obs;
     roundNext.assignAll(round);
     return roundNext;
   }
@@ -75,7 +78,7 @@ class HomeController extends GetxController {
     roundAll.assignAll(round);
     return roundAll;
   }
-
+  
   darkMode(bool darkBool)async{
     await _pref.setDarkMode(darkBool);
     this.darkBool.value = _pref.darkMode;
@@ -95,27 +98,6 @@ class HomeController extends GetxController {
 
   getIndex(int index){
     this.index.value = index;
-  }
-
-  getImageHome(int index){
-    try {
-      return roundNext[index].imageHome;
-    } catch (e) {
-      return 'Error';
-    }
-  }
-
-  getImageAway(int index)async{
-    try {
-  final result = await InternetAddress.lookup('example.com');
-  if (result.isNotEmpty && result[0].rawAddress.isNotEmpty) {
-    print('${roundNext[index].imageAway} aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-      imageHome.value = roundNext[index].imageAway!;
-  }
-} on SocketException catch (_) {
-  return '';
-}
-return '';
   }
 
   @override

@@ -24,7 +24,11 @@ class NextGames extends GetView<HomeController> {
                   color: Colors.transparent,
                   height: Get.height * 0.5,
                    width: Get.width,
-                  child: Obx(() => PageView.builder(
+                  child: Obx(() {
+                    if(controller.roundNext.isEmpty){
+                      return const Center(child: Text('Sem jogos no momento'));
+                    }else{
+                    return PageView.builder(
                     onPageChanged: ((value) => controller.details.value = false),
       itemCount: controller.roundNext.length,
       itemBuilder: (conxtext, index){
@@ -40,7 +44,7 @@ class NextGames extends GetView<HomeController> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(children: [
-              Image.network(controller.roundNext[index].imageHome ?? '', fit: BoxFit.cover, scale: 1.8, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
+              Image.network(controller.roundNext[index].imageHome!, fit: BoxFit.cover, scale: 1.8, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
                 return const Center(child: CircularProgressIndicator());
               }),
               const SizedBox(height: 10,),
@@ -48,7 +52,7 @@ class NextGames extends GetView<HomeController> {
               alignment: Alignment.center,
               width: Get.width * 0.2,
               color: Colors.transparent,
-              child: Text(controller.roundNext[index].nameHome ?? '', textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12),)),
+              child: Text(controller.roundNext[index].nameHome!, textAlign: TextAlign.center, style: TextStyle(fontSize: Get.textScaleFactor * 12),)),
         ]),
             Column(children: [
               const Text('Data do jogo'),
@@ -59,7 +63,7 @@ class NextGames extends GetView<HomeController> {
             ]),
             Column(
               children: [
-            Image.network(controller.roundNext[index].imageAway ?? '', scale: 1.8, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
+            Image.network(controller.roundNext[index].imageAway!, scale: 1.8, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
                 return const Center(child: CircularProgressIndicator());
               }),
             const SizedBox(height: 10,),
@@ -89,6 +93,6 @@ class NextGames extends GetView<HomeController> {
         ]),
       ]
     ))]);
-  })));
+  });}}));
   }
 }

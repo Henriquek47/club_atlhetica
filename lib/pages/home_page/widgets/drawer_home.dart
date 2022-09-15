@@ -1,3 +1,4 @@
+import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -7,7 +8,6 @@ class DrawerHome extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    bool expanded = false;
     return Column(children: [
       const Padding(
           padding: EdgeInsets.symmetric(vertical: 20),
@@ -57,22 +57,43 @@ class DrawerHome extends GetView<HomeController> {
                             title: Text('Competições', style: TextStyle(fontWeight: FontWeight.w300),),
                           );
                         },
-                        body: ListView(
+                        body: Obx(() => ListView(
                             shrinkWrap: true,
                             children: [
                           ListTile(
-                          tileColor: Colors.green[400],
+                            onTap: (){
+                              controller.details.value = false;
+                              controller.select.value = 0;
+                              controller.repository.posLeague = 0;
+                              controller.getAllRound();
+                              controller.nextRound();
+                            },
+                          tileColor: controller.select.value == 0 ? Colors.green[400] : Colors.transparent,
                           title: const Text('Brasileirão', style: TextStyle(fontWeight: FontWeight.w300),),
                         ),
-                        const ListTile(
-                          tileColor: Colors.transparent,
+                        ListTile(
+                          onTap: ()async{
+                            controller.details.value = false;
+                            controller.select.value = 1;
+                            controller.repository.posLeague = 1;
+                            controller.getAllRound();
+                            controller.nextRound();
+                            },
+                          tileColor: controller.select.value == 1 ? Colors.green[400] : Colors.transparent,
                           title: Text('Champions', style: TextStyle(fontWeight: FontWeight.w300),),
                         ),
-                        const ListTile(
-                          tileColor: Colors.transparent,
+                        ListTile(
+                          onTap: (){
+                            controller.details.value = false;
+                            controller.select.value = 2;
+                            controller.repository.posLeague = 2;
+                            controller.getAllRound();
+                            controller.nextRound();
+                            },
+                          tileColor: controller.select.value == 2 ? Colors.green[400] : Colors.transparent,
                           title: Text('Copa do Brasil', style: TextStyle(fontWeight: FontWeight.w300),),
                         ),
-                      ]),
+                      ])),
                         isExpanded: controller.expanded.value,
                       ),
                     ],

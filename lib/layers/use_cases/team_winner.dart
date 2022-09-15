@@ -17,15 +17,18 @@ class TeamWinner implements ITeamWinner{
   @override
   execute()async{
     List<Round> round = await repository.getRounds();
-    int goalsHome = 0;
-    int goalsAway = 0;
-    print((DateTime.parse(round[0].date!).hour - 3) - clock.now().hour);
+    int goalsHome = 100;
+    int goalsAway = 100;
     for (var i = 0; i < round.length; i++) {
       if(round[i].nextGames == null && round[i].notification == false){
         int hour = DateTime.parse(round[i].date!).hour - 3;
         if(hour - clock.now().hour <= 2 && hour - clock.now().hour >= 0
       && DateTime.parse(round[i].date!).day == clock.now().day && DateTime.parse(round[i].date!).month == clock.now().month){
-        List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway);
+        for (var i = 0; i < 3; i++) {
+        int idLeague = 71;
+        i == 0 ? idLeague = 71 : i == 1 ? idLeague = 2 : i == 2 ? idLeague = 73 : idLeague = 0;
+        List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway, idLeague);
+        if(statistic.isNotEmpty){
         for (var k = 0; k < 10; k++) {
           if(round[i].idHome == statistic[k].idHome){
             goalsHome += statistic[k].goalsHome!;
@@ -40,31 +43,35 @@ class TeamWinner implements ITeamWinner{
             goalsAway += statistic[k].goalsHome!;
           }
         }
+        return winnerFunc(goalsHome, goalsAway, round[i].nameHome, round[i].nameAway, i, round[i].id);
+        }else{
+          return [5, 'Sem Dados']; 
+        }
       }
-        return winnerFunc(goalsHome, goalsAway, round[i].nameHome, round[i].nameAway, i);
+      }else{
+        return [5, 'Sem Dados']; 
+      }
       }
     }
     return [5, 'Sem Dados'];
   }
 
-  Future<List> winnerFunc(goalsHome, goalsAway, nameHome, nameAway, index)async{
+  Future<List> winnerFunc(goalsHome, goalsAway, nameHome, nameAway, index, fixture)async{
     if(goalsHome > goalsAway){
       print('Entrou em vitoria');
-      await repository.updateData(index, nameHome);
+      await repository.updateData(index, nameHome, fixture);
       return [0, nameHome];
     }else if(goalsHome < goalsAway){
       print('Entrou em vitoria');
-      await repository.updateData(index, nameAway);
+      await repository.updateData(index, nameAway, fixture);
       return [1, nameAway];
     }else{
       print('Entrou em empate');
-      print('$goalsHome - $goalsAway');
-      print(nameHome);
       return [2, 'Empate'];
     }
   }
 
-  Future<List<TeamStatistic>> getStatisticTeam(int idHome, int idAway)async{
-    return await repository.getStatisticTeam(idHome, idAway);
+  Future<List<TeamStatistic>> getStatisticTeam(int idHome, int idAway, int idLeague)async{
+    return await repository.getStatisticTeam(idHome, idAway, idLeague);
   }
 }

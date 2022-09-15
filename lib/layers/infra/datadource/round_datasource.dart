@@ -1,3 +1,3 @@
 abstract class RoundDataSource{
-  Future getApi();
+  Future getApi(int idLeague);
 }

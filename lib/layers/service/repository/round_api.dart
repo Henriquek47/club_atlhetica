@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:http/http.dart' as http;
 
@@ -10,13 +9,14 @@ class GetRoundApi extends RoundDataSource{
   GetRoundApi({required this.client});
 
   @override
-  getApi() async {
+  getApi(int idLeague) async {
     http.Response response =
-        await client.get(Uri.parse(roundsUrl), headers: headers);
-    try {
+        await client.get(Uri.parse(setUrlLeagues(idLeague)), headers: headers);
+    if(response.statusCode == 200){
       return response.body;
-    } catch (e) {
-      print(e);
+    }else{
+      Exception('Falha na conexão');
+      return {};
     }
   }
 }

@@ -121,10 +121,19 @@ class MockIRepository extends _i1.Mock implements _i9.IRepository {
   }
 
   @override
+  int get posLeague =>
+      (super.noSuchMethod(Invocation.getter(#posLeague), returnValue: 0)
+          as int);
+  @override
+  set posLeague(int? _posLeague) =>
+      super.noSuchMethod(Invocation.setter(#posLeague, _posLeague),
+          returnValueForMissingStub: null);
+  @override
   _i5.Future<List<_i10.TeamStatistic>> getStatisticTeam(
-          int? idTeamHome, int? idTeamAway) =>
+          int? idTeamHome, int? idTeamAway, int? idLeague) =>
       (super.noSuchMethod(
-          Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway]),
+          Invocation.method(
+              #getStatisticTeam, [idTeamHome, idTeamAway, idLeague]),
           returnValue: Future<List<_i10.TeamStatistic>>.value(
               <_i10.TeamStatistic>[])) as _i5.Future<List<_i10.TeamStatistic>>);
   @override
@@ -133,10 +142,17 @@ class MockIRepository extends _i1.Mock implements _i9.IRepository {
               returnValue: Future<List<_i11.Round>>.value(<_i11.Round>[]))
           as _i5.Future<List<_i11.Round>>);
   @override
-  _i5.Future<List<_i11.Round>> updateData(int? index, String? winner) =>
-      (super.noSuchMethod(Invocation.method(#updateData, [index, winner]),
+  _i5.Future<List<_i11.Round>> updateData(
+          int? index, String? winner, int? fixture) =>
+      (super.noSuchMethod(
+              Invocation.method(#updateData, [index, winner, fixture]),
               returnValue: Future<List<_i11.Round>>.value(<_i11.Round>[]))
           as _i5.Future<List<_i11.Round>>);
+  @override
+  _i5.Future<List<dynamic>> winners() =>
+      (super.noSuchMethod(Invocation.method(#winners, []),
+              returnValue: Future<List<dynamic>>.value(<dynamic>[]))
+          as _i5.Future<List<dynamic>>);
 }
 
 /// A class which mocks [TeamDataSource].
@@ -148,8 +164,10 @@ class MockTeamDataSource extends _i1.Mock implements _i12.TeamDataSource {
   }
 
   @override
-  _i5.Future<Map<dynamic, dynamic>> last10RoundsTeam(int? idTeam) =>
-      (super.noSuchMethod(Invocation.method(#last10RoundsTeam, [idTeam]),
+  _i5.Future<Map<dynamic, dynamic>> last10RoundsTeam(
+          int? idTeam, int? idLeague) =>
+      (super.noSuchMethod(
+              Invocation.method(#last10RoundsTeam, [idTeam, idLeague]),
               returnValue:
                   Future<Map<dynamic, dynamic>>.value(<dynamic, dynamic>{}))
           as _i5.Future<Map<dynamic, dynamic>>);

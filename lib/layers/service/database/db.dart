@@ -42,7 +42,7 @@ String get _winner => '''
   CREATE TABLE team (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
     winner TEXT,
-    loser TEXT
+    fixture INTEGER
   )
 ''';
 }

@@ -14,7 +14,7 @@ class LastGames extends GetView<HomeController> {
   }
 
   @override
-  Widget build(BuildContext context) {      
+  Widget build(BuildContext context) {  
     return Expanded(
       child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -32,7 +32,7 @@ class LastGames extends GetView<HomeController> {
         children: [
           Padding(padding: const EdgeInsets.only(top: 15),
           child: Container(
-            color: index >= 2 ? Colors.red : Colors.blue,
+            color: controller.roundAll[index].winner != 'Analisando' ? Colors.red : Colors.blue,
             height: 35,
             width: 4,
           )),

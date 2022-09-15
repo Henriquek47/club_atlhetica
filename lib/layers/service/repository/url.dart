@@ -8,8 +8,8 @@
 
   //Brasileirão------------------------------------------------------------------------------------------------------------
   
-  String setUrlTeams(int? id){
-    final String url = 'https://v3.football.api-sports.io/fixtures?team=$id&season=$actualYear&league=71&last=10';
+  String setUrlTeams(int? id, int idLeague){
+    final String url = 'https://v3.football.api-sports.io/fixtures?team=$id&season=$actualYear&league=$idLeague&last=10';
     return url;
   }
 
@@ -20,7 +20,10 @@
     return url;
   }
 
-  final String roundsUrl = 'https://v3.football.api-sports.io//fixtures?league=71&season=$actualYear&to=$actualYear-${lastDay>30 ? monthNext <= 9 ? '0'+ monthNext.toString() : monthNext : actualMonth}-${lastDay <= 9 ? lastDay.toString().padLeft(2, '0') : lastDay}&from=$actualYear-05-01';
+  String setUrlLeagues(int idLeague){
+    final String roundsUrl = 'https://v3.football.api-sports.io//fixtures?league=$idLeague&season=$actualYear&to=$actualYear-${lastDay>30 ? monthNext <= 9 ? '0'+ monthNext.toString() : monthNext : actualMonth}-${lastDay <= 9 ? lastDay.toString().padLeft(2, '0') : lastDay}&from=$actualYear-05-01';
+    return roundsUrl;
+  }
   //Brasileirão------------------------------------------------------------------------------------------------------------
 
   const headers = {
