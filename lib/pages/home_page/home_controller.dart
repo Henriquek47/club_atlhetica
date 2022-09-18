@@ -19,13 +19,14 @@ class HomeController extends GetxController {
   RxBool expanded = false.obs;
   var roundAll = <Round>[].obs;
   var roundNext = <Round>[].obs;
-  var statistic = <TeamStatistic>[].obs;
+  var statistic = <String, Statistic>{}.obs;
   RxInt timer = 0.obs;
   RxBool details = false.obs;
   RxInt index = 0.obs;
   RxString imageHome = RxString('');
   RxInt posLeague = 0.obs;
   RxInt select = 0.obs;
+  
 
   HomeController({required this.client, required this.repository});
 
@@ -55,12 +56,10 @@ class HomeController extends GetxController {
     return await winner.execute();
   }
 
-  Future<List<TeamStatistic>> statisticTeam(int idHome, int idAway, )async{
-    statistic = <TeamStatistic>[].obs;
+  Future<Map<String, Statistic>> statisticTeam(int idHome, int idAway, )async{
+    statistic = <String, Statistic>{}.obs;
     TeamWinner winner = TeamWinner(repository);
-    int idLeague = 71;
-    repository.posLeague == 0 ? idLeague = 71 : repository.posLeague == 1 ? idLeague = 2 : repository.posLeague == 2 ? idLeague = 73 : idLeague = 0;
-    List<TeamStatistic> list = await winner.getStatisticTeam(idHome, idAway, idLeague);
+    Map<String, Statistic> list = await winner.getStatisticTeam(idHome, idAway);
     statistic.assignAll(list);
     return statistic;
   }

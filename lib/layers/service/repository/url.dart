@@ -8,8 +8,8 @@
 
   //Brasileirão------------------------------------------------------------------------------------------------------------
   
-  String setUrlTeams(int? id, int idLeague){
-    final String url = 'https://v3.football.api-sports.io/fixtures?team=$id&season=$actualYear&league=$idLeague&last=10';
+  String setUrlTeams(int? id){
+    final String url = 'https://v3.football.api-sports.io/fixtures?team=$id&season=$actualYear&last=10';
     return url;
   }
 

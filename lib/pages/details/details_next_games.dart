@@ -7,7 +7,7 @@ class DetailsNextGames extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    List<String> list = ['Chutes', 'Passes', 'Chutes ao gol', 'Escanteios', 'Posse de bola', 'Chutes ao gol', 'Escanteios', 'Chutes ao gol'];
+    List<String> list = ['Goals', 'Chures no gol', 'Defesas', 'Posse de bola', 'Escanteio', 'Faltas', 'Cartão amarelo', 'Cartão Vermelho'];
     return Expanded(child: Obx(() => Container(
       margin: const EdgeInsets.only(bottom: 20),
       height: Get.height * 0.4,
@@ -26,13 +26,23 @@ class DetailsNextGames extends GetView<HomeController> {
           child: ListView.builder(
         itemCount: list.length,
         itemBuilder: (context, index) {
+          List listStatisticHome = [
+      controller.statistic['home']?.goalsHome, controller.statistic['home']?.shotsOnGoal, controller.statistic['home']?.goalkeeperSaves,
+      controller.statistic['home']?.ballPossession, controller.statistic['home']?.cornerKicks, controller.statistic['home']?.fouls,
+      controller.statistic['home']?.yellowCards, controller.statistic['home']?.redCards,
+    ];
+    List listStatisticAway = [
+      controller.statistic['away']?.goalsAway, controller.statistic['away']?.shotsOnGoal, controller.statistic['away']?.goalkeeperSaves,
+      controller.statistic['away']?.ballPossession, controller.statistic['away']?.cornerKicks, controller.statistic['away']?.fouls,
+      controller.statistic['away']?.yellowCards, controller.statistic['away']?.redCards,
+    ];
         return Padding(padding: const EdgeInsets.only(top: 20, bottom: 5),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            Text('${controller.statistic[0].statisticAway.fouls}', style: const TextStyle(fontSize: 12)),
+            Text('${listStatisticHome[index] ?? ''}', style: const TextStyle(fontSize: 12)),
             Center(child: Text(list[index], style: const TextStyle(fontSize: 10),)),
-            const Text('20', style: TextStyle(fontSize: 12)),
+            Text('${listStatisticAway[index] ?? ''}', style: const TextStyle(fontSize: 12)),
           ],
         )); 
        })),

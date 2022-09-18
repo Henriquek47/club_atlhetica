@@ -36,15 +36,13 @@ class HomePage extends GetView<HomeController> {
             )
           ),
         ),
-        FutureBuilder<List>(
-          future: Future.wait([controller.getAllRound(), controller.nextRound()]),
-          builder: (context, snapshot) => Obx((){
-          if(!snapshot.hasData && controller.timer.value == 0){
+        Obx((){
+          if(controller.roundAll.isEmpty && controller.timer.value == 0){
             controller.timerLoad();
             return const Center(child: CircularProgressIndicator(),);
-          }else if(!snapshot.hasData  && controller.timer.value == 1){
+          }else if(controller.roundAll.isEmpty  && controller.timer.value == 1){
             return const Center(child: Text('Sem jogos no momento'));
-          }else if(snapshot.hasData){
+          }else if(controller.roundAll.isNotEmpty){
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
@@ -52,7 +50,7 @@ class HomePage extends GetView<HomeController> {
             controller.details.value ? const DetailsNextGames() : const LastGames()
       ]);}else{
         return const Center(child: Text('Sem jogos no momento'));
-      }},)),
+      }},),
       Builder(
         builder: (context) => Positioned(
           right: 10,

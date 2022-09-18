@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:clock/clock.dart';
 import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/infra/adapter/round_adapter.dart';
 import 'package:club_atlhetica/layers/infra/adapter/team_adapter.dart';
@@ -13,9 +14,9 @@ import '../../entities/team.dart';
 import '../datadource/team_datasource.dart';
 
 abstract class IRepository{
-  Future<List<TeamStatistic>> getStatisticTeam(int? idTeamHome, int? idTeamAway, int idLeague);
+  Future<List<TeamStatistic>> getStatisticTeam(int? idTeamHome, int? idTeamAway);
   Future<List<Round>> getRounds();
-  Future<List<Round>> updateData(int index, String winner, int fixture);
+  Future<List<Round>> updateData(int index, String winner, int fixture, int pos);
   Future<List> winners();
   initRepository();
   int posLeague = 0;
@@ -29,14 +30,14 @@ class Repository extends IRepository{
 
   Repository({this.teamDataSource, this.roundDataSource, this.db});
 
-  Future get10lastRound(int? idTeamHome, int? idTeamAway, int idLeague)async{
+  Future get10lastRound(int? idTeamHome, int? idTeamAway)async{
   roundTeamLast = [];
   for(int i=0; i<2; i++){
     if(i==0){
-      Map teamRoundHome = await teamDataSource!.last10RoundsTeam(idTeamHome, idLeague);
+      Map teamRoundHome = await teamDataSource!.last10RoundsTeam(idTeamHome);
       roundTeamLast.add(teamRoundHome);
     }else if(i==1){
-      Map teamRoundAway = await teamDataSource!.last10RoundsTeam(idTeamAway, idLeague);
+      Map teamRoundAway = await teamDataSource!.last10RoundsTeam(idTeamAway);
       roundTeamLast.add(teamRoundAway);
     }
   }
@@ -44,13 +45,14 @@ class Repository extends IRepository{
   }
   
   @override
-  getStatisticTeam(int? idTeamHome, int? idTeamAway, int idLeague)async{
-    await get10lastRound(idTeamHome, idTeamAway, idLeague);
+  getStatisticTeam(int? idTeamHome, int? idTeamAway)async{
+    await get10lastRound(idTeamHome, idTeamAway);
+      List<Round> round = await getRounds();
+      List<Round> beforeRounds =  round.where((element) => DateTime.parse(element.date!).isBefore(clock.now())).toList();
   List<int> fixture = [];
-  print(roundTeamLast);
   try {
     for(int j=0; j<2; j++){
-    for (var i = 0; i < 3; i++) {
+    for (var i = 0; i < beforeRounds.length && i < 10; i++) {
       fixture.add(roundTeamLast[j]['response'][i]['fixture']['id']);
     }
   }  
@@ -60,11 +62,10 @@ class Repository extends IRepository{
     print(e);
   }
 
-  Map teamStatisticResponse =  await teamDataSource!.statisticRound(fixture);
-  List results = teamStatisticResponse['response'];//tem 20 responses
   if(fixture.length > 1){
-  List<TeamStatistic> teamStatistic = results.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
-  print(teamStatistic[0].statisticAway.fouls);
+    Map teamStatisticResponse =  await teamDataSource!.statisticRound(fixture);
+    List results = teamStatisticResponse['response'];//tem 20 responses
+    List<TeamStatistic> teamStatistic = results.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
     return teamStatistic;
   }else{
     return [];
@@ -124,7 +125,7 @@ class Repository extends IRepository{
   }
   
   @override
-  Future<List<Round>> updateData(int index, String winner, int fixture)async{
+  Future<List<Round>> updateData(int index, String winner, int fixture, int pos)async{
     db = await DB.instance.database;
     List rounds = await db!.query('round');
     String response = await rounds[posLeague]['response'];
@@ -135,7 +136,8 @@ class Repository extends IRepository{
       List list = body['response'];
       body['response'][index]['fixture']['notification'] = true;
       body['response'][index]['fixture']['winner'] = winner;
-      await db!.update('round', {'response': jsonEncode(body)}, where: "id = $posLeague");
+      await db!.insert('team', {'winner': winner, 'fixture': fixture});
+      await db!.update('round', {'response': jsonEncode(body)}, where: "id = $pos");
       rounds = await db!.query('round');
       List<Round> listRounds = list.map((e) => RoundAdapter.fromJson(e)).toList();
       return listRounds;
@@ -157,10 +159,10 @@ class Repository extends IRepository{
           }else{
             await db!.update('round', {'response': allRoundsInLeague, 'month': dateTime.month, 'day': dateTime.day}, where: 'id = $i');
           }
-          return 'tudo certo';
         }
         print('oi');
         rounds = await db!.query('round');
+        print(rounds.length);
         print('oi2');
         await winners();
     }

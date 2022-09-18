@@ -1,3 +1,4 @@
+import 'package:clock/clock.dart';
 import 'package:club_atlhetica/layers/entities/round.dart';
 import 'package:club_atlhetica/layers/entities/team.dart';
 import 'package:club_atlhetica/layers/infra/datadource/team_datasource.dart';
@@ -48,18 +49,20 @@ void main()async{
   });
 
   test('Verificar se o retorno está acontecendo', () async {
+    await withClock(Clock.fixed(DateTime(2022, 5, 2)), ()async{
     var db = await openDatabase(inMemoryDatabasePath, version: 3,
         onCreate: (db, version) async {
       await db
           .execute('CREATE TABLE round (id INTEGER PRIMARY KEY, response TEXT, day INTEGER, month INTEGER)');
     });
-    when(client.get(Uri.parse(setUrlTeamsStatistic([838131, 838122, 838117, 838131, 838122, 838117])), headers: headers)).thenAnswer((_) async => http.Response(teamStatisticBody, 200));
-    when(client.get(Uri.parse(setUrlTeams(131, 71)), headers: headers)).thenAnswer((_) async => http.Response(last10RoundsOfTeam, 200));
+    when(client.get(Uri.parse(setUrlTeamsStatistic([838131,838122,838131,838122])), headers: headers)).thenAnswer((_) async => http.Response(teamStatisticBody, 200));
+    when(client.get(Uri.parse(setUrlTeams(131)), headers: headers)).thenAnswer((_) async => http.Response(last10RoundsOfTeam, 200));
     when(repositoryMock.getRounds()).thenAnswer((_) async => List<Round>.from([]));
     final repository = Repository(teamDataSource: GetStatisticTeamsApi(client: client), db: db);
-    List<TeamStatistic> list = await repository.getStatisticTeam(131, 131, 71);//O for tem que ser mudado para menor que 3 para o teste funcionar
+    List<TeamStatistic> list = await repository.getStatisticTeam(131, 131);//O for tem que ser mudado para menor que 3 para o teste funcionar
     expect(list.first.goalsHome, equals(1));                                  //corrigir esse erro
     await db.close();
+    });
   });
   
     
@@ -87,7 +90,7 @@ void main()async{
     // Insert some data
     when(repositoryMock.getRounds()).thenAnswer((_) async => List<Round>.from([]));
     final repository = Repository(db: db, roundDataSource: GetRoundApi(client: client));
-    List<Round> list = await repository.updateData(0, 'Corinthians', 0);
+    List<Round> list = await repository.updateData(0, 'Corinthians', 0, 0);
     List dbList = await db.query('round');                           
     await db.close();
   });

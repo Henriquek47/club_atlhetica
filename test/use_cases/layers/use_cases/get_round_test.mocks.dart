@@ -37,10 +37,9 @@ class MockIRepository extends _i1.Mock implements _i2.IRepository {
           returnValueForMissingStub: null);
   @override
   _i3.Future<List<_i4.TeamStatistic>> getStatisticTeam(
-          int? idTeamHome, int? idTeamAway, int? idLeague) =>
+          int? idTeamHome, int? idTeamAway) =>
       (super.noSuchMethod(
-              Invocation.method(
-                  #getStatisticTeam, [idTeamHome, idTeamAway, idLeague]),
+              Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway]),
               returnValue:
                   Future<List<_i4.TeamStatistic>>.value(<_i4.TeamStatistic>[]))
           as _i3.Future<List<_i4.TeamStatistic>>);
@@ -51,9 +50,9 @@ class MockIRepository extends _i1.Mock implements _i2.IRepository {
           as _i3.Future<List<_i5.Round>>);
   @override
   _i3.Future<List<_i5.Round>> updateData(
-          int? index, String? winner, int? fixture) =>
+          int? index, String? winner, int? fixture, int? pos) =>
       (super.noSuchMethod(
-              Invocation.method(#updateData, [index, winner, fixture]),
+              Invocation.method(#updateData, [index, winner, fixture, pos]),
               returnValue: Future<List<_i5.Round>>.value(<_i5.Round>[]))
           as _i3.Future<List<_i5.Round>>);
   @override
