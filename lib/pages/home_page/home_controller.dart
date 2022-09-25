@@ -19,7 +19,7 @@ class HomeController extends GetxController {
   RxBool expanded = false.obs;
   var roundAll = <Round>[].obs;
   var roundNext = <Round>[].obs;
-  var statistic = <String, Statistic>{}.obs;
+  var statistic = {}.obs;
   RxInt timer = 0.obs;
   RxBool details = false.obs;
   RxInt index = 0.obs;
@@ -56,10 +56,11 @@ class HomeController extends GetxController {
     return await winner.execute();
   }
 
-  Future<Map<String, Statistic>> statisticTeam(int idHome, int idAway, )async{
-    statistic = <String, Statistic>{}.obs;
+  Future<Map> statisticTeam(int idHome, int idAway, )async{
+    statistic = {}.obs;
     TeamWinner winner = TeamWinner(repository);
-    Map<String, Statistic> list = await winner.getStatisticTeam(idHome, idAway);
+    Map list = await winner.getStatisticTeam(idHome, idAway);
+    print(list);
     statistic.assignAll(list);
     return statistic;
   }

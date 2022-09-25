@@ -20,23 +20,23 @@ class DetailsNextGames extends GetView<HomeController> {
        : 
        Column(children: [
         const SizedBox(height: 20,),
-        const Text('Estatistica das 10 partidas'),
+        const Text('Estatística das partidas'),
         const SizedBox(height: 20,),
         Expanded(
           child: ListView.builder(
         itemCount: list.length,
         itemBuilder: (context, index) {
           List listStatisticHome = [
-      controller.statistic['home']?.goalsHome, controller.statistic['home']?.shotsOnGoal, controller.statistic['home']?.goalkeeperSaves,
-      controller.statistic['home']?.ballPossession, controller.statistic['home']?.cornerKicks, controller.statistic['home']?.fouls,
-      controller.statistic['home']?.yellowCards, controller.statistic['home']?.redCards,
+      controller.statistic['home']['goals'] ?? 0, controller.statistic['home']['shotsOnGoal'] ?? 0, controller.statistic['home']['goalkeeperSaves'] ?? 0,
+      controller.statistic['home']['ballPossession'] ?? 0, controller.statistic['home']['cornerKicks'] ?? 0, controller.statistic['home']['fouls'] ?? 0,
+      controller.statistic['home']['yellowCards'] ?? 0, controller.statistic['home']['redCards'] ?? 0,
     ];
     List listStatisticAway = [
-      controller.statistic['away']?.goalsAway, controller.statistic['away']?.shotsOnGoal, controller.statistic['away']?.goalkeeperSaves,
-      controller.statistic['away']?.ballPossession, controller.statistic['away']?.cornerKicks, controller.statistic['away']?.fouls,
-      controller.statistic['away']?.yellowCards, controller.statistic['away']?.redCards,
+      controller.statistic['away']['goals'] ?? 0, controller.statistic['away']['shotsOnGoal'] ?? 0, controller.statistic['away']['goalkeeperSaves'] ?? 0,
+      controller.statistic['away']['ballPossession'] ?? 0, controller.statistic['away']['cornerKicks'] ?? 0, controller.statistic['away']['fouls'] ?? 0,
+      controller.statistic['away']['yellowCards'] ?? 0, controller.statistic['away']['redCards'] ?? 0,
     ];
-        return Padding(padding: const EdgeInsets.only(top: 20, bottom: 5),
+        return Padding(padding: const EdgeInsets.only(top: 20, bottom: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [

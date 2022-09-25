@@ -32,7 +32,7 @@ class LastGames extends GetView<HomeController> {
         children: [
           Padding(padding: const EdgeInsets.only(top: 15),
           child: Container(
-            color: controller.roundAll[index].winner != 'Analisando' ? Colors.red : Colors.blue,
+            color: Colors.green,//controller.roundAll[index].winner != 'Analisando' ? Colors.red : Colors.blue,
             height: 35,
             width: 4,
           )),

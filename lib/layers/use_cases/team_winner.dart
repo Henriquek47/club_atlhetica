@@ -20,7 +20,6 @@ class TeamWinner implements ITeamWinner{
     int goalsHome = 100;
     int goalsAway = 100;
     for (var i = 0; i < round.length; i++) {
-      print(round[i].nextGames == null && round[i].notification == false);
       if(round[i].nextGames == null && round[i].notification == false){
         int hour = DateTime.parse(round[i].date!).hour - 3;
         if(hour - clock.now().hour <= 2 && hour - clock.now().hour >= 0
@@ -65,24 +64,74 @@ class TeamWinner implements ITeamWinner{
     }
   }
 
-  Future<Map<String, Statistic>> getStatisticTeam(int idHome, int idAway)async{
+  Future<Map<String, dynamic>> getStatisticTeam(int idHome, int idAway)async{
     List<TeamStatistic> statistic = await repository.getStatisticTeam(idHome, idAway);
+    print(statistic);
 
-    Map<String, Statistic> allStatistics = {};
+    Map<String, dynamic> allStatistics = {
+      'home' : {
+        'goals': 0,
+        'shotsOnGoal': 0,
+        'goalkeeperSaves':0,
+        'ballPossession':'0',
+        'cornerKicks':0,
+        'fouls':0,
+        'yellowCards':0,
+        'redCards':0
+      },
+      'away' : {
+        'goals': 0,
+        'shotsOnGoal': 0,
+        'goalkeeperSaves':0,
+        'ballPossession':'0',
+        'cornerKicks':0,
+        'fouls':0,
+        'yellowCards':0,
+        'redCards':0
+      }
+    };
     for (var k = 0; k < statistic.length; k++) {
           if(idHome == statistic[k].idHome){
-            allStatistics['home'] = statistic[k].statisticHome;
+            allStatistics['home']['goals'] += statistic[k].goalsHome ?? 0;
+            allStatistics['home']['shotsOnGoal'] += statistic[k].statisticHome.shotsOnGoal ?? 0;
+            allStatistics['home']['goalkeeperSaves'] += statistic[k].statisticHome.goalkeeperSaves ?? 0;
+            allStatistics['home']['ballPossession'] = statistic[k].statisticHome.ballPossession ?? '0';
+            allStatistics['home']['cornerKicks'] += statistic[k].statisticHome.cornerKicks ?? 0;
+            allStatistics['home']['fouls'] += statistic[k].statisticHome.fouls ?? 0;
+            allStatistics['home']['yellowCards'] += statistic[k].statisticHome.yellowCards ?? 0;
+            allStatistics['home']['redCards'] += statistic[k].statisticHome.redCards ?? 0;
           }else if(idAway == statistic[k].idHome){
-            allStatistics['home'] = statistic[k].statisticAway;
+            allStatistics['home']['goals'] += statistic[k].goalsAway ?? 0;
+            allStatistics['home']['shotsOnGoal'] += statistic[k].statisticHome.shotsOnGoal ?? 0;
+            allStatistics['home']['goalkeeperSaves'] += statistic[k].statisticHome.goalkeeperSaves ?? 0;
+            allStatistics['home']['ballPossession'] = statistic[k].statisticHome.ballPossession ?? '0';
+            allStatistics['home']['cornerKicks'] += statistic[k].statisticHome.cornerKicks ?? 0;
+            allStatistics['home']['fouls'] += statistic[k].statisticHome.fouls ?? 0;
+            allStatistics['home']['yellowCards'] += statistic[k].statisticHome.yellowCards ?? 0;
+            allStatistics['home']['redCards'] += statistic[k].statisticHome.redCards ?? 0;
           }else{
 
           }
         }
           for (var k = 0; k < statistic.length; k++) {
           if(idAway == statistic[k].idAway){
-            allStatistics['away'] = statistic[k].statisticAway;
+            allStatistics['away']['goals'] += statistic[k].goalsAway ?? 0;
+            allStatistics['away']['shotsOnGoal'] += statistic[k].statisticHome.shotsOnGoal ?? 0;
+            allStatistics['away']['goalkeeperSaves'] += statistic[k].statisticHome.goalkeeperSaves ?? 0;
+            allStatistics['away']['ballPossession'] = statistic[k].statisticHome.ballPossession ?? '0';
+            allStatistics['away']['cornerKicks'] += statistic[k].statisticHome.cornerKicks ?? 0;
+            allStatistics['away']['fouls'] += statistic[k].statisticHome.fouls ?? 0;
+            allStatistics['away']['yellowCards'] += statistic[k].statisticHome.yellowCards ?? 0;
+            allStatistics['away']['redCards'] += statistic[k].statisticHome.redCards ?? 0;
           }else if(idAway == statistic[k].idHome){
-            allStatistics['away'] = statistic[k].statisticHome;
+             allStatistics['away']['goals'] += statistic[k].goalsHome ?? 0;
+            allStatistics['away']['shotsOnGoal'] += statistic[k].statisticHome.shotsOnGoal ?? 0;
+            allStatistics['away']['goalkeeperSaves'] += statistic[k].statisticHome.goalkeeperSaves ?? 0;
+            allStatistics['away']['ballPossession'] = statistic[k].statisticHome.ballPossession ?? '0';
+            allStatistics['away']['cornerKicks'] += statistic[k].statisticHome.cornerKicks ?? 0;
+            allStatistics['away']['fouls'] += statistic[k].statisticHome.fouls ?? 0;
+            allStatistics['away']['yellowCards'] += statistic[k].statisticHome.yellowCards ?? 0;
+            allStatistics['away']['redCards'] += statistic[k].statisticHome.redCards ?? 0;
           }else{
 
           }

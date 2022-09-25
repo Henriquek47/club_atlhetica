@@ -23,15 +23,16 @@ void main() async {
     TeamStatistic teamStatistic = TeamStatistic(1, 2, 1, 0, statistic, statistic2);
     when(client.updateData(any, '', any, any)).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,2,null, false, '',1,1),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,2,null, false,'',1,1)]));
     for (var i = 0; i < 2; i++) {
-      when(client.getStatisticTeam(1, 2)).thenAnswer((_) async => List<TeamStatistic>.generate(20, (index) => teamStatistic));
+      when(client.getStatisticTeam(1, 2)).thenAnswer((_) async => List<TeamStatistic>.generate(10, (index) => teamStatistic));
     }
     final result = await teamWinner.execute();
-    List<List<Statistic>> getStatistic= await teamWinner.getStatisticTeam(1,2);
+    Map getStatistic= await teamWinner.getStatisticTeam(1,2);
     test('Verificar o tipo do retorno', ()async{
       expect(result, [0, '']);
       expect(result, isA<List>());
-      expect(getStatistic[0][0].shotsOnGoal, 20);
-      expect(getStatistic[1][0].shotsOnGoal, 30);
+      expect(getStatistic['home']['goals'], 10);
+      expect(getStatistic['away']['goals'], 0);
+      expect(getStatistic['away']['redCards'], 10);
   });
   });
 }
