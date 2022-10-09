@@ -14,7 +14,7 @@ import '../../entities/team.dart';
 import '../datadource/team_datasource.dart';
 
 abstract class IRepository{
-  Future<List<TeamStatistic>> getStatisticTeam(int? idTeamHome, int? idTeamAway);
+  Future<Map<String, List<TeamStatistic>>> getStatisticTeam(int? idTeamHome, int? idTeamAway);
   Future<List<Round>> getRounds();
   Future<List<Round>> updateData(int index, String winner, int fixture, int pos);
   Future<List> winners();
@@ -46,29 +46,39 @@ class Repository extends IRepository{
   
   @override
   getStatisticTeam(int? idTeamHome, int? idTeamAway)async{
-    await get10lastRound(idTeamHome, idTeamAway);
+    List<int> fixtureHome = [];
+    List<int> fixtureAway = [];
+    try {
+     await get10lastRound(idTeamHome, idTeamAway);
       List<Round> round = await getRounds();
       List<Round> beforeRounds =  round.where((element) => DateTime.parse(element.date!).isBefore(clock.now())).toList();
-  List<int> fixture = [];
-  try {
-    for(int j=0; j<2; j++){
-    for (var i = 0; i < beforeRounds.length && i < 10; i++) {
-      fixture.add(roundTeamLast[j]['response'][i]['fixture']['id']);
-    }
-  }  
-  }on RangeError {
-    print(e);
-  }catch(e){
-    print(e);
-  }
 
-  if(fixture.length > 1){
-    Map teamStatisticResponse =  await teamDataSource!.statisticRound(fixture);
-    List results = teamStatisticResponse['response'];//tem 20 responses
-    List<TeamStatistic> teamStatistic = results.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
-    return teamStatistic;
+    for (var i = 0; i < beforeRounds.length && i < 10; i++) {
+      fixtureHome.add(roundTeamLast[0]['response'][i]['fixture']['id']);
+      fixtureAway.add(roundTeamLast[1]['response'][i]['fixture']['id']);
+  }   
+    } catch (e) {
+      return {};
+    }
+
+  if(fixtureHome.isNotEmpty && fixtureAway.isNotEmpty){
+    try {
+      Map teamStatisticResponseHome =  await teamDataSource!.statisticRound(fixtureHome);
+      Map teamStatisticResponseAway =  await teamDataSource!.statisticRound(fixtureAway);
+      List home = teamStatisticResponseHome['response'];
+      List away = teamStatisticResponseAway['response'];
+      List<TeamStatistic> teamStatisticHome = home.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
+      List<TeamStatistic> teamStatisticAway = away.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
+      Map<String, List<TeamStatistic>> response = {
+      'home': teamStatisticHome,
+      'away': teamStatisticAway
+    };
+      return response;
+    } catch (e) {
+      return {};
+    }
   }else{
-    return [];
+    return {};
   }
   }
   
@@ -89,7 +99,7 @@ class Repository extends IRepository{
           newBody = body;
         }
       await db!.update('round', {'response': jsonEncode(newBody)}, where: 'id = $i');
-    } 
+    }
     }
     rounds = await db!.query('round');
     String response = await rounds[posLeague]['response'];
@@ -110,7 +120,6 @@ class Repository extends IRepository{
     String response = await rounds[i-1]['response'];
     var body = jsonDecode(response);
     if(round.isNotEmpty && winners.isNotEmpty){
-      print('entrou winner errado');
       for (var i = 0; i < winners.length; i++) {
         for (var k = 0; k < round.length; k++) {
           if(winners[i]['fixture'] == round[k].id){
@@ -148,23 +157,23 @@ class Repository extends IRepository{
   initRepository()async{
     db = await DB.instance.database;
     List rounds = await db!.query('round');
-    if(rounds.isEmpty || rounds.first['day'] == null || DateTime.utc(dateTime.year, rounds[posLeague]['month'], rounds[posLeague]['day'] + 5,).isBefore(DateTime.now())){
+    if(rounds.isEmpty || rounds.first['day'] == null || DateTime.utc(dateTime.year, rounds[posLeague]['month'], rounds[posLeague]['day'] + 2,).isBefore(DateTime.now())){
         print("AQUI");
         for (var i = 1; i < 4; i++) {
           int idLeague = 0;
           i == 1 ? idLeague = 71 : i == 2 ? idLeague = 2 : i == 3 ? idLeague = 73 : idLeague = 0;
           String allRoundsInLeague = await roundDataSource!.getApi(idLeague);
             if(rounds.isEmpty){
-            await db!.insert('round', {'response': allRoundsInLeague, 'month': dateTime.month, 'day': dateTime.day});
-          }else{
-            await db!.update('round', {'response': allRoundsInLeague, 'month': dateTime.month, 'day': dateTime.day}, where: 'id = $i');
+              await db!.insert('round', {'response': allRoundsInLeague, 'month': dateTime.month, 'day': dateTime.day});
+            }else{
+              await db!.update('round', {'response': allRoundsInLeague, 'month': dateTime.month, 'day': dateTime.day}, where: 'id = $i');
+            }
           }
-        }
         print('oi');
         rounds = await db!.query('round');
         print(rounds.length);
         print('oi2');
-        await winners();
+        //await winners();
     }
   }
 }

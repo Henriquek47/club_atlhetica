@@ -24,22 +24,24 @@ class TeamWinner implements ITeamWinner{
         int hour = DateTime.parse(round[i].date!).hour - 3;
         if(hour - clock.now().hour <= 2 && hour - clock.now().hour >= 0
       && DateTime.parse(round[i].date!).day == clock.now().day && DateTime.parse(round[i].date!).month == clock.now().month){
-        List<TeamStatistic> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway);
+        Map<String, List<TeamStatistic>> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway);
+
         if(statistic.isNotEmpty){
-        for (var k = 0; k < statistic.length; k++) {
-          if(round[i].idHome == statistic[k].idHome){
-            goalsHome += statistic[k].goalsHome!;
-          }else{
-            goalsHome += statistic[k].goalsAway!;
-          }
-        }
+
           for (var k = 0; k < statistic.length; k++) {
-          if(round[i].idAway == statistic[k].idAway){
-            goalsAway += statistic[k].goalsAway!;
-          }else{
-            goalsAway += statistic[k].goalsHome!;
+            if(round[i].idHome == statistic['away']![k].idHome){
+              goalsHome += statistic['away']![k].goalsHome!;
+            }else{
+              goalsHome += statistic['away']![k].goalsAway!;
+            }
           }
-        }
+            for (var k = 0; k < statistic.length; k++) {
+            if(round[i].idAway == statistic['home']![k].idAway){
+              goalsAway += statistic['home']![k].goalsAway!;
+            }else{
+              goalsAway += statistic['home']![k].goalsHome!;
+            }
+          }
         return winnerFunc(goalsHome, goalsAway, round[i].nameHome, round[i].nameAway, i, round[i].id, j+1);
         }
       }
@@ -65,15 +67,14 @@ class TeamWinner implements ITeamWinner{
   }
 
   Future<Map<String, dynamic>> getStatisticTeam(int idHome, int idAway)async{
-    List<TeamStatistic> statistic = await repository.getStatisticTeam(idHome, idAway);
-    print(statistic);
+    Map<String, List<TeamStatistic>> statistic = await repository.getStatisticTeam(idHome, idAway);
 
     Map<String, dynamic> allStatistics = {
       'home' : {
         'goals': 0,
         'shotsOnGoal': 0,
         'goalkeeperSaves':0,
-        'ballPossession':'0',
+        'ballPossession': 0,
         'cornerKicks':0,
         'fouls':0,
         'yellowCards':0,
@@ -83,7 +84,7 @@ class TeamWinner implements ITeamWinner{
         'goals': 0,
         'shotsOnGoal': 0,
         'goalkeeperSaves':0,
-        'ballPossession':'0',
+        'ballPossession': 0,
         'cornerKicks':0,
         'fouls':0,
         'yellowCards':0,
@@ -91,51 +92,61 @@ class TeamWinner implements ITeamWinner{
       }
     };
     for (var k = 0; k < statistic.length; k++) {
-          if(idHome == statistic[k].idHome){
-            allStatistics['home']['goals'] += statistic[k].goalsHome ?? 0;
-            allStatistics['home']['shotsOnGoal'] += statistic[k].statisticHome.shotsOnGoal ?? 0;
-            allStatistics['home']['goalkeeperSaves'] += statistic[k].statisticHome.goalkeeperSaves ?? 0;
-            allStatistics['home']['ballPossession'] = statistic[k].statisticHome.ballPossession ?? '0';
-            allStatistics['home']['cornerKicks'] += statistic[k].statisticHome.cornerKicks ?? 0;
-            allStatistics['home']['fouls'] += statistic[k].statisticHome.fouls ?? 0;
-            allStatistics['home']['yellowCards'] += statistic[k].statisticHome.yellowCards ?? 0;
-            allStatistics['home']['redCards'] += statistic[k].statisticHome.redCards ?? 0;
-          }else if(idAway == statistic[k].idHome){
-            allStatistics['home']['goals'] += statistic[k].goalsAway ?? 0;
-            allStatistics['home']['shotsOnGoal'] += statistic[k].statisticHome.shotsOnGoal ?? 0;
-            allStatistics['home']['goalkeeperSaves'] += statistic[k].statisticHome.goalkeeperSaves ?? 0;
-            allStatistics['home']['ballPossession'] = statistic[k].statisticHome.ballPossession ?? '0';
-            allStatistics['home']['cornerKicks'] += statistic[k].statisticHome.cornerKicks ?? 0;
-            allStatistics['home']['fouls'] += statistic[k].statisticHome.fouls ?? 0;
-            allStatistics['home']['yellowCards'] += statistic[k].statisticHome.yellowCards ?? 0;
-            allStatistics['home']['redCards'] += statistic[k].statisticHome.redCards ?? 0;
+          if(idHome == statistic['home']?[k].idHome){
+            print('$idHome e ${statistic['home']?[k].idHome} e valor ${idHome == statistic['home']?[k].idHome} e k = $k');
+            print('id do team home ${statistic['home']?[k].idHome} e goals ${statistic['home']?[k].goalsHome} e k = $k');
+            allStatistics['home']['goals'] += statistic['home']?[k].goalsHome ?? 0;
+            allStatistics['home']['shotsOnGoal'] += statistic['home']?[k].statisticHome.shotsOnGoal ?? 0;
+            allStatistics['home']['goalkeeperSaves'] += statistic['home']?[k].statisticHome.goalkeeperSaves ?? 0;
+            allStatistics['home']['ballPossession'] += calculandoPorcentagemDePasses(statistic['home']?[k].statisticHome.ballPossession ?? '0.0');
+            allStatistics['home']['cornerKicks'] += statistic['home']?[k].statisticHome.cornerKicks ?? 0;
+            allStatistics['home']['fouls'] += statistic['home']?[k].statisticHome.fouls ?? 0;
+            allStatistics['home']['yellowCards'] += statistic['home']?[k].statisticHome.yellowCards ?? 0;
+            allStatistics['home']['redCards'] += statistic['home']?[k].statisticHome.redCards ?? 0;
+          }else if(idHome == statistic['home']?[k].idAway){
+            print('$idHome e ${statistic['home']?[k].idAway} e valor ${idHome == statistic['home']?[k].idAway} e k = $k');
+             print('id do team home ${statistic['home']?[k].idAway} e goals ${statistic['home']?[k].goalsAway} e k = $k');
+            allStatistics['home']['goals'] += statistic['home']?[k].goalsAway ?? 0;
+            allStatistics['home']['shotsOnGoal'] += statistic['home']?[k].statisticHome.shotsOnGoal ?? 0;
+            allStatistics['home']['goalkeeperSaves'] += statistic['home']?[k].statisticHome.goalkeeperSaves ?? 0;
+            allStatistics['home']['ballPossession'] += calculandoPorcentagemDePasses(statistic['home']?[k].statisticHome.ballPossession ?? '0.0');
+            allStatistics['home']['cornerKicks'] += statistic['home']?[k].statisticHome.cornerKicks ?? 0;
+            allStatistics['home']['fouls'] += statistic['home']?[k].statisticHome.fouls ?? 0;
+            allStatistics['home']['yellowCards'] += statistic['home']?[k].statisticHome.yellowCards ?? 0;
+            allStatistics['home']['redCards'] += statistic['home']?[k].statisticHome.redCards ?? 0;
           }else{
 
           }
         }
           for (var k = 0; k < statistic.length; k++) {
-          if(idAway == statistic[k].idAway){
-            allStatistics['away']['goals'] += statistic[k].goalsAway ?? 0;
-            allStatistics['away']['shotsOnGoal'] += statistic[k].statisticHome.shotsOnGoal ?? 0;
-            allStatistics['away']['goalkeeperSaves'] += statistic[k].statisticHome.goalkeeperSaves ?? 0;
-            allStatistics['away']['ballPossession'] = statistic[k].statisticHome.ballPossession ?? '0';
-            allStatistics['away']['cornerKicks'] += statistic[k].statisticHome.cornerKicks ?? 0;
-            allStatistics['away']['fouls'] += statistic[k].statisticHome.fouls ?? 0;
-            allStatistics['away']['yellowCards'] += statistic[k].statisticHome.yellowCards ?? 0;
-            allStatistics['away']['redCards'] += statistic[k].statisticHome.redCards ?? 0;
-          }else if(idAway == statistic[k].idHome){
-             allStatistics['away']['goals'] += statistic[k].goalsHome ?? 0;
-            allStatistics['away']['shotsOnGoal'] += statistic[k].statisticHome.shotsOnGoal ?? 0;
-            allStatistics['away']['goalkeeperSaves'] += statistic[k].statisticHome.goalkeeperSaves ?? 0;
-            allStatistics['away']['ballPossession'] = statistic[k].statisticHome.ballPossession ?? '0';
-            allStatistics['away']['cornerKicks'] += statistic[k].statisticHome.cornerKicks ?? 0;
-            allStatistics['away']['fouls'] += statistic[k].statisticHome.fouls ?? 0;
-            allStatistics['away']['yellowCards'] += statistic[k].statisticHome.yellowCards ?? 0;
-            allStatistics['away']['redCards'] += statistic[k].statisticHome.redCards ?? 0;
-          }else{
-
+            if(idAway == statistic['away']![k].idAway){
+              allStatistics['away']['goals'] += statistic['away']?[k].goalsAway ?? 0;
+              allStatistics['away']['shotsOnGoal'] += statistic['away']?[k].statisticHome.shotsOnGoal ?? 0;
+              allStatistics['away']['goalkeeperSaves'] += statistic['away']?[k].statisticHome.goalkeeperSaves ?? 0;
+              allStatistics['away']['ballPossession'] += calculandoPorcentagemDePasses(statistic['away']?[k].statisticHome.ballPossession ?? '0.0');
+              allStatistics['away']['cornerKicks'] += statistic['away']?[k].statisticHome.cornerKicks ?? 0;
+              allStatistics['away']['fouls'] += statistic['away']?[k].statisticHome.fouls ?? 0;
+              allStatistics['away']['yellowCards'] += statistic['away']?[k].statisticHome.yellowCards ?? 0;
+              allStatistics['away']['redCards'] += statistic['away']?[k].statisticHome.redCards ?? 0;
+            }else if(idAway == statistic['away']?[k].idHome){
+              allStatistics['away']['goals'] += statistic['away']?[k].goalsHome ?? 0;
+              allStatistics['away']['shotsOnGoal'] += statistic['away']?[k].statisticHome.shotsOnGoal ?? 0;
+              allStatistics['away']['goalkeeperSaves'] += statistic['away']?[k].statisticHome.goalkeeperSaves ?? 0;
+              allStatistics['away']['ballPossession'] += calculandoPorcentagemDePasses(statistic['away']?[k].statisticHome.ballPossession ?? '0.0');
+              allStatistics['away']['cornerKicks'] += statistic['away']?[k].statisticHome.cornerKicks ?? 0;
+              allStatistics['away']['fouls'] += statistic['away']?[k].statisticHome.fouls ?? 0;
+              allStatistics['away']['yellowCards'] += statistic['away']?[k].statisticHome.yellowCards ?? 0;
+              allStatistics['away']['redCards'] += statistic['away']?[k].statisticHome.redCards ?? 0;
+            }else{
+              
           }
         }
     return allStatistics;
+  }
+
+  int calculandoPorcentagemDePasses(String passes){
+    double value = double.parse(passes.replaceAll(RegExp('[^0-9]'), ''));
+    value = value/10;
+    return value.toInt();
   }
 }

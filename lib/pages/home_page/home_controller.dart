@@ -60,7 +60,6 @@ class HomeController extends GetxController {
     statistic = {}.obs;
     TeamWinner winner = TeamWinner(repository);
     Map list = await winner.getStatisticTeam(idHome, idAway);
-    print(list);
     statistic.assignAll(list);
     return statistic;
   }

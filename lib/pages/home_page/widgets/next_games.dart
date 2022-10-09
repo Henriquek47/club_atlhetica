@@ -8,12 +8,13 @@ class NextGames extends GetView<HomeController> {
   String data(int index){
     var data = DateTime.parse(controller.roundNext[index].date!);
     String dataFormat = '${data.day <= 9 ? data.day.toString().padLeft(2, '0') : data.day}-${data.month <= 9 ? data.month.toString().padLeft(2, '0') : data.month}';
-    return dataFormat;
+    String format24hour = data.hour.isEqual(0) ? ('${data.day <= 9 ? (data.day-1).toString().padLeft(2, '0') : data.day - 1}-${data.month <= 9 ? data.month.toString().padLeft(2, '0') : data.month}').toString() : dataFormat;
+    return format24hour;
   }
 
   String hour(int index){
     var data = DateTime.parse(controller.roundNext[index].date!);
-    int hour = data.hour - 3;
+    int hour = data.hour.isEqual(0) ? (data.hour + 24) - 3 : data.hour - 3;
     String dataFormat = '${hour <= 9 ? hour.toString().padLeft(2, '0') : hour}:${data.minute <= 9 ? data.minute.toString().padLeft(2, '0') : data.minute}';
     return dataFormat;
   }
@@ -22,7 +23,7 @@ class NextGames extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return Container(
                   color: Colors.transparent,
-                  height: Get.height * 0.5,
+                  height: Get.height * 0.45,
                    width: Get.width,
                   child: Obx(() {
                     if(controller.roundNext.isEmpty){
@@ -39,6 +40,7 @@ class NextGames extends GetView<HomeController> {
                     ),
                     Padding(padding: EdgeInsets.only(top: Get.height * 0.155),
                   child: Column(
+                    mainAxisSize: MainAxisSize.min,
       children: [
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,

@@ -19,7 +19,7 @@ class GetRound{
 
   beforeRounds()async{
     List<Round> round = await getAllRounds();
-    List<Round> nextRounds = round.where((element) => DateTime.parse(element.date!).isBefore(clock.now())).toList();
+    List<Round> nextRounds = round.where((element) => DateTime.parse(element.date!).isBefore(clock.now()) && element.nextGames != null).toList();
     return nextRounds.reversed.toList();
   }
 

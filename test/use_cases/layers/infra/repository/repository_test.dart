@@ -76,7 +76,6 @@ void main()async{
     
     final repository = Repository(db: db, roundDataSource: GetRoundApi(client: client));
     List<Round> list = await repository.getRounds();
-    List dbList = await db.query('round');
     expect(list.first.id, 837991);
     await db.close();
   });
@@ -88,10 +87,13 @@ void main()async{
           .execute('CREATE TABLE round (id INTEGER PRIMARY KEY, response TEXT, day INTEGER, month INTEGER)');
     });
     // Insert some data
-    when(repositoryMock.getRounds()).thenAnswer((_) async => List<Round>.from([]));
+    
+    for (var i = 0; i < 2; i++) {
+    when(repositoryMock.getRounds()).thenAnswer((_) async => List<Round>.generate(10, (index) => Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,1,null, false, 'Analisando',1,1),));
     final repository = Repository(db: db, roundDataSource: GetRoundApi(client: client));
-    List<Round> list = await repository.updateData(0, 'Corinthians', 0, 0);
-    List dbList = await db.query('round');                           
+    List<Round> list = await repository.updateData(0, 'Corinthians', 0, 1);
+    expect(list[0].notification, true);
+    }                      
     await db.close();
   });
     

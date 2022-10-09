@@ -10,7 +10,7 @@ import 'layers/service/workmanager/workmanager_background.dart';
 
 
 void main()async{
-  WidgetsFlutterBinding.ensureInitialized();
+  /*WidgetsFlutterBinding.ensureInitialized();
   await Workmanager().initialize(
     callbackDispatcher,
   );
@@ -22,7 +22,7 @@ void main()async{
     constraints: Constraints(
       networkType: NetworkType.connected,
     ),
-  );
+  );*/
   runApp(const MyApp());
 }
 

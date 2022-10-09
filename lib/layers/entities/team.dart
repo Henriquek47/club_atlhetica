@@ -21,9 +21,6 @@ class TeamStatistic{
 }
 
 class Statistic{
-  int? idTeam;
-  int? goalsHome;
-  int? goalsAway;
   int? shotsOnGoal;
   int? shotsOffGoal;
   int? totalShots;
@@ -41,7 +38,7 @@ class Statistic{
   int? passesAcurate;
   String? percPasses;
 
-  Statistic(this.idTeam, this.shotsOnGoal, this.shotsOffGoal,
+  Statistic(this.shotsOnGoal, this.shotsOffGoal,
     this.totalShots, this.blockedShots, this.shotsInsideBox, this.shotsOutsideBox, this.fouls,
     this.cornerKicks, this.offSides, this.ballPossession, this.yellowCards, this.redCards, this.goalkeeperSaves,
     this.totalPasses, this.passesAcurate, this.percPasses,);

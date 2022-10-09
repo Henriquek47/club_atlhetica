@@ -1,7 +1,3 @@
-import 'dart:async';
-import 'dart:io';
-
-import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:club_atlhetica/pages/details/details_next_games.dart';
 import 'package:club_atlhetica/pages/home_page/home_controller.dart';
 import 'package:club_atlhetica/pages/home_page/widgets/drawer_home.dart';
@@ -11,19 +7,20 @@ import 'package:club_atlhetica/pages/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../layers/entities/round.dart';
 
 class HomePage extends GetView<HomeController> {
   const HomePage({ Key? key }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    var safePadding = MediaQuery.of(context).padding.top;
     return LayoutBuilder(builder: (context, constraints) => SafeArea(child: Scaffold(
       endDrawer: const Drawer(
         child: DrawerHome()),
-      body: Stack(children: [
+      body: Stack(
+        children: [
         Container(
-          height: Get.height,
+          height: MediaQuery.of(context).size.height - safePadding,
           width: Get.width,
           decoration: const BoxDecoration(
             gradient: LinearGradient(
@@ -47,7 +44,7 @@ class HomePage extends GetView<HomeController> {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
             controller.screen.value == 0 ? const NextGames() : const ProfilePage(),
-            controller.details.value ? const DetailsNextGames() : const LastGames()
+            controller.details.value ? const DetailsNextGames() : const LastGames(),
       ]);}else{
         return const Center(child: Text('Sem jogos no momento'));
       }},),
