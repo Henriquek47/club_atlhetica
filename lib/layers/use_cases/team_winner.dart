@@ -67,7 +67,8 @@ class TeamWinner implements ITeamWinner{
   }
 
   Future<Map<String, dynamic>> getStatisticTeam(int idHome, int idAway)async{
-    Map<String, List<TeamStatistic>> statistic = await repository.getStatisticTeam(idHome, idAway);
+    try {
+      Map<String, List<TeamStatistic>> statistic = await repository.getStatisticTeam(idHome, idAway);
 
     Map<String, dynamic> allStatistics = {
       'home' : {
@@ -91,10 +92,8 @@ class TeamWinner implements ITeamWinner{
         'redCards':0
       }
     };
-    for (var k = 0; k < statistic.length; k++) {
+    for (int k = 0; k < statistic['home']!.length; k++) {
           if(idHome == statistic['home']?[k].idHome){
-            print('$idHome e ${statistic['home']?[k].idHome} e valor ${idHome == statistic['home']?[k].idHome} e k = $k');
-            print('id do team home ${statistic['home']?[k].idHome} e goals ${statistic['home']?[k].goalsHome} e k = $k');
             allStatistics['home']['goals'] += statistic['home']?[k].goalsHome ?? 0;
             allStatistics['home']['shotsOnGoal'] += statistic['home']?[k].statisticHome.shotsOnGoal ?? 0;
             allStatistics['home']['goalkeeperSaves'] += statistic['home']?[k].statisticHome.goalkeeperSaves ?? 0;
@@ -104,8 +103,6 @@ class TeamWinner implements ITeamWinner{
             allStatistics['home']['yellowCards'] += statistic['home']?[k].statisticHome.yellowCards ?? 0;
             allStatistics['home']['redCards'] += statistic['home']?[k].statisticHome.redCards ?? 0;
           }else if(idHome == statistic['home']?[k].idAway){
-            print('$idHome e ${statistic['home']?[k].idAway} e valor ${idHome == statistic['home']?[k].idAway} e k = $k');
-             print('id do team home ${statistic['home']?[k].idAway} e goals ${statistic['home']?[k].goalsAway} e k = $k');
             allStatistics['home']['goals'] += statistic['home']?[k].goalsAway ?? 0;
             allStatistics['home']['shotsOnGoal'] += statistic['home']?[k].statisticHome.shotsOnGoal ?? 0;
             allStatistics['home']['goalkeeperSaves'] += statistic['home']?[k].statisticHome.goalkeeperSaves ?? 0;
@@ -118,8 +115,8 @@ class TeamWinner implements ITeamWinner{
 
           }
         }
-          for (var k = 0; k < statistic.length; k++) {
-            if(idAway == statistic['away']![k].idAway){
+          for (var k = 0; k < statistic['away']!.length; k++) {
+            if(idAway == statistic['away']?[k].idAway){
               allStatistics['away']['goals'] += statistic['away']?[k].goalsAway ?? 0;
               allStatistics['away']['shotsOnGoal'] += statistic['away']?[k].statisticHome.shotsOnGoal ?? 0;
               allStatistics['away']['goalkeeperSaves'] += statistic['away']?[k].statisticHome.goalkeeperSaves ?? 0;
@@ -142,6 +139,10 @@ class TeamWinner implements ITeamWinner{
           }
         }
     return allStatistics;
+    } catch (e) {
+      return {};
+    }
+    
   }
 
   int calculandoPorcentagemDePasses(String passes){

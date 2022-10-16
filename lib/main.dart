@@ -1,5 +1,7 @@
 import 'package:club_atlhetica/pages/home_page/home_bindings.dart';
 import 'package:club_atlhetica/pages/home_page/home_page.dart';
+import 'package:club_atlhetica/pages/login/login_bindings.dart';
+import 'package:club_atlhetica/pages/login/login_page.dart';
 import 'package:club_atlhetica/pages/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -37,8 +39,9 @@ class MyApp extends StatelessWidget {
       theme: AppThemeLight.theme,
       darkTheme: AppThemeDark.theme,
       themeMode: ThemeMode.system,
-      initialRoute: '/home',
+      initialRoute: '/login',
       getPages: [
+        GetPage(name: '/login', page: () => const LoginPage(), binding: LoginBindings()),
         GetPage(name: '/home', page: () => const HomePage(), binding: HomeBindings()),
         GetPage(name: '/profile', page: () => const ProfilePage())
       ],

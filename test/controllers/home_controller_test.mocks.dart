@@ -128,12 +128,13 @@ class MockIRepository extends _i1.Mock implements _i9.IRepository {
       super.noSuchMethod(Invocation.setter(#posLeague, _posLeague),
           returnValueForMissingStub: null);
   @override
-  _i5.Future<List<_i10.TeamStatistic>> getStatisticTeam(
+  _i5.Future<Map<String, List<_i10.TeamStatistic>>> getStatisticTeam(
           int? idTeamHome, int? idTeamAway) =>
       (super.noSuchMethod(
-          Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway]),
-          returnValue: Future<List<_i10.TeamStatistic>>.value(
-              <_i10.TeamStatistic>[])) as _i5.Future<List<_i10.TeamStatistic>>);
+              Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway]),
+              returnValue: Future<Map<String, List<_i10.TeamStatistic>>>.value(
+                  <String, List<_i10.TeamStatistic>>{}))
+          as _i5.Future<Map<String, List<_i10.TeamStatistic>>>);
   @override
   _i5.Future<List<_i11.Round>> getRounds() =>
       (super.noSuchMethod(Invocation.method(#getRounds, []),
