@@ -22,7 +22,7 @@ void main() async {
     Statistic statistic2 = Statistic(2,30,1,1,1,1,1,1,1,'30',1,1,1,1,1,'');
     TeamStatistic teamStatistic = TeamStatistic(1, 2, 1, 2, statistic, statistic2);
     when(client.updateData(any, '', any, any)).thenAnswer((_) async => List<Round>.from([Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,2,null, false, '',1,1),Round(1, '2022-09-03T21:00:00+00:00','','', '', '',1,2,null, false,'',1,1)]));
-    when(client.getStatisticTeam(1, 2)).thenAnswer((_) async => List<TeamStatistic>.generate(20, (index) => teamStatistic ));
+    //when(client.getStatisticTeam(1, 2)).thenAnswer((_) async => List<TeamStatistic>.generate(20, (index) => teamStatistic ));
     final result = await teamWinner.execute();
     Map getStatistic= await teamWinner.getStatisticTeam(1,2);
     test('Verificar o tipo do retorno', ()async{

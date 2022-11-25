@@ -6,6 +6,7 @@ import 'package:club_atlhetica/pages/home_page/widgets/next_games.dart';
 import 'package:club_atlhetica/pages/profile_page/profile_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 
 
 class HomePage extends GetView<HomeController> {
@@ -14,7 +15,8 @@ class HomePage extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     var safePadding = MediaQuery.of(context).padding.top;
-    return LayoutBuilder(builder: (context, constraints) => SafeArea(child: Scaffold(
+    return LayoutBuilder(builder: (context, constraints) => 
+    SafeArea(child: Scaffold(
       endDrawer: const Drawer(
         child: DrawerHome()),
       body: Stack(
@@ -38,7 +40,7 @@ class HomePage extends GetView<HomeController> {
             controller.timerLoad();
             return const Center(child: CircularProgressIndicator(),);
           }else if(controller.roundAll.isEmpty  && controller.timer.value == 1){
-            return const Center(child: Text('Sem jogos no momento'));
+            return const Center(child: Text('Sem conexão com a internet'));
           }else if(controller.roundAll.isNotEmpty){
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,

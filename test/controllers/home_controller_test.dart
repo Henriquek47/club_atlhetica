@@ -37,7 +37,7 @@ void main() {
    when(client.get(Uri.parse(setUrlTeams(125)), headers: headers)).thenAnswer((_) async => http.Response(last10RoundsOfTeam, 200));
    when(repository.getRounds()).thenAnswer((_) async => List<Round>.from([Round(1, '2022-08-13T22:00:00+00:00', 'Sport', '', 'São Paulo', '', 131, 121, null, false, '',1,1)]));
    final statistic = Statistic(1,1,1,1,1,1,1,1,1,'',1,1,1,1,1,'');
-   when(repository.getStatisticTeam(131, 121)).thenAnswer((_) async => List<TeamStatistic>.generate(20, (index) => TeamStatistic(131, 121, 1, 1, statistic, statistic)));
+   //when(repository.getStatisticTeam(131, 121)).thenAnswer((_) async => List<TeamStatistic>.generate(20, (index) async => TeamStatistic(131, 121, 1, 1, statistic, statistic)));
    HomeController homeController = HomeController(client: client, repository: repository);
    List home = await homeController.winner();
    expect(home.first, isA<int>());

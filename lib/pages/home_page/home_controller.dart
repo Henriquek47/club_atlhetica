@@ -1,13 +1,12 @@
-import 'dart:io';
-
 import 'package:club_atlhetica/layers/entities/round.dart';
-import 'package:club_atlhetica/layers/entities/team.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
+import 'package:club_atlhetica/layers/service/ads/ad_helper.dart';
 import 'package:club_atlhetica/layers/service/database/shared_pref.dart';
 import 'package:club_atlhetica/layers/use_cases/get_round.dart';
 import 'package:club_atlhetica/layers/use_cases/team_winner.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:http/http.dart' as http;
 
 class HomeController extends GetxController {
@@ -26,6 +25,11 @@ class HomeController extends GetxController {
   RxString imageHome = RxString('');
   RxInt posLeague = 0.obs;
   RxInt select = 0.obs;
+  RxBool isBottomBannerAdLoaded = false.obs;
+  RxBool isPremiumAdLoaded = false.obs;
+  late BannerAd bottomBannerAd;
+  RewardedAd? rewardedAd;
+  int indexBanner = 3;
   
 
   HomeController({required this.client, required this.repository});
@@ -37,6 +41,7 @@ class HomeController extends GetxController {
       await getAllRound();
       await nextRound();
     });
+    createBottomPremium();
     super.onInit();
   }
 
@@ -99,8 +104,70 @@ class HomeController extends GetxController {
     this.index.value = index;
   }
 
+void createBottomBannerAd() {
+    bottomBannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      size: AdSize.largeBanner,
+      request: const AdRequest(),
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+            isBottomBannerAdLoaded.value = true;
+        },
+        onAdFailedToLoad: (ad, error) {
+          ad.dispose();
+        },
+      ),
+    );
+    bottomBannerAd.load();
+  }
+
+  void createBottomPremium() {
+    RewardedAd.load(
+      request: const AdRequest(),
+      adUnitId: AdHelper.premiumId,
+      rewardedAdLoadCallback: RewardedAdLoadCallback(
+      onAdLoaded: (RewardedAd ad) {
+        print('$ad loaded.');
+        // Keep a reference to the ad so you can show it later.
+        rewardedAd = ad;
+        isPremiumAdLoaded.value = true;
+      },
+      onAdFailedToLoad: (LoadAdError error) {
+        print('RewardedAd failed to load: $error');
+        rewardedAd = null;
+        isPremiumAdLoaded.value = false;
+      },
+    ));
+  }
+
+  void showRewardedAd(){
+    if(rewardedAd != null){
+      rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
+        onAdShowedFullScreenContent: (ad) {
+          print('Ad onAdShowedFullScreenContent');
+        },
+        onAdDismissedFullScreenContent: (ad){
+          ad.dispose();
+          isPremiumAdLoaded.value = false;
+          createBottomPremium();
+        },
+        onAdFailedToShowFullScreenContent: (ad, err){
+          ad.dispose();
+          isPremiumAdLoaded.value = false;
+          createBottomPremium();
+        }
+      );
+      rewardedAd!.setImmersiveMode(true);
+      rewardedAd!.show(onUserEarnedReward: (ad, reward) {
+        print('recompensaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      },);
+    }
+  }
+
   @override
   void onClose() {
     super.onClose();
+    bottomBannerAd.dispose();
+    rewardedAd?.dispose();
   }
 }

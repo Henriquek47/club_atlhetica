@@ -59,8 +59,8 @@ void main()async{
     when(client.get(Uri.parse(setUrlTeams(131)), headers: headers)).thenAnswer((_) async => http.Response(last10RoundsOfTeam, 200));
     when(repositoryMock.getRounds()).thenAnswer((_) async => List<Round>.from([]));
     final repository = Repository(teamDataSource: GetStatisticTeamsApi(client: client), db: db);
-    List<TeamStatistic> list = await repository.getStatisticTeam(131, 131);//O for tem que ser mudado para menor que 3 para o teste funcionar
-    expect(list.first.goalsHome, equals(1));                                  //corrigir esse erro
+    Map<String, List<TeamStatistic>> list = await repository.getStatisticTeam(131, 131);//O for tem que ser mudado para menor que 3 para o teste funcionar
+    expect(list['home']![0].goalsHome, equals(1));                                  //corrigir esse erro
     await db.close();
     });
   });

@@ -1,5 +1,6 @@
 import 'package:club_atlhetica/layers/service/repository/url.dart';
 import 'package:club_atlhetica/pages/home_page/home_controller.dart';
+import 'package:club_atlhetica/pages/login/login_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -8,6 +9,7 @@ class DrawerHome extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final login = Get.put(LoginController());
     return Column(children: [
       const Padding(
           padding: EdgeInsets.symmetric(vertical: 20),
@@ -17,21 +19,7 @@ class DrawerHome extends GetView<HomeController> {
                 padding:
                     const EdgeInsets.symmetric(vertical: 80, horizontal: 20),
                 children: [
-                  ListTile(
-                    onTap: () async {
-                      await controller.setScreen(1);
-                    },
-                    tileColor: controller.screen.value == 1
-                        ? Colors.green[400]
-                        : Colors.transparent,
-                    title: Text('Perfil',
-                        style: TextStyle(
-                            fontSize: Get.textScaleFactor * 14,
-                            fontWeight: FontWeight.w300)),
-                  ),
-                  const SizedBox(
-                    height: 10,
-                  ),
+                  
                   ListTile(
                     onTap: () async {
                       await controller.setScreen(0);
@@ -52,6 +40,7 @@ class DrawerHome extends GetView<HomeController> {
                     },
                     children: [
                       ExpansionPanel(
+                        canTapOnHeader: true,
                         headerBuilder: (BuildContext context, bool isExpanded) {
                           return const ListTile(
                             title: Text('Competições', style: TextStyle(fontWeight: FontWeight.w300),),
@@ -80,7 +69,7 @@ class DrawerHome extends GetView<HomeController> {
                             controller.nextRound();
                             },
                           tileColor: controller.select.value == 1 ? Colors.green[400] : Colors.transparent,
-                          title: Text('Champions', style: TextStyle(fontWeight: FontWeight.w300),),
+                          title: const Text('Champions', style: TextStyle(fontWeight: FontWeight.w300),),
                         ),
                         ListTile(
                           onTap: (){
@@ -89,9 +78,21 @@ class DrawerHome extends GetView<HomeController> {
                             controller.repository.posLeague = 2;
                             controller.getAllRound();
                             controller.nextRound();
+                            controller.showRewardedAd();
                             },
                           tileColor: controller.select.value == 2 ? Colors.green[400] : Colors.transparent,
-                          title: Text('Copa do Brasil', style: TextStyle(fontWeight: FontWeight.w300),),
+                          title: const Text('Copa do Brasil', style: TextStyle(fontWeight: FontWeight.w300),),
+                        ),
+                        ListTile(
+                          onTap: ()async{
+                            controller.details.value = false;
+                            controller.select.value = 3;
+                            controller.repository.posLeague = 3;
+                            controller.getAllRound();
+                            controller.nextRound();
+                            },
+                          tileColor: controller.select.value == 3 ? Colors.green[400] : Colors.transparent,
+                          title: const Text('Copa Do Mundo', style: TextStyle(fontWeight: FontWeight.w300),),
                         ),
                       ])),
                         isExpanded: controller.expanded.value,
@@ -116,12 +117,7 @@ class DrawerHome extends GetView<HomeController> {
                   const SizedBox(
                     height: 10,
                   ),
-                  ListTile(
-                    title: Text('Desconectar/Sair',
-                        style: TextStyle(
-                            fontSize: Get.textScaleFactor * 14,
-                            fontWeight: FontWeight.w300)),
-                  ),
+                  
                 ],
               ))),
     ]);

@@ -53,14 +53,13 @@ class Repository extends IRepository{
       List<Round> round = await getRounds();
       List<Round> beforeRounds =  round.where((element) => DateTime.parse(element.date!).isBefore(clock.now())).toList();
 
-    for (var i = 0; i < beforeRounds.length && i < 10; i++) {
+    for (var i = 0; i < beforeRounds.length - 10; i++) {
       fixtureHome.add(roundTeamLast[0]['response'][i]['fixture']['id']);
       fixtureAway.add(roundTeamLast[1]['response'][i]['fixture']['id']);
   }   
     } catch (e) {
       return {};
     }
-
   if(fixtureHome.isNotEmpty && fixtureAway.isNotEmpty){
     try {
       Map teamStatisticResponseHome =  await teamDataSource!.statisticRound(fixtureHome);
@@ -75,9 +74,11 @@ class Repository extends IRepository{
     };
       return response;
     } catch (e) {
+      print(e);
       return {};
     }
   }else{
+    print('e');
     return {};
   }
   }
@@ -87,7 +88,7 @@ class Repository extends IRepository{
     db = await DB.instance.database;
     List rounds = await db!.query('round');
     List list = [];
-    for (var i = 1; i < 4; i++) {
+    for (var i = 1; i < 5; i++) {
       String response = await rounds[i-1]['response'];
       var body = jsonDecode(response);
       list = body['response'];
@@ -139,6 +140,7 @@ class Repository extends IRepository{
     List rounds = await db!.query('round');
     String response = await rounds[posLeague]['response'];
     final body = jsonDecode(response);
+    print(body);
     if(rounds.isEmpty || body['response'][1]['fixture']['notification'] == null || body['response'][1]['fixture']['winner'] == null){
       return await getRounds();
     }else{
@@ -159,9 +161,9 @@ class Repository extends IRepository{
     List rounds = await db!.query('round');
     if(rounds.isEmpty || rounds.first['day'] == null || DateTime.utc(dateTime.year, rounds[posLeague]['month'], rounds[posLeague]['day'] + 2,).isBefore(DateTime.now())){
         print("AQUI");
-        for (var i = 1; i < 4; i++) {
+        for (var i = 1; i < 5; i++) {
           int idLeague = 0;
-          i == 1 ? idLeague = 71 : i == 2 ? idLeague = 2 : i == 3 ? idLeague = 73 : idLeague = 0;
+          i == 1 ? idLeague = 71 : i == 2 ? idLeague = 2 : i == 3 ? idLeague = 73 : i == 4 ? idLeague = 1 : 0;
           String allRoundsInLeague = await roundDataSource!.getApi(idLeague);
             if(rounds.isEmpty){
               await db!.insert('round', {'response': allRoundsInLeague, 'month': dateTime.month, 'day': dateTime.day});

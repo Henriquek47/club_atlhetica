@@ -14,8 +14,8 @@ class TeamWinner implements ITeamWinner{
 
   @override
   execute()async{
-    for (var j = 0; j < 3; j++) {
-    j == 0 ? repository.posLeague = 0 : j == 1 ? repository.posLeague = 1 : j == 2 ? repository.posLeague = 2 : repository.posLeague = 2;
+    for (var j = 0; j < 4; j++) {
+    j == 0 ? repository.posLeague = 0 : j == 1 ? repository.posLeague = 1 : j == 2 ? repository.posLeague = 2 : j == 3 ? repository.posLeague = 3 : 0;
     List<Round> round = await repository.getRounds();
     int goalsHome = 100;
     int goalsAway = 100;
@@ -25,6 +25,7 @@ class TeamWinner implements ITeamWinner{
         if(hour - clock.now().hour <= 2 && hour - clock.now().hour >= 0
       && DateTime.parse(round[i].date!).day == clock.now().day && DateTime.parse(round[i].date!).month == clock.now().month){
         Map<String, List<TeamStatistic>> statistic = await repository.getStatisticTeam(round[i].idHome, round[i].idAway);
+      print('entrou ${statistic}');
 
         if(statistic.isNotEmpty){
 

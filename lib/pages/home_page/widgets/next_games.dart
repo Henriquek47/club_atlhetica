@@ -46,9 +46,12 @@ class NextGames extends GetView<HomeController> {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             Column(children: [
-              Image.network(controller.roundNext[index].imageHome!, fit: BoxFit.cover, scale: 1.8, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
+               SizedBox(
+              height: Get.height * 0.1,
+              width: Get.width * 0.3,
+              child:Image.network(controller.roundNext[index].imageHome!, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
                 return const Center(child: CircularProgressIndicator());
-              }),
+              })),
               const SizedBox(height: 10,),
             Container(
               alignment: Alignment.center,
@@ -65,9 +68,13 @@ class NextGames extends GetView<HomeController> {
             ]),
             Column(
               children: [
-            Image.network(controller.roundNext[index].imageAway!, scale: 1.8, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
+            SizedBox(
+              height: Get.height * 0.1,
+              width: Get.width * 0.3,
+              child:
+            Image.network(controller.roundNext[index].imageAway!, errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace){
                 return const Center(child: CircularProgressIndicator());
-              }),
+              })),
             const SizedBox(height: 10,),
             Container(
               alignment: Alignment.center,
@@ -87,11 +94,17 @@ class NextGames extends GetView<HomeController> {
             onTap: ()async{
               controller.details.value = !controller.details.value;
               if(controller.details.value){
-              print(controller.roundNext[index].idHome!);
-              await controller.statisticTeam(controller.roundNext[index].idHome!, controller.roundNext[index].idAway!);
+                await controller.statisticTeam(controller.roundNext[index].idHome!, controller.roundNext[index].idAway!);
               }
             },
             child: const Text('Ver mais', style: TextStyle(fontSize: 12))),
+             const SizedBox(height: 5,),
+          GestureDetector(
+            onTap: ()async{
+              controller.winner();
+              //controller.showRewardedAd();
+            },
+            child: const Text('Ver previsão', style: TextStyle(fontSize: 12))),
         ]),
       ]
     ))]);

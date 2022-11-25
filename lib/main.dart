@@ -3,8 +3,10 @@ import 'package:club_atlhetica/pages/home_page/home_page.dart';
 import 'package:club_atlhetica/pages/login/login_bindings.dart';
 import 'package:club_atlhetica/pages/login/login_page.dart';
 import 'package:club_atlhetica/pages/profile_page/profile_page.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:workmanager/workmanager.dart';
 
 import 'layers/service/workmanager/workmanager_background.dart';
@@ -12,8 +14,11 @@ import 'layers/service/workmanager/workmanager_background.dart';
 
 
 void main()async{
-  /*WidgetsFlutterBinding.ensureInitialized();
-  await Workmanager().initialize(
+  WidgetsFlutterBinding.ensureInitialized();
+  MobileAds.instance.initialize();
+  await Firebase.initializeApp();
+  
+  /*await Workmanager().initialize(
     callbackDispatcher,
   );
   await Workmanager().registerPeriodicTask(
@@ -39,9 +44,9 @@ class MyApp extends StatelessWidget {
       theme: AppThemeLight.theme,
       darkTheme: AppThemeDark.theme,
       themeMode: ThemeMode.system,
-      initialRoute: '/login',
+      initialRoute: '/home',
       getPages: [
-        GetPage(name: '/login', page: () => const LoginPage(), binding: LoginBindings()),
+        GetPage(name: '/login', page: () => LoginPage(), binding: LoginBindings()),
         GetPage(name: '/home', page: () => const HomePage(), binding: HomeBindings()),
         GetPage(name: '/profile', page: () => const ProfilePage())
       ],

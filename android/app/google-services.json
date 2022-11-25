@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "262987721526",
+    "project_id": "club-atlhetica",
+    "storage_bucket": "club-atlhetica.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:262987721526:android:c54fb323e75115e30e2197",
+        "android_client_info": {
+          "package_name": "com.example.club_atlhetica"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "262987721526-3i9k8dq9v38kt80i232fs9d14a5e09tq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDWS68HINrBu3P8ku5yQmIqRcBjIn-kGak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "262987721526-3i9k8dq9v38kt80i232fs9d14a5e09tq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
