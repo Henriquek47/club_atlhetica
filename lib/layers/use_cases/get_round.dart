@@ -7,18 +7,18 @@ class GetRound{
 
   GetRound({this.repository});
 
-  getAllRounds()async{
-    return await repository!.getRounds();
+  getAllRounds(int idLeague)async{
+    return await repository!.getRounds(idLeague);
   }
 
-  nextRounds()async{
-    List<Round> round = await getAllRounds();
+  nextRounds(int idLeague)async{
+    List<Round> round = await getAllRounds(idLeague);
         List<Round> nextRounds = round.where((element) => element.nextGames == null && DateTime.parse(element.date!).isAfter(clock.now())).toList();
         return nextRounds;
   }
 
-  beforeRounds()async{
-    List<Round> round = await getAllRounds();
+  beforeRounds(int idLeague)async{
+    List<Round> round = await getAllRounds(idLeague);
     List<Round> nextRounds = round.where((element) => DateTime.parse(element.date!).isBefore(clock.now()) && element.nextGames != null).toList();
     return nextRounds.reversed.toList();
   }

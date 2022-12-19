@@ -5,8 +5,8 @@ class Round{
   String? imageHome;
   String? nameAway;
   String? imageAway;
-  int? idHome;
-  int? idAway;
+  int idHome;
+  int idAway;
   int? nextGames;
   bool? notification;
   String? winner;

@@ -1,4 +1,5 @@
 import 'package:club_atlhetica/layers/entities/round.dart';
+import 'package:club_atlhetica/layers/entities/team.dart';
 import 'package:club_atlhetica/layers/infra/repository/repository.dart';
 import 'package:club_atlhetica/layers/service/ads/ad_helper.dart';
 import 'package:club_atlhetica/layers/service/database/shared_pref.dart';
@@ -18,18 +19,20 @@ class HomeController extends GetxController {
   RxBool expanded = false.obs;
   var roundAll = <Round>[].obs;
   var roundNext = <Round>[].obs;
-  var statistic = {}.obs;
+  var statisticHome = [].obs;
+  var statisticAway = [].obs;
   RxInt timer = 0.obs;
   RxBool details = false.obs;
   RxInt index = 0.obs;
   RxString imageHome = RxString('');
-  RxInt posLeague = 0.obs;
   RxInt select = 0.obs;
   RxBool isBottomBannerAdLoaded = false.obs;
   RxBool isPremiumAdLoaded = false.obs;
   late BannerAd bottomBannerAd;
   RewardedAd? rewardedAd;
   int indexBanner = 3;
+  int idLeagueActual = 1;
+  int idLeagueDefault = 1;
   
 
   HomeController({required this.client, required this.repository});
@@ -38,8 +41,8 @@ class HomeController extends GetxController {
   void onInit()async{
     await _pref.initSharedPrefe();
     await initRepository().whenComplete(()async{
-      await getAllRound();
-      await nextRound();
+      await getAllRound(idLeagueDefault);
+      await nextRound(idLeagueDefault);
     });
     createBottomPremium();
     super.onInit();
@@ -56,29 +59,43 @@ class HomeController extends GetxController {
     await repository.initRepository();
   }
 
-  Future<List> winner()async{
+  Future<String> winner(int idHome, int idAway, String nameHome, String nameAway, int fixture)async{
     TeamWinner winner = TeamWinner(repository);
-    return await winner.execute();
+    return await winner.execute(idHome, idAway, nameHome, nameAway, fixture, idLeagueActual);
   }
 
-  Future<Map> statisticTeam(int idHome, int idAway, )async{
-    statistic = {}.obs;
+  Future<RxList> statisticTeamHome(int idHome)async{
     TeamWinner winner = TeamWinner(repository);
-    Map list = await winner.getStatisticTeam(idHome, idAway);
-    statistic.assignAll(list);
-    return statistic;
+    TeamStatistic list = await winner.sumDataHome(idHome);
+    statisticHome.addAll([list.goalsHome, list.statisticHome!.shotsOnGoal!,
+    list.statisticHome!.goalkeeperSaves!, list.statisticHome!.ballPossession!,
+    list.statisticHome!.cornerKicks!,list.statisticHome!.fouls!,
+    list.statisticHome!.yellowCards!,list.statisticHome!.redCards!,
+    ]);
+    return statisticHome;
   }
 
-  Future<List<Round>> nextRound() async {
+  Future<RxList> statisticTeamAway(int idAway)async{
+    TeamWinner winner = TeamWinner(repository);
+    TeamStatistic list = await winner.sumDataAway(idAway);
+     statisticAway.addAll([list.goalsAway, list.statisticAway!.shotsOnGoal!,
+    list.statisticAway!.goalkeeperSaves!, list.statisticAway!.ballPossession!,
+    list.statisticAway!.cornerKicks!,list.statisticAway!.fouls!,
+    list.statisticAway!.yellowCards!,list.statisticAway!.redCards!,
+    ]);
+    return statisticAway;
+  }
+
+  Future<List<Round>> nextRound(int idLeague) async {
     GetRound getRoundVar = GetRound(repository: repository);
-    List<Round> round = await getRoundVar.nextRounds();
+    List<Round> round = await getRoundVar.nextRounds(idLeague);
     roundNext.assignAll(round);
     return roundNext;
   }
 
-  Future<List<Round>> getAllRound() async {
+  Future<List<Round>> getAllRound(int idLeague) async {
     GetRound getRoundVar = GetRound(repository: repository);
-    List<Round> round = await getRoundVar.beforeRounds();
+    List<Round> round = await getRoundVar.beforeRounds(idLeague);
     roundAll.assignAll(round);
     return roundAll;
   }
@@ -140,7 +157,7 @@ void createBottomBannerAd() {
     ));
   }
 
-  void showRewardedAd(){
+  void showRewardedAd(int idHome, int idAway, String nameHome, String nameAway, int fixture){
     if(rewardedAd != null){
       rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
         onAdShowedFullScreenContent: (ad) {
@@ -158,8 +175,8 @@ void createBottomBannerAd() {
         }
       );
       rewardedAd!.setImmersiveMode(true);
-      rewardedAd!.show(onUserEarnedReward: (ad, reward) {
-        print('recompensaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      rewardedAd!.show(onUserEarnedReward: (ad, reward)async{
+        await winner(idHome, idAway, nameHome, nameAway, fixture);
       },);
     }
   }

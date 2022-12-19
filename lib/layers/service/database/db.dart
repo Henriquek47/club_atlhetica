@@ -31,7 +31,7 @@ class DB{
 
   String get _responseAllRounds => '''
   CREATE TABLE round (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    idLeague INTEGER PRIMARY KEY,
     response TEXT,
     day INTEGER,
     month INTEGER

@@ -64,7 +64,7 @@ class NextGames extends GetView<HomeController> {
               const SizedBox(height: 5,),
               Text(data(index), style: const TextStyle(fontSize: 20),),
               const SizedBox(height: 5,),
-              Text('Provavel vencedor\n${controller.roundNext[index].winner}', textAlign: TextAlign.center,style: const TextStyle(fontSize: 12),),
+              Text('Provavel vencedor\n${controller.roundNext[index].winner ?? 'Analisando'}', textAlign: TextAlign.center,style: const TextStyle(fontSize: 12),),
             ]),
             Column(
               children: [
@@ -94,15 +94,21 @@ class NextGames extends GetView<HomeController> {
             onTap: ()async{
               controller.details.value = !controller.details.value;
               if(controller.details.value){
-                await controller.statisticTeam(controller.roundNext[index].idHome!, controller.roundNext[index].idAway!);
+                await controller.statisticTeamHome(controller.roundNext[index].idHome);
+                await controller.statisticTeamAway(controller.roundNext[index].idAway);
               }
             },
             child: const Text('Ver mais', style: TextStyle(fontSize: 12))),
              const SizedBox(height: 5,),
           GestureDetector(
             onTap: ()async{
-              controller.winner();
-              //controller.showRewardedAd();
+              print(controller.roundNext[index].id );
+              print(controller.roundNext[index].winner);
+              if(controller.roundNext[index].id != null){
+                controller.showRewardedAd(controller.roundNext[index].idHome, controller.roundNext[index].idAway, controller.roundNext[index].nameHome!,controller.roundNext[index].nameAway!, controller.roundNext[index].id!);
+              }else{
+                Get.snackbar('ERROR', 'ERROR');
+              }
             },
             child: const Text('Ver previsão', style: TextStyle(fontSize: 12))),
         ]),

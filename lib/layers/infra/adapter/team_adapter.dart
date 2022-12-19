@@ -16,10 +16,14 @@ class TeamAdapter{
       );
   }
   static Statistic fromStatistic(dynamic data){
-    return Statistic(
-      data['statistics'][0]['value'] ?? 0, data['statistics'][1]['value'] ?? 0, data['statistics'][2]['value'] ?? 0, data['statistics'][3]['value'] ?? 0,
-      data['statistics'][4]['value']?? 0, data['statistics'][5]['value']?? 0, data['statistics'][6]['value']?? 0, data['statistics'][7]['value'] ?? 0, 
-      data['statistics'][8]['value']?? 0, data['statistics'][9]['value']?? '0', data['statistics'][10]['value']?? 0, data['statistics'][11]['value']?? 0, 
-      data['statistics'][12]['value']?? 0, data['statistics'][13]['value']?? 0, data['statistics'][14]['value']?? 0, data['statistics'][15]['value']?? 0);
+    if(data['statistics'] == null){
+      return Statistic(0, 0, 0, 0, 0, 0, 0, 0, 0, '0', 0, 0, 0, 0, 0, '0');
+    }else{
+      return Statistic(
+        data['statistics'][0]['value'] , data['statistics'][1]['value'] , data['statistics'][2]['value'] , data['statistics'][3]['value'] ,
+        data['statistics'][4]['value'], data['statistics'][5]['value'], data['statistics'][6]['value'], data['statistics'][7]['value'] , 
+        data['statistics'][8]['value'], data['statistics'][9]['value']?? '0', data['statistics'][10]['value'], data['statistics'][11]['value'], 
+        data['statistics'][12]['value'], data['statistics'][13]['value'], data['statistics'][14]['value'], data['statistics'][15]['value']);
+    }
   }
 }

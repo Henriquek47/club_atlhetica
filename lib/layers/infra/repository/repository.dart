@@ -8,79 +8,189 @@ import 'package:club_atlhetica/layers/infra/adapter/team_adapter.dart';
 import 'package:club_atlhetica/layers/infra/datadource/round_datasource.dart';
 import 'package:club_atlhetica/layers/service/database/db.dart';
 import 'package:club_atlhetica/layers/service/repository/url.dart';
+import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sqflite/sqflite.dart';
 
 import '../../entities/team.dart';
 import '../datadource/team_datasource.dart';
 
-abstract class IRepository{
-  Future<Map<String, List<TeamStatistic>>> getStatisticTeam(int? idTeamHome, int? idTeamAway);
-  Future<List<Round>> getRounds();
-  Future<List<Round>> updateData(int index, String winner, int fixture, int pos);
-  Future<List> winners();
+abstract class IRepository {
+  Future<List<TeamStatistic>> getStatisticTeamHome(int idTeamHome);
+  Future<List<TeamStatistic>> getStatisticTeamAway(int idTeamAway);
+  Future<List<Round>> getRounds(int idLeague);
+  Future<void> updateData(
+      int idLeague, String winner, int fixture);
   initRepository();
   int posLeague = 0;
 }
 
-class Repository extends IRepository{
+class Repository extends IRepository {
+  late TeamDataSource teamDataSource;
+  late RoundDataSource roundDataSource;
+  Database? db;
+  List idsLeagues = [1,2,71,73];
+  List roundTeamLastHome = [];
+  List roundTeamLastAway = [];
+  bool update = false;
+
+  Repository(
+      {required this.teamDataSource, required this.roundDataSource, this.db});
+
+  @override
+  Future<List<TeamStatistic>> getStatisticTeamHome(int idTeamHome) async {
+    roundTeamLastHome = [];
+    try {
+      Map teamRoundHome = await teamDataSource.last10RoundsTeam(idTeamHome);
+      for (var i = 0; i < (teamRoundHome['response'] as List).length; i++) {
+        roundTeamLastHome.add(teamRoundHome['response'][i]['fixture']['id']);
+      }
+      Map home =
+          await teamDataSource.statisticRound(roundTeamLastHome.join('-'));
+      List<TeamStatistic> homeStatistic = (home['response'] as List)
+          .map((e) => TeamAdapter.fromJsonStatistic(e))
+          .toList();
+      return homeStatistic;
+    } catch (e) {
+      Get.snackbar('Erro na conexão', 'Erro na conexão', backgroundColor: Colors.grey);
+      return [];
+    }
+  }
+
+  @override
+  Future<List<TeamStatistic>> getStatisticTeamAway(int idTeamAway) async {
+    roundTeamLastAway.clear();
+    try {
+      Map teamRoundAway = await teamDataSource.last10RoundsTeam(idTeamAway);
+      for (var i = 0; i < (teamRoundAway['response'] as List).length; i++) {
+        roundTeamLastAway.add(teamRoundAway['response'][i]['fixture']['id']);
+      }
+      Map away =
+          await teamDataSource.statisticRound(roundTeamLastAway.join('-'));
+      List<TeamStatistic> awayStatistic = (away['response'] as List)
+          .map((e) => TeamAdapter.fromJsonStatistic(e))
+          .toList();
+      return awayStatistic;
+    } catch (e) {
+      Get.snackbar('Erro na conexão', 'Erro na conexão', backgroundColor: Colors.grey);
+      return [];
+    }
+  }
+
+  @override
+  Future<List<Round>> getRounds(int idLeague) async {
+    db = await DB.instance.database;
+    List rounds = await db!.query('round', where: 'idLeague = $idLeague', columns: ['response']);
+    if (rounds.isEmpty) {
+      await initRepository();
+      return [];
+    } else {
+      String response = await rounds.first['response'];
+      var body = jsonDecode(response);
+      List res = body['response'];
+      List<Round> listRounds =
+          res.map((e) => RoundAdapter.fromJson(e)).toList();
+          for (var element in listRounds) {
+            if(element.goalsHome == null && !DateTime.parse(element.date!).hour.isEqual(00) && (DateTime.parse(element.date!).isBefore(DateTime.now()))){
+              update = true;
+              await initRepository();
+              update = false;
+              return [];
+            }
+          }
+      return listRounds;
+    }
+  }
+
+  @override
+  initRepository() async {
+    try {
+    db = await DB.instance.database;
+    List rounds = await db!.query('round');
+    for (int i = 0; i < idsLeagues.length; i++) {
+      if (rounds.isEmpty) {
+      final response = await roundDataSource.getApi(idsLeagues[i]);
+        print('INIT REPOSITORY SQLLLL');
+        await db!.insert('round', {
+          'idLeague': idsLeagues[i],
+          'response': response,
+          'month': dateTime.month,
+          'day': dateTime.day
+        });
+      } else if(update == true) {
+        final response = await roundDataSource.getApi(idsLeagues[i]);
+        print('INIT REPOSITORY SQLLLL 222222222');
+        await db!.update('round', {
+          'response': response,
+          'month': dateTime.month,
+          'day': dateTime.day
+        }, where: 'idLeague = ${idsLeagues[i]}');
+      }
+    }
+    rounds = await db!.query('round');
+    } catch (e) {
+      Get.snackbar('Erro na conexão', 'Erro na conexão', backgroundColor: Colors.grey);
+    }
+  }
+
+  @override
+  Future<void> updateData(int idLeague, String winner, int fixture)async{
+      db = await DB.instance.database;
+    List rounds = await db!.query('round', where: 'idLeague = $idLeague', columns: ['response']);
+      String response = await rounds.first['response'];
+      var body = jsonDecode(response);
+      for (var i = 0; i < (body['response'] as List).length; i++) {
+        if(body['response'][i]['fixture']['id'] == fixture){
+          body['response'][i]['fixture']['winner'] = winner;
+          body['response'][i]['fixture']['notification'] = true;
+          await db!.update('round', {'response': jsonEncode(body)}, where: 'idLeague = $idLeague');
+        }
+      }
+      rounds = await db!.query('round', where: 'idLeague = $idLeague', columns: ['response']);
+  }
+}
+
+/*class Repository extends IRepository{
   TeamDataSource? teamDataSource;
   RoundDataSource? roundDataSource;
   Database? db;
-  List roundTeamLast = [];
+  List roundTeamLastHome = [];
+  List roundTeamLastAway = [];
+  List idsLeagues = [71, 2, 73, 1];
 
   Repository({this.teamDataSource, this.roundDataSource, this.db});
 
-  Future get10lastRound(int? idTeamHome, int? idTeamAway)async{
-  roundTeamLast = [];
+  get10lastRound(int? idTeamHome, int? idTeamAway)async{
+  roundTeamLastHome = [];
+  roundTeamLastAway = [];
   for(int i=0; i<2; i++){
     if(i==0){
       Map teamRoundHome = await teamDataSource!.last10RoundsTeam(idTeamHome);
-      roundTeamLast.add(teamRoundHome);
+      for (var i = 0; i < (teamRoundHome['response'] as List).length; i++) {
+      roundTeamLastHome.add(teamRoundHome['response'][i]['fixture']['id']);
+      }
     }else if(i==1){
       Map teamRoundAway = await teamDataSource!.last10RoundsTeam(idTeamAway);
-      roundTeamLast.add(teamRoundAway);
+      for (var i = 0; i < (teamRoundAway['response'] as List).length; i++) {
+      roundTeamLastAway.add(teamRoundAway['response'][i]['fixture']['id']);
+      }
     }
   }
-  return roundTeamLast;
   }
   
   @override
   getStatisticTeam(int? idTeamHome, int? idTeamAway)async{
-    List<int> fixtureHome = [];
-    List<int> fixtureAway = [];
-    try {
-     await get10lastRound(idTeamHome, idTeamAway);
-      List<Round> round = await getRounds();
-      List<Round> beforeRounds =  round.where((element) => DateTime.parse(element.date!).isBefore(clock.now())).toList();
-
-    for (var i = 0; i < beforeRounds.length - 10; i++) {
-      fixtureHome.add(roundTeamLast[0]['response'][i]['fixture']['id']);
-      fixtureAway.add(roundTeamLast[1]['response'][i]['fixture']['id']);
-  }   
-    } catch (e) {
-      return {};
-    }
-  if(fixtureHome.isNotEmpty && fixtureAway.isNotEmpty){
-    try {
-      Map teamStatisticResponseHome =  await teamDataSource!.statisticRound(fixtureHome);
-      Map teamStatisticResponseAway =  await teamDataSource!.statisticRound(fixtureAway);
-      List home = teamStatisticResponseHome['response'];
-      List away = teamStatisticResponseAway['response'];
-      List<TeamStatistic> teamStatisticHome = home.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
-      List<TeamStatistic> teamStatisticAway = away.map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
-      Map<String, List<TeamStatistic>> response = {
-      'home': teamStatisticHome,
-      'away': teamStatisticAway
+    await get10lastRound(idTeamHome, idTeamAway);
+    Map home = await teamDataSource!.statisticRound(roundTeamLastHome.join('-'));
+    Map away = await teamDataSource!.statisticRound(roundTeamLastAway.join('-'));
+    print(roundTeamLastHome.join('-'));
+    List<TeamStatistic> homeStatistic = (home['response'] as List).map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
+    List<TeamStatistic> awayStatistic = (away['response'] as List).map((e) => TeamAdapter.fromJsonStatistic(e)).toList();
+    Map<String, List<TeamStatistic>> response = {
+      'home': homeStatistic,
+      'away': awayStatistic
     };
-      return response;
-    } catch (e) {
-      print(e);
-      return {};
-    }
-  }else{
-    print('e');
-    return {};
-  }
+    return response;
   }
   
    @override
@@ -88,7 +198,7 @@ class Repository extends IRepository{
     db = await DB.instance.database;
     List rounds = await db!.query('round');
     List list = [];
-    for (var i = 1; i < 5; i++) {
+    for (var i = 1; i < (idsLeagues.length + 1); i++) {
       String response = await rounds[i-1]['response'];
       var body = jsonDecode(response);
       list = body['response'];
@@ -109,30 +219,6 @@ class Repository extends IRepository{
     List<Round> listRounds = roundsList.map((e) => RoundAdapter.fromJson(e)).toList();
     return listRounds;
   }
-
-  @override
-  Future<List> winners()async{
-    print('entrou winner aqui agr');
-    db = await DB.instance.database;
-    List<Round> round = await getRounds();
-    List winners = await db!.query('team');
-    List rounds = await db!.query('round');
-    for (var i = 1; i < 4; i++) {
-    String response = await rounds[i-1]['response'];
-    var body = jsonDecode(response);
-    if(round.isNotEmpty && winners.isNotEmpty){
-      for (var i = 0; i < winners.length; i++) {
-        for (var k = 0; k < round.length; k++) {
-          if(winners[i]['fixture'] == round[k].id){
-            body['response'][k]['fixture']['winner'] = winners[i]['winner'];
-          }
-        }
-      }
-      await db!.update('round', {'response': jsonEncode(body)}, where: 'id = $i');
-    }
-    }
-    return winners;
-  }
   
   @override
   Future<List<Round>> updateData(int index, String winner, int fixture, int pos)async{
@@ -140,7 +226,6 @@ class Repository extends IRepository{
     List rounds = await db!.query('round');
     String response = await rounds[posLeague]['response'];
     final body = jsonDecode(response);
-    print(body);
     if(rounds.isEmpty || body['response'][1]['fixture']['notification'] == null || body['response'][1]['fixture']['winner'] == null){
       return await getRounds();
     }else{
@@ -161,7 +246,7 @@ class Repository extends IRepository{
     List rounds = await db!.query('round');
     if(rounds.isEmpty || rounds.first['day'] == null || DateTime.utc(dateTime.year, rounds[posLeague]['month'], rounds[posLeague]['day'] + 2,).isBefore(DateTime.now())){
         print("AQUI");
-        for (var i = 1; i < 5; i++) {
+        for (var i = 1; i < (idsLeagues.length + 1); i++) {
           int idLeague = 0;
           i == 1 ? idLeague = 71 : i == 2 ? idLeague = 2 : i == 3 ? idLeague = 73 : i == 4 ? idLeague = 1 : 0;
           String allRoundsInLeague = await roundDataSource!.getApi(idLeague);
@@ -178,4 +263,4 @@ class Repository extends IRepository{
         //await winners();
     }
   }
-}
+}*/

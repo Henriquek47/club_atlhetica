@@ -24,7 +24,7 @@ class GetStatisticTeamsApi extends TeamDataSource{
     }
   }
   @override
-  statisticRound(List<int> ids)async{
+  statisticRound(String ids)async{
     http.Response response = await client.get(Uri.parse(setUrlTeamsStatistic(ids)), headers: headers);
     if(response.statusCode == 200){
     var body = jsonDecode(response.body);

@@ -6,17 +6,14 @@
   final actualDay = dateTime.day <= 9 ? '0'+dateTime.day.toString() : dateTime.day;
   final lastDay = dateTime.day + 7;
 
-  //Brasileirão------------------------------------------------------------------------------------------------------------
   
   String setUrlTeams(int? id){
     final String url = 'https://v3.football.api-sports.io/fixtures?team=$id&season=$actualYear&last=10';
     return url;
   }
 
-  String setUrlTeamsStatistic(List<int> ids){
-      String idsFixtures = ids.toString();
-      String idsFormat = idsFixtures.replaceAll(',', '-').replaceAll(' ', '').replaceAll('[', '').replaceAll(']', '');
-      final String url = 'https://v3.football.api-sports.io/fixtures?ids=$idsFormat';
+  String setUrlTeamsStatistic(String id){
+      final String url = 'https://v3.football.api-sports.io/fixtures?ids=$id';
     return url;
   }
 
@@ -24,7 +21,6 @@
     final String roundsUrl = 'https://v3.football.api-sports.io//fixtures?league=$idLeague&season=$actualYear&to=$actualYear-${lastDay>30 ? monthNext <= 9 ? '0'+ monthNext.toString() : monthNext : actualMonth}-${lastDay <= 9 ? lastDay.toString().padLeft(2, '0') : lastDay}&from=$actualYear-05-01';
     return roundsUrl;
   }
-  //Brasileirão------------------------------------------------------------------------------------------------------------
 
   const headers = {
   'x-rapidapi-key': 'eed8207155199a6f783644cd004c18e8',

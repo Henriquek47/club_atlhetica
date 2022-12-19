@@ -53,20 +53,20 @@ class DrawerHome extends GetView<HomeController> {
                             onTap: (){
                               controller.details.value = false;
                               controller.select.value = 0;
-                              controller.repository.posLeague = 0;
-                              controller.getAllRound();
-                              controller.nextRound();
+                              controller.idLeagueActual = 1;
+                              controller.getAllRound(1);
+                              controller.nextRound(1);
                             },
                           tileColor: controller.select.value == 0 ? Colors.green[400] : Colors.transparent,
-                          title: const Text('Brasileirão', style: TextStyle(fontWeight: FontWeight.w300),),
+                          title: const Text('Copa Do Mundo', style: TextStyle(fontWeight: FontWeight.w300),),
                         ),
                         ListTile(
                           onTap: ()async{
                             controller.details.value = false;
                             controller.select.value = 1;
-                            controller.repository.posLeague = 1;
-                            controller.getAllRound();
-                            controller.nextRound();
+                            controller.idLeagueActual = 2;
+                            controller.getAllRound(2);
+                            controller.nextRound(2);
                             },
                           tileColor: controller.select.value == 1 ? Colors.green[400] : Colors.transparent,
                           title: const Text('Champions', style: TextStyle(fontWeight: FontWeight.w300),),
@@ -75,24 +75,23 @@ class DrawerHome extends GetView<HomeController> {
                           onTap: (){
                             controller.details.value = false;
                             controller.select.value = 2;
-                            controller.repository.posLeague = 2;
-                            controller.getAllRound();
-                            controller.nextRound();
-                            controller.showRewardedAd();
+                            controller.idLeagueActual = 71;
+                            controller.getAllRound(71);
+                            controller.nextRound(71);
                             },
                           tileColor: controller.select.value == 2 ? Colors.green[400] : Colors.transparent,
-                          title: const Text('Copa do Brasil', style: TextStyle(fontWeight: FontWeight.w300),),
+                          title: const Text('Brasileirão', style: TextStyle(fontWeight: FontWeight.w300),),
                         ),
                         ListTile(
                           onTap: ()async{
                             controller.details.value = false;
                             controller.select.value = 3;
-                            controller.repository.posLeague = 3;
-                            controller.getAllRound();
-                            controller.nextRound();
+                            controller.idLeagueActual = 73;
+                            controller.getAllRound(73);
+                            controller.nextRound(73);
                             },
                           tileColor: controller.select.value == 3 ? Colors.green[400] : Colors.transparent,
-                          title: const Text('Copa Do Mundo', style: TextStyle(fontWeight: FontWeight.w300),),
+                          title: const Text('Copa do Brasil', style: TextStyle(fontWeight: FontWeight.w300),),
                         ),
                       ])),
                         isExpanded: controller.expanded.value,

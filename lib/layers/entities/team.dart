@@ -1,20 +1,20 @@
 class TeamRound{
-  int? id;
+  int id;
 
   TeamRound(this.id);
 
-  int? statisticTeams(List? goals, int? idTeam){
-    return goals!.first;
+  int statisticTeams(List goals, int idTeam){
+    return goals.first;
   }
 }
 
 class TeamStatistic{
-  int? idHome;
-  int? idAway;
-  int? goalsHome;
-  int? goalsAway;
-  Statistic statisticHome;
-  Statistic statisticAway;
+  int idHome;
+  int idAway;
+  int? goalsHome = 0;
+  int? goalsAway = 0;
+  Statistic? statisticHome;
+  Statistic? statisticAway;
 
   TeamStatistic(
     this.idHome, this.idAway, this.goalsHome, this.goalsAway, this.statisticHome, this.statisticAway);

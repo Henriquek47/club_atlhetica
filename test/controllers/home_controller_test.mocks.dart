@@ -2,16 +2,16 @@
 // in club_atlhetica/test/controllers/home_controller_test.dart.
 // Do not manually edit this file.
 
-import 'dart:async' as _i5;
-import 'dart:convert' as _i6;
-import 'dart:typed_data' as _i7;
+import 'dart:async' as _i6;
+import 'dart:convert' as _i7;
+import 'dart:typed_data' as _i8;
 
 import 'package:club_atlhetica/layers/entities/round.dart' as _i11;
-import 'package:club_atlhetica/layers/entities/team.dart' as _i10;
-import 'package:club_atlhetica/layers/infra/repository/repository.dart' as _i9;
+import 'package:club_atlhetica/layers/entities/team.dart' as _i4;
+import 'package:club_atlhetica/layers/infra/repository/repository.dart' as _i10;
 import 'package:club_atlhetica/layers/use_cases/team_winner.dart' as _i12;
-import 'package:http/src/base_request.dart' as _i8;
-import 'package:http/src/client.dart' as _i4;
+import 'package:http/src/base_request.dart' as _i9;
+import 'package:http/src/client.dart' as _i5;
 import 'package:http/src/response.dart' as _i2;
 import 'package:http/src/streamed_response.dart' as _i3;
 import 'package:mockito/mockito.dart' as _i1;
@@ -31,81 +31,83 @@ class _FakeResponse_0 extends _i1.Fake implements _i2.Response {}
 class _FakeStreamedResponse_1 extends _i1.Fake implements _i3.StreamedResponse {
 }
 
+class _FakeTeamStatistic_2 extends _i1.Fake implements _i4.TeamStatistic {}
+
 /// A class which mocks [Client].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockClient extends _i1.Mock implements _i4.Client {
+class MockClient extends _i1.Mock implements _i5.Client {
   MockClient() {
     _i1.throwOnMissingStub(this);
   }
 
   @override
-  _i5.Future<_i2.Response> head(Uri? url, {Map<String, String>? headers}) =>
+  _i6.Future<_i2.Response> head(Uri? url, {Map<String, String>? headers}) =>
       (super.noSuchMethod(Invocation.method(#head, [url], {#headers: headers}),
               returnValue: Future<_i2.Response>.value(_FakeResponse_0()))
-          as _i5.Future<_i2.Response>);
+          as _i6.Future<_i2.Response>);
   @override
-  _i5.Future<_i2.Response> get(Uri? url, {Map<String, String>? headers}) =>
+  _i6.Future<_i2.Response> get(Uri? url, {Map<String, String>? headers}) =>
       (super.noSuchMethod(Invocation.method(#get, [url], {#headers: headers}),
               returnValue: Future<_i2.Response>.value(_FakeResponse_0()))
-          as _i5.Future<_i2.Response>);
+          as _i6.Future<_i2.Response>);
   @override
-  _i5.Future<_i2.Response> post(Uri? url,
+  _i6.Future<_i2.Response> post(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i6.Encoding? encoding}) =>
+          _i7.Encoding? encoding}) =>
       (super.noSuchMethod(
               Invocation.method(#post, [url],
                   {#headers: headers, #body: body, #encoding: encoding}),
               returnValue: Future<_i2.Response>.value(_FakeResponse_0()))
-          as _i5.Future<_i2.Response>);
+          as _i6.Future<_i2.Response>);
   @override
-  _i5.Future<_i2.Response> put(Uri? url,
+  _i6.Future<_i2.Response> put(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i6.Encoding? encoding}) =>
+          _i7.Encoding? encoding}) =>
       (super.noSuchMethod(
               Invocation.method(#put, [url],
                   {#headers: headers, #body: body, #encoding: encoding}),
               returnValue: Future<_i2.Response>.value(_FakeResponse_0()))
-          as _i5.Future<_i2.Response>);
+          as _i6.Future<_i2.Response>);
   @override
-  _i5.Future<_i2.Response> patch(Uri? url,
+  _i6.Future<_i2.Response> patch(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i6.Encoding? encoding}) =>
+          _i7.Encoding? encoding}) =>
       (super.noSuchMethod(
               Invocation.method(#patch, [url],
                   {#headers: headers, #body: body, #encoding: encoding}),
               returnValue: Future<_i2.Response>.value(_FakeResponse_0()))
-          as _i5.Future<_i2.Response>);
+          as _i6.Future<_i2.Response>);
   @override
-  _i5.Future<_i2.Response> delete(Uri? url,
+  _i6.Future<_i2.Response> delete(Uri? url,
           {Map<String, String>? headers,
           Object? body,
-          _i6.Encoding? encoding}) =>
+          _i7.Encoding? encoding}) =>
       (super.noSuchMethod(
               Invocation.method(#delete, [url],
                   {#headers: headers, #body: body, #encoding: encoding}),
               returnValue: Future<_i2.Response>.value(_FakeResponse_0()))
-          as _i5.Future<_i2.Response>);
+          as _i6.Future<_i2.Response>);
   @override
-  _i5.Future<String> read(Uri? url, {Map<String, String>? headers}) =>
+  _i6.Future<String> read(Uri? url, {Map<String, String>? headers}) =>
       (super.noSuchMethod(Invocation.method(#read, [url], {#headers: headers}),
-          returnValue: Future<String>.value('')) as _i5.Future<String>);
+          returnValue: Future<String>.value('')) as _i6.Future<String>);
   @override
-  _i5.Future<_i7.Uint8List> readBytes(Uri? url,
+  _i6.Future<_i8.Uint8List> readBytes(Uri? url,
           {Map<String, String>? headers}) =>
       (super.noSuchMethod(
               Invocation.method(#readBytes, [url], {#headers: headers}),
-              returnValue: Future<_i7.Uint8List>.value(_i7.Uint8List(0)))
-          as _i5.Future<_i7.Uint8List>);
+              returnValue: Future<_i8.Uint8List>.value(_i8.Uint8List(0)))
+          as _i6.Future<_i8.Uint8List>);
   @override
-  _i5.Future<_i3.StreamedResponse> send(_i8.BaseRequest? request) =>
+  _i6.Future<_i3.StreamedResponse> send(_i9.BaseRequest? request) =>
       (super.noSuchMethod(Invocation.method(#send, [request]),
               returnValue:
                   Future<_i3.StreamedResponse>.value(_FakeStreamedResponse_1()))
-          as _i5.Future<_i3.StreamedResponse>);
+          as _i6.Future<_i3.StreamedResponse>);
   @override
   void close() => super.noSuchMethod(Invocation.method(#close, []),
       returnValueForMissingStub: null);
@@ -114,7 +116,7 @@ class MockClient extends _i1.Mock implements _i4.Client {
 /// A class which mocks [IRepository].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockIRepository extends _i1.Mock implements _i9.IRepository {
+class MockIRepository extends _i1.Mock implements _i10.IRepository {
   MockIRepository() {
     _i1.throwOnMissingStub(this);
   }
@@ -128,30 +130,30 @@ class MockIRepository extends _i1.Mock implements _i9.IRepository {
       super.noSuchMethod(Invocation.setter(#posLeague, _posLeague),
           returnValueForMissingStub: null);
   @override
-  _i5.Future<Map<String, List<_i10.TeamStatistic>>> getStatisticTeam(
-          int? idTeamHome, int? idTeamAway) =>
+  _i6.Future<List<_i4.TeamStatistic>> getStatisticTeamHome(int? idTeamHome) =>
       (super.noSuchMethod(
-              Invocation.method(#getStatisticTeam, [idTeamHome, idTeamAway]),
-              returnValue: Future<Map<String, List<_i10.TeamStatistic>>>.value(
-                  <String, List<_i10.TeamStatistic>>{}))
-          as _i5.Future<Map<String, List<_i10.TeamStatistic>>>);
+              Invocation.method(#getStatisticTeamHome, [idTeamHome]),
+              returnValue:
+                  Future<List<_i4.TeamStatistic>>.value(<_i4.TeamStatistic>[]))
+          as _i6.Future<List<_i4.TeamStatistic>>);
   @override
-  _i5.Future<List<_i11.Round>> getRounds() =>
-      (super.noSuchMethod(Invocation.method(#getRounds, []),
-              returnValue: Future<List<_i11.Round>>.value(<_i11.Round>[]))
-          as _i5.Future<List<_i11.Round>>);
-  @override
-  _i5.Future<List<_i11.Round>> updateData(
-          int? index, String? winner, int? fixture, int? pos) =>
+  _i6.Future<List<_i4.TeamStatistic>> getStatisticTeamAway(int? idTeamAway) =>
       (super.noSuchMethod(
-              Invocation.method(#updateData, [index, winner, fixture, pos]),
-              returnValue: Future<List<_i11.Round>>.value(<_i11.Round>[]))
-          as _i5.Future<List<_i11.Round>>);
+              Invocation.method(#getStatisticTeamAway, [idTeamAway]),
+              returnValue:
+                  Future<List<_i4.TeamStatistic>>.value(<_i4.TeamStatistic>[]))
+          as _i6.Future<List<_i4.TeamStatistic>>);
   @override
-  _i5.Future<List<dynamic>> winners() =>
-      (super.noSuchMethod(Invocation.method(#winners, []),
-              returnValue: Future<List<dynamic>>.value(<dynamic>[]))
-          as _i5.Future<List<dynamic>>);
+  _i6.Future<List<_i11.Round>> getRounds(int? idLeague) =>
+      (super.noSuchMethod(Invocation.method(#getRounds, [idLeague]),
+              returnValue: Future<List<_i11.Round>>.value(<_i11.Round>[]))
+          as _i6.Future<List<_i11.Round>>);
+  @override
+  _i6.Future<void> updateData(int? idLeague, String? winner, int? fixture) =>
+      (super.noSuchMethod(
+          Invocation.method(#updateData, [idLeague, winner, fixture]),
+          returnValue: Future<void>.value(),
+          returnValueForMissingStub: Future<void>.value()) as _i6.Future<void>);
 }
 
 /// A class which mocks [ITeamWinner].
@@ -163,8 +165,32 @@ class MockITeamWinner extends _i1.Mock implements _i12.ITeamWinner {
   }
 
   @override
-  _i5.Future<List<dynamic>> execute() =>
-      (super.noSuchMethod(Invocation.method(#execute, []),
-              returnValue: Future<List<dynamic>>.value(<dynamic>[]))
-          as _i5.Future<List<dynamic>>);
+  _i6.Future<String> execute(int? idHome, int? idAway, String? nameHome,
+          String? nameAway, int? fixture, int? idLeague) =>
+      (super.noSuchMethod(
+          Invocation.method(#execute,
+              [idHome, idAway, nameHome, nameAway, fixture, idLeague]),
+          returnValue: Future<String>.value('')) as _i6.Future<String>);
+  @override
+  _i6.Future<List<_i4.TeamStatistic>> statisticsHome(int? idHome) =>
+      (super.noSuchMethod(Invocation.method(#statisticsHome, [idHome]),
+              returnValue:
+                  Future<List<_i4.TeamStatistic>>.value(<_i4.TeamStatistic>[]))
+          as _i6.Future<List<_i4.TeamStatistic>>);
+  @override
+  _i6.Future<List<_i4.TeamStatistic>> statisticsAway(int? idAway) =>
+      (super.noSuchMethod(Invocation.method(#statisticsAway, [idAway]),
+              returnValue:
+                  Future<List<_i4.TeamStatistic>>.value(<_i4.TeamStatistic>[]))
+          as _i6.Future<List<_i4.TeamStatistic>>);
+  @override
+  _i6.Future<_i4.TeamStatistic> sumDataHome(int? idHome) => (super.noSuchMethod(
+          Invocation.method(#sumDataHome, [idHome]),
+          returnValue: Future<_i4.TeamStatistic>.value(_FakeTeamStatistic_2()))
+      as _i6.Future<_i4.TeamStatistic>);
+  @override
+  _i6.Future<_i4.TeamStatistic> sumDataAway(int? idAway) => (super.noSuchMethod(
+          Invocation.method(#sumDataAway, [idAway]),
+          returnValue: Future<_i4.TeamStatistic>.value(_FakeTeamStatistic_2()))
+      as _i6.Future<_i4.TeamStatistic>);
 }
