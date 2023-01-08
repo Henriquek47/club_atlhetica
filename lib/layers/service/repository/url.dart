@@ -4,7 +4,7 @@
   final monthNext = dateTime.month + 1;
   final actualMonth = dateTime.month <= 9 ? '0'+dateTime.month.toString() : dateTime.month;
   final actualDay = dateTime.day <= 9 ? '0'+dateTime.day.toString() : dateTime.day;
-  final lastDay = dateTime.day + 7;
+  final lastDay = dateTime.day + 15;
 
   
   String setUrlTeams(int? id){
@@ -17,9 +17,11 @@
     return url;
   }
 
-  String setUrlLeagues(int idLeague){
-    final String roundsUrl = 'https://v3.football.api-sports.io//fixtures?league=$idLeague&season=$actualYear&to=$actualYear-${lastDay>30 ? monthNext <= 9 ? '0'+ monthNext.toString() : monthNext : actualMonth}-${lastDay <= 9 ? lastDay.toString().padLeft(2, '0') : lastDay}&from=$actualYear-05-01';
+  String setUrlLeagues(int idLeague, int season){
+    'https://v3.football.api-sports.io//fixtures?league=475&season=2023&to=2023-01-17&from=2023-01-01';
+    final String roundsUrl = 'https://v3.football.api-sports.io//fixtures?league=$idLeague&season=$season&to=$actualYear-${lastDay>30 ? monthNext <= 9 ? '0'+ monthNext.toString() : monthNext : actualMonth}-${lastDay <= 9 ? lastDay.toString().padLeft(2, '0') : lastDay}&from=$actualYear-$actualMonth-01';
     return roundsUrl;
+    
   }
 
   const headers = {

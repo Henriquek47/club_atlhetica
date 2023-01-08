@@ -24,14 +24,14 @@ class LastGames extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {  
-    return Expanded(
+      return Expanded(
       child: Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(padding: const EdgeInsets.only(left: 20),
         child: Text('Resultado dos jogos', style: TextStyle(fontSize: Get.textScaleFactor * 20),)),
-        const SizedBox(height: 10,),
-      Expanded(child: Obx(() => ListView.builder(
+        SizedBox(height: controller.roundAll.isNotEmpty ? 10 : 80,),
+      if(controller.roundAll.isNotEmpty) Expanded(child: Obx(() => ListView.builder(
         itemCount: controller.roundAll.length + (controller.isBottomBannerAdLoaded.value ? 1 : 0),
         itemBuilder: ((context, index) {
           if(index == controller.indexBanner){
@@ -75,6 +75,6 @@ class LastGames extends GetView<HomeController> {
       const SizedBox(height: 8,),
       const Divider(color: Colors.white70, indent: 25, endIndent: 20, thickness: 1.5,)
       ]));
-  }}))))]));
+  }})))) else const Center(child: Text('Sem jogos no momento'),)]));
   }
 }

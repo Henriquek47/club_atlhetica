@@ -53,12 +53,12 @@ class DrawerHome extends GetView<HomeController> {
                             onTap: (){
                               controller.details.value = false;
                               controller.select.value = 0;
-                              controller.idLeagueActual = 1;
-                              controller.getAllRound(1);
-                              controller.nextRound(1);
+                              controller.idLeagueActual = 475;
+                              controller.getAllRound(475);
+                              controller.nextRound(475);
                             },
                           tileColor: controller.select.value == 0 ? Colors.green[400] : Colors.transparent,
-                          title: const Text('Copa Do Mundo', style: TextStyle(fontWeight: FontWeight.w300),),
+                          title: const Text('Paulistão', style: TextStyle(fontWeight: FontWeight.w300),),
                         ),
                         ListTile(
                           onTap: ()async{

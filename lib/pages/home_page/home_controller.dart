@@ -17,10 +17,12 @@ class HomeController extends GetxController {
   RxBool darkBool = false.obs;
   RxInt screen = 0.obs;
   RxBool expanded = false.obs;
+  RxBool loading = true.obs;
   var roundAll = <Round>[].obs;
   var roundNext = <Round>[].obs;
   var statisticHome = [].obs;
   var statisticAway = [].obs;
+  RxBool analyzing = false.obs;
   RxInt timer = 0.obs;
   RxBool details = false.obs;
   RxInt index = 0.obs;
@@ -31,9 +33,8 @@ class HomeController extends GetxController {
   late BannerAd bottomBannerAd;
   RewardedAd? rewardedAd;
   int indexBanner = 3;
-  int idLeagueActual = 1;
-  int idLeagueDefault = 1;
-  
+  int idLeagueActual = 475;
+  int idLeagueDefault = 475;
 
   HomeController({required this.client, required this.repository});
 
@@ -41,8 +42,12 @@ class HomeController extends GetxController {
   void onInit()async{
     await _pref.initSharedPrefe();
     await initRepository().whenComplete(()async{
-      await getAllRound(idLeagueDefault);
-      await nextRound(idLeagueDefault);
+    await getAllRound(idLeagueDefault);
+    await nextRound(idLeagueDefault);
+    if(roundNext.isNotEmpty || roundAll.isNotEmpty){
+      loading.value = false;
+    }
+    }).catchError((err){
     });
     createBottomPremium();
     super.onInit();
@@ -144,24 +149,21 @@ void createBottomBannerAd() {
       adUnitId: AdHelper.premiumId,
       rewardedAdLoadCallback: RewardedAdLoadCallback(
       onAdLoaded: (RewardedAd ad) {
-        print('$ad loaded.');
         // Keep a reference to the ad so you can show it later.
         rewardedAd = ad;
         isPremiumAdLoaded.value = true;
       },
       onAdFailedToLoad: (LoadAdError error) {
-        print('RewardedAd failed to load: $error');
         rewardedAd = null;
         isPremiumAdLoaded.value = false;
       },
     ));
   }
 
-  void showRewardedAd(int idHome, int idAway, String nameHome, String nameAway, int fixture){
+  Future<void> showRewardedAd(int idHome, int idAway, String nameHome, String nameAway, int fixture)async{
     if(rewardedAd != null){
       rewardedAd!.fullScreenContentCallback = FullScreenContentCallback(
         onAdShowedFullScreenContent: (ad) {
-          print('Ad onAdShowedFullScreenContent');
         },
         onAdDismissedFullScreenContent: (ad){
           ad.dispose();
@@ -174,10 +176,16 @@ void createBottomBannerAd() {
           createBottomPremium();
         }
       );
-      rewardedAd!.setImmersiveMode(true);
-      rewardedAd!.show(onUserEarnedReward: (ad, reward)async{
-        await winner(idHome, idAway, nameHome, nameAway, fixture);
+      await rewardedAd!.setImmersiveMode(true);
+      await rewardedAd!.show(onUserEarnedReward: (ad, reward)async{
+        analyzing.value = true;
+        update();
+        String winnerTeam = await winner(idHome, idAway, nameHome, nameAway, fixture).whenComplete(() async => await nextRound(idLeagueActual));
+        analyzing.value = false;
+        Get.rawSnackbar(title: winnerTeam == 'Empate' ? 'Empate' : 'Vencedor', message: winnerTeam, backgroundColor: Colors.green);
+        update();
       },);
+      update();
     }
   }
 

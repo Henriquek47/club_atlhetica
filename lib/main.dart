@@ -67,6 +67,7 @@ class AppThemeDark {
     visualDensity: VisualDensity.adaptivePlatformDensity,
     primaryColor: Colors.green,
     bottomAppBarColor: const Color(0xff434343),
+    hintColor: Colors.white70,
     textTheme: const TextTheme(
       bodyText2: TextStyle(color: Colors.white70),
     ),
@@ -85,6 +86,7 @@ class AppThemeLight {
     primarySwatch: Colors.deepPurple,
     visualDensity: VisualDensity.adaptivePlatformDensity,
     primaryColor: Colors.green,
+    hintColor: const Color(0xff5A5A5A),
     textTheme: const TextTheme(
       bodyText2: TextStyle(color: Color(0xff5A5A5A)),
     ),

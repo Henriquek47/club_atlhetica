@@ -28,7 +28,7 @@ class DB{
     await db.execute(_responseAllRounds);
     await db.execute(_winner);
   }
-
+// ADICONAR NOME DA LIGA PARA NAO BAGUNÇAR NO DRAWER PAGE
   String get _responseAllRounds => '''
   CREATE TABLE round (
     idLeague INTEGER PRIMARY KEY,

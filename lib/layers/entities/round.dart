@@ -1,5 +1,5 @@
 class Round{
-  int? id;
+  int id;
   String? date;
   String? nameHome;
   String? imageHome;

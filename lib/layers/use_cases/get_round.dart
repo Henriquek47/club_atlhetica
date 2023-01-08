@@ -22,21 +22,5 @@ class GetRound{
     List<Round> nextRounds = round.where((element) => DateTime.parse(element.date!).isBefore(clock.now()) && element.nextGames != null).toList();
     return nextRounds.reversed.toList();
   }
-
-  finishedOrInProgress(DateTime roundDate, DateTime now){
-    if(now.hour >= roundDate.hour){
-      if(now.hour == roundDate.hour){
-        if(now.minute >= roundDate.minute){
-          return true;
-        } else{
-          return false;
-        }
-      }else{
-        return true;
-      }
-    }else{
-      return false;
-    }
-  }  
 }
 

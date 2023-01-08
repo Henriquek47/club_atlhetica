@@ -29,7 +29,8 @@ class Repository extends IRepository {
   late TeamDataSource teamDataSource;
   late RoundDataSource roundDataSource;
   Database? db;
-  List idsLeagues = [1,2,71,73];
+  List idsLeagues = [475,2,71,73];
+  List season = [2023, 2022, 2023, 2023];
   List roundTeamLastHome = [];
   List roundTeamLastAway = [];
   bool update = false;
@@ -81,8 +82,8 @@ class Repository extends IRepository {
   Future<List<Round>> getRounds(int idLeague) async {
     db = await DB.instance.database;
     List rounds = await db!.query('round', where: 'idLeague = $idLeague', columns: ['response']);
+    
     if (rounds.isEmpty) {
-      await initRepository();
       return [];
     } else {
       String response = await rounds.first['response'];
@@ -92,9 +93,6 @@ class Repository extends IRepository {
           res.map((e) => RoundAdapter.fromJson(e)).toList();
           for (var element in listRounds) {
             if(element.goalsHome == null && !DateTime.parse(element.date!).hour.isEqual(00) && (DateTime.parse(element.date!).isBefore(DateTime.now()))){
-              update = true;
-              await initRepository();
-              update = false;
               return [];
             }
           }
@@ -107,9 +105,12 @@ class Repository extends IRepository {
     try {
     db = await DB.instance.database;
     List rounds = await db!.query('round');
-    for (int i = 0; i < idsLeagues.length; i++) {
       if (rounds.isEmpty) {
-      final response = await roundDataSource.getApi(idsLeagues[i]);
+        for (int i = 0; i < idsLeagues.length; i++) {
+      final response = await roundDataSource.getApi(idsLeagues[i], season[i]);
+      var response2 = response;
+      var body = jsonDecode(response);
+      print(body);
         print('INIT REPOSITORY SQLLLL');
         await db!.insert('round', {
           'idLeague': idsLeagues[i],
@@ -117,19 +118,21 @@ class Repository extends IRepository {
           'month': dateTime.month,
           'day': dateTime.day
         });
-      } else if(update == true) {
-        final response = await roundDataSource.getApi(idsLeagues[i]);
+        }
+      } else{
+        for (int i = 0; i < idsLeagues.length; i++) {
+        final response = await roundDataSource.getApi(idsLeagues[i], season[i]);
         print('INIT REPOSITORY SQLLLL 222222222');
         await db!.update('round', {
           'response': response,
           'month': dateTime.month,
           'day': dateTime.day
         }, where: 'idLeague = ${idsLeagues[i]}');
+        }
       }
-    }
     rounds = await db!.query('round');
     } catch (e) {
-      Get.snackbar('Erro na conexão', 'Erro na conexão', backgroundColor: Colors.grey);
+      Get.rawSnackbar(title:'Erro na conexão', message: 'Erro na conexão', backgroundColor: Colors.red);
     }
   }
 

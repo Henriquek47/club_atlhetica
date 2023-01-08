@@ -36,19 +36,18 @@ class HomePage extends GetView<HomeController> {
           ),
         ),
         Obx((){
-          if(controller.roundAll.isEmpty && controller.timer.value == 0){
+          if(controller.loading.value == true && controller.timer.value == 0){
             controller.timerLoad();
             return const Center(child: CircularProgressIndicator(),);
-          }else if(controller.roundAll.isEmpty  && controller.timer.value == 1){
+          }else if(controller.loading.value == true && controller.timer.value == 1){
             return const Center(child: Text('Sem conexão com a internet'));
-          }else if(controller.roundAll.isNotEmpty){
+          }else{
           return Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
             controller.screen.value == 0 ? const NextGames() : const ProfilePage(),
             controller.details.value ? const DetailsNextGames() : const LastGames(),
-      ]);}else{
-        return const Center(child: Text('Sem jogos no momento'));
+      ]);
       }},),
       Builder(
         builder: (context) => Positioned(

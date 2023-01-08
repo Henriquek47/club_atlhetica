@@ -9,9 +9,9 @@ class GetRoundApi extends RoundDataSource{
   GetRoundApi({required this.client});
 
   @override
-  getApi(int idLeague) async {
+  getApi(int idLeague, int season) async {
     http.Response response =
-        await client.get(Uri.parse(setUrlLeagues(idLeague)), headers: headers);
+        await client.get(Uri.parse(setUrlLeagues(idLeague, season)), headers: headers);
     if(response.statusCode == 200){
       return response.body;
     }else{
