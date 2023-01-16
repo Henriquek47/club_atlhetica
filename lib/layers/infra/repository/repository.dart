@@ -43,7 +43,7 @@ class Repository extends IRepository {
     roundTeamLastHome = [];
     try {
       Map teamRoundHome = await teamDataSource.last10RoundsTeam(idTeamHome);
-      for (var i = 0; i < (teamRoundHome['response'] as List).length; i++) {
+      for (var i = 0; i < (teamRoundHome['response'] as List).length -1; i++) {
         roundTeamLastHome.add(teamRoundHome['response'][i]['fixture']['id']);
       }
       Map home =
@@ -53,7 +53,7 @@ class Repository extends IRepository {
           .toList();
       return homeStatistic;
     } catch (e) {
-      Get.snackbar('Erro na conexão', 'Erro na conexão', backgroundColor: Colors.grey);
+      print('homeeeeeeeeeeee');
       return [];
     }
   }
@@ -63,9 +63,10 @@ class Repository extends IRepository {
     roundTeamLastAway.clear();
     try {
       Map teamRoundAway = await teamDataSource.last10RoundsTeam(idTeamAway);
-      for (var i = 0; i < (teamRoundAway['response'] as List).length; i++) {
+      for (var i = 0; i < (teamRoundAway['response'] as List).length -1; i++) {
         roundTeamLastAway.add(teamRoundAway['response'][i]['fixture']['id']);
       }
+      print(roundTeamLastAway.join('-'));
       Map away =
           await teamDataSource.statisticRound(roundTeamLastAway.join('-'));
       List<TeamStatistic> awayStatistic = (away['response'] as List)
@@ -73,7 +74,7 @@ class Repository extends IRepository {
           .toList();
       return awayStatistic;
     } catch (e) {
-      Get.snackbar('Erro na conexão', 'Erro na conexão', backgroundColor: Colors.grey);
+      print('awayaaaaaaaaaaaaa');
       return [];
     }
   }

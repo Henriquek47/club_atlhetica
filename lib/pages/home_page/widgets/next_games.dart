@@ -138,7 +138,7 @@ class _NextGamesState extends State<NextGames> {
                                             alignment: Alignment.center,
                                             padding: const EdgeInsets.all(5),
                                             decoration: BoxDecoration(
-                                              color: const Color.fromARGB(255, 65, 65, 65),
+                                              color: Get.isDarkMode ? const Color.fromARGB(255, 65, 65, 65) : const Color.fromARGB(255, 19, 19, 19),
                                               borderRadius: BorderRadius.circular(2)
                                             ),
                                             child: controller.analyzing.value == false ? Text(

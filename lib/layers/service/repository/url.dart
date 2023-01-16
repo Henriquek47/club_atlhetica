@@ -8,7 +8,7 @@
 
   
   String setUrlTeams(int? id){
-    final String url = 'https://v3.football.api-sports.io/fixtures?team=$id&season=$actualYear&last=10';
+    final String url = 'https://v3.football.api-sports.io/fixtures?team=$id&last=10';
     return url;
   }
 
